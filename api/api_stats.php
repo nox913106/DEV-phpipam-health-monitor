@@ -26,23 +26,47 @@ function getDatabase() {
 }
 
 // 取得系統資源歷史 (用於曲線圖)
-function getSystemHistory($db, $hours = 24) {
+function getSystemHistory($db, $hours = 24, $start_time = null, $end_time = null) {
+    $params = [];
+    
+    // 判斷使用自訂時間範圍還是固定時段
+    if ($start_time && $end_time) {
+        $where = "recorded_at BETWEEN :start_time AND :end_time";
+        $params[':start_time'] = $start_time;
+        $params[':end_time'] = $end_time;
+    } else {
+        $where = "recorded_at >= DATE_SUB(NOW(), INTERVAL :hours HOUR)";
+        $params[':hours'] = $hours;
+    }
+    
     $sql = "SELECT 
         DATE_FORMAT(recorded_at, '%Y-%m-%d %H:%i') as time,
         cpu_usage_percent as cpu,
         memory_usage_percent as memory,
         disk_usage_percent as disk
     FROM health_check_system_history 
-    WHERE recorded_at >= DATE_SUB(NOW(), INTERVAL :hours HOUR)
+    WHERE {$where}
     ORDER BY recorded_at ASC";
     
     $stmt = $db->prepare($sql);
-    $stmt->execute([':hours' => $hours]);
+    $stmt->execute($params);
     return $stmt->fetchAll();
 }
 
 // 取得 DHCP 延遲歷史 (用於曲線圖)
-function getDhcpHistory($db, $hours = 24) {
+function getDhcpHistory($db, $hours = 24, $start_time = null, $end_time = null) {
+    $params = [];
+    
+    // 判斷使用自訂時間範圍還是固定時段
+    if ($start_time && $end_time) {
+        $where = "recorded_at BETWEEN :start_time AND :end_time";
+        $params[':start_time'] = $start_time;
+        $params[':end_time'] = $end_time;
+    } else {
+        $where = "recorded_at >= DATE_SUB(NOW(), INTERVAL :hours HOUR)";
+        $params[':hours'] = $hours;
+    }
+    
     $sql = "SELECT 
         DATE_FORMAT(recorded_at, '%Y-%m-%d %H:%i') as time,
         dhcp_ip as ip,
@@ -50,11 +74,11 @@ function getDhcpHistory($db, $hours = 24) {
         latency_ms as latency,
         reachable
     FROM health_check_dhcp_history 
-    WHERE recorded_at >= DATE_SUB(NOW(), INTERVAL :hours HOUR)
+    WHERE {$where}
     ORDER BY recorded_at ASC, dhcp_ip ASC";
     
     $stmt = $db->prepare($sql);
-    $stmt->execute([':hours' => $hours]);
+    $stmt->execute($params);
     return $stmt->fetchAll();
 }
 
@@ -87,12 +111,16 @@ try {
     $action = $_GET['action'] ?? 'latest';
     $hours = (int)($_GET['hours'] ?? 24);
     
+    // 自訂時間範圍參數 (格式: Y-m-d H:i 或 Y-m-d\TH:i)
+    $start_time = isset($_GET['start_time']) ? str_replace('T', ' ', $_GET['start_time']) : null;
+    $end_time = isset($_GET['end_time']) ? str_replace('T', ' ', $_GET['end_time']) : null;
+    
     switch ($action) {
         case 'system_history':
-            $data = getSystemHistory($db, $hours);
+            $data = getSystemHistory($db, $hours, $start_time, $end_time);
             break;
         case 'dhcp_history':
-            $data = getDhcpHistory($db, $hours);
+            $data = getDhcpHistory($db, $hours, $start_time, $end_time);
             break;
         case 'stats':
             $data = getStats24h($db);

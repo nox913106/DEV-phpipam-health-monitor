@@ -362,6 +362,21 @@
                 <option value="zh-CN">简体中文</option>
                 <option value="zh-TW">繁體中文</option>
             </select>
+            <select id="periodSelect" onchange="changePeriod(this.value)">
+                <option value="1" id="optPeriod1">1 Hour</option>
+                <option value="3" id="optPeriod3">3 Hours</option>
+                <option value="6" id="optPeriod6">6 Hours</option>
+                <option value="8" id="optPeriod8">8 Hours</option>
+                <option value="12" id="optPeriod12">12 Hours</option>
+                <option value="24" id="optPeriod24" selected>24 Hours</option>
+                <option value="custom" id="optCustom">Custom Range</option>
+            </select>
+            <div id="customRange" style="display:none;gap:8px;align-items:center">
+                <input type="datetime-local" id="startTime" style="font-size:.75rem">
+                <span>~</span>
+                <input type="datetime-local" id="endTime" style="font-size:.75rem">
+                <button class="btn btn-sm" onclick="applyCustomRange()" id="applyBtn">Apply</button>
+            </div>
             <div class="status"><span class="dot" id="dot"></span><span id="st">Connecting...</span></div>
             <button class="btn" onclick="refresh()" id="refreshBtn">Refresh</button>
             <span class="time" id="upd"></span>
@@ -456,13 +471,15 @@
         const API = "/health_dashboard/api/api_stats.php";
         const DHCP_API = "/health_dashboard/api/api_dhcp_config.php";
         const i18n = {
-            en: { title: "phpIPAM Health Monitor", st: "Online", stOff: "Offline", stFail: "Connection Failed", refresh: "Refresh", sys: "System Resources", cpu: "CPU", mem: "Memory", disk: "Disk", dhcp: "DHCP Latency Trend", dhcpSt: "DHCP Server Status", host: "Hostname", ip: "IP", status: "Status", lat: "Latency", time: "Time", upd: "Updated at", tabMon: "Monitor", tabMng: "DHCP Management", manage: "DHCP Server Management", add: "+ Add Server", edit: "Edit", del: "Delete", save: "Save", cancel: "Cancel", addTitle: "Add Server", editTitle: "Edit Server", lblIP: "IP Address", lblHost: "Hostname", lblLoc: "Location", confirmDel: "Delete this server?", enabled: "Enabled", disabled: "Disabled" },
-            "zh-CN": { title: "phpIPAM 健康监控", st: "在线", stOff: "离线", stFail: "连线失败", refresh: "刷新", sys: "系统资源", cpu: "CPU", mem: "内存", disk: "磁盘", dhcp: "DHCP 延迟趋势", dhcpSt: "DHCP 服务器状态", host: "主机名", ip: "IP", status: "状态", lat: "延迟", time: "时间", upd: "更新于", tabMon: "监控", tabMng: "DHCP 管理", manage: "DHCP 服务器管理", add: "+ 新增服务器", edit: "编辑", del: "删除", save: "保存", cancel: "取消", addTitle: "新增服务器", editTitle: "编辑服务器", lblIP: "IP 地址", lblHost: "主机名", lblLoc: "位置", confirmDel: "确定删除该服务器?", enabled: "启用", disabled: "停用" },
-            "zh-TW": { title: "phpIPAM 健康監控", st: "線上", stOff: "離線", stFail: "連線失敗", refresh: "重整", sys: "系統資源", cpu: "CPU", mem: "記憶體", disk: "磁碟", dhcp: "DHCP 延遲趨勢", dhcpSt: "DHCP 伺服器狀態", host: "主機名稱", ip: "IP", status: "狀態", lat: "延遲", time: "時間", upd: "更新於", tabMon: "監控", tabMng: "DHCP 管理", manage: "DHCP 伺服器管理", add: "+ 新增伺服器", edit: "編輯", del: "刪除", save: "儲存", cancel: "取消", addTitle: "新增伺服器", editTitle: "編輯伺服器", lblIP: "IP 位址", lblHost: "主機名稱", lblLoc: "位置", confirmDel: "確定刪除此伺服器?", enabled: "啟用", disabled: "停用" }
+            en: { title: "phpIPAM Health Monitor", st: "Online", stOff: "Offline", stFail: "Connection Failed", refresh: "Refresh", sys: "System Resources", cpu: "CPU", mem: "Memory", disk: "Disk", dhcp: "DHCP Latency Trend", dhcpSt: "DHCP Server Status", host: "Hostname", ip: "IP", status: "Status", lat: "Latency", time: "Time", upd: "Updated at", tabMon: "Monitor", tabMng: "DHCP Management", manage: "DHCP Server Management", add: "+ Add Server", edit: "Edit", del: "Delete", save: "Save", cancel: "Cancel", addTitle: "Add Server", editTitle: "Edit Server", lblIP: "IP Address", lblHost: "Hostname", lblLoc: "Location", confirmDel: "Delete this server?", enabled: "Enabled", disabled: "Disabled", period1: "1 Hour", period3: "3 Hours", period6: "6 Hours", period8: "8 Hours", period12: "12 Hours", period24: "24 Hours", custom: "Custom Range", apply: "Apply" },
+            "zh-CN": { title: "phpIPAM 健康监控", st: "在线", stOff: "离线", stFail: "连线失败", refresh: "刷新", sys: "系统资源", cpu: "CPU", mem: "内存", disk: "磁盘", dhcp: "DHCP 延迟趋势", dhcpSt: "DHCP 服务器状态", host: "主机名", ip: "IP", status: "状态", lat: "延迟", time: "时间", upd: "更新于", tabMon: "监控", tabMng: "DHCP 管理", manage: "DHCP 服务器管理", add: "+ 新增服务器", edit: "编辑", del: "删除", save: "保存", cancel: "取消", addTitle: "新增服务器", editTitle: "编辑服务器", lblIP: "IP 地址", lblHost: "主机名", lblLoc: "位置", confirmDel: "确定删除该服务器?", enabled: "启用", disabled: "停用", period1: "1 小时", period3: "3 小时", period6: "6 小时", period8: "8 小时", period12: "12 小时", period24: "24 小时", custom: "自定义范围", apply: "应用" },
+            "zh-TW": { title: "phpIPAM 健康監控", st: "線上", stOff: "離線", stFail: "連線失敗", refresh: "重整", sys: "系統資源", cpu: "CPU", mem: "記憶體", disk: "磁碟", dhcp: "DHCP 延遲趨勢", dhcpSt: "DHCP 伺服器狀態", host: "主機名稱", ip: "IP", status: "狀態", lat: "延遲", time: "時間", upd: "更新於", tabMon: "監控", tabMng: "DHCP 管理", manage: "DHCP 伺服器管理", add: "+ 新增伺服器", edit: "編輯", del: "刪除", save: "儲存", cancel: "取消", addTitle: "新增伺服器", editTitle: "編輯伺服器", lblIP: "IP 位址", lblHost: "主機名稱", lblLoc: "位置", confirmDel: "確定刪除此伺服器?", enabled: "啟用", disabled: "停用", period1: "1 小時", period3: "3 小時", period6: "6 小時", period8: "8 小時", period12: "12 小時", period24: "24 小時", custom: "自訂範圍", apply: "套用" }
         };
         let lang = localStorage.getItem("lang") || "en";
         let theme = localStorage.getItem("theme") || "dark";
         let sC, dC, editingIP = null;
+        let selectedHours = 24;
+        let customStart = null, customEnd = null;
 
         function t(k) { return (i18n[lang] || i18n.en)[k] || k; }
         function changeLang(l) { lang = l; localStorage.setItem("lang", l); applyLang(); }
@@ -474,6 +491,34 @@
         function applyTheme() {
             document.documentElement.setAttribute("data-theme", theme);
             document.getElementById("themeBtn").textContent = theme === "dark" ? "🌙" : "☀️";
+        }
+        function changePeriod(val) {
+            const customDiv = document.getElementById("customRange");
+            if (val === "custom") {
+                customDiv.style.display = "flex";
+                // 設定預設時間為最近 3 小時
+                const now = new Date();
+                const start = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+                document.getElementById("endTime").value = now.toISOString().slice(0, 16);
+                document.getElementById("startTime").value = start.toISOString().slice(0, 16);
+            } else {
+                customDiv.style.display = "none";
+                customStart = null;
+                customEnd = null;
+                selectedHours = parseInt(val);
+                loadSys();
+                loadDhcp();
+            }
+        }
+        function applyCustomRange() {
+            const start = document.getElementById("startTime").value;
+            const end = document.getElementById("endTime").value;
+            if (!start || !end) { alert("請選擇時間範圍 / Please select time range"); return; }
+            if (new Date(start) >= new Date(end)) { alert("結束時間必須大於開始時間 / End time must be after start time"); return; }
+            customStart = start.replace("T", " ");
+            customEnd = end.replace("T", " ");
+            loadSys();
+            loadDhcp();
         }
         function applyLang() {
             document.getElementById("title").textContent = t("title");
@@ -499,6 +544,15 @@
             document.getElementById("lblHost").textContent = t("lblHost");
             document.getElementById("lblLoc").textContent = t("lblLoc");
             document.getElementById("langSelect").value = lang;
+            // 時段選擇器翻譯
+            document.getElementById("optPeriod1").textContent = t("period1");
+            document.getElementById("optPeriod3").textContent = t("period3");
+            document.getElementById("optPeriod6").textContent = t("period6");
+            document.getElementById("optPeriod8").textContent = t("period8");
+            document.getElementById("optPeriod12").textContent = t("period12");
+            document.getElementById("optPeriod24").textContent = t("period24");
+            document.getElementById("optCustom").textContent = t("custom");
+            document.getElementById("applyBtn").textContent = t("apply");
         }
         function showTab(tab) {
             document.getElementById("monitorPanel").style.display = tab === "monitor" ? "block" : "none";
@@ -561,8 +615,62 @@
             const c2 = document.getElementById("dhcpChart").getContext("2d");
             dC = new Chart(c2, { type: "line", data: { labels: [], datasets: [] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: "#94a3b8" } } }, scales: { x: { ticks: { color: "#94a3b8", maxTicksLimit: 12 }, grid: { color: "#334155" } }, y: { min: 0, ticks: { color: "#94a3b8" }, grid: { color: "#334155" } } } } });
         }
-        async function loadSys() { try { const r = await fetch(API + "?action=system_history"); const j = await r.json(); if (j.success && j.data && j.data.length) { const l = j.data.map(d => d.time.split(" ")[1]); sC.data.labels = l; sC.data.datasets[0].data = j.data.map(d => parseFloat(d.cpu)); sC.data.datasets[1].data = j.data.map(d => parseFloat(d.memory)); sC.data.datasets[2].data = j.data.map(d => parseFloat(d.disk)); sC.update(); const x = j.data[j.data.length - 1]; document.getElementById("cpu").textContent = x.cpu + "%"; document.getElementById("mem").textContent = x.memory + "%"; document.getElementById("disk").textContent = x.disk + "%"; } } catch (e) { console.error(e); } }
-        async function loadDhcp() { try { const r = await fetch(API + "?action=dhcp_history"); const j = await r.json(); if (j.success && j.data && j.data.length) { const g = {}; j.data.forEach(d => { if (!g[d.ip]) g[d.ip] = { h: d.hostname, d: [] }; g[d.ip].d.push({ t: d.time, l: parseFloat(d.latency) }); }); const ts = [...new Set(j.data.map(d => d.time))]; const lb = ts.map(x => x.split(" ")[1]); const cl = ["#3b82f6", "#22c55e", "#f97316", "#a855f7", "#ef4444", "#06b6d4"]; const ds = Object.keys(g).map((ip, i) => ({ label: g[ip].h || ip, data: ts.map(x => { const f = g[ip].d.find(y => y.t === x); return f ? f.l : null; }), borderColor: cl[i % 6], tension: .3, fill: false })); dC.data.labels = lb; dC.data.datasets = ds; dC.update(); } } catch (e) { console.error(e); } }
+        async function loadSys() {
+            try {
+                let url = API + "?action=system_history";
+                if (customStart && customEnd) {
+                    url += `&start_time=${encodeURIComponent(customStart)}&end_time=${encodeURIComponent(customEnd)}`;
+                } else {
+                    url += `&hours=${selectedHours}`;
+                }
+                const r = await fetch(url);
+                const j = await r.json();
+                if (j.success && j.data && j.data.length) {
+                    const l = j.data.map(d => d.time.split(" ")[1]);
+                    sC.data.labels = l;
+                    sC.data.datasets[0].data = j.data.map(d => parseFloat(d.cpu));
+                    sC.data.datasets[1].data = j.data.map(d => parseFloat(d.memory));
+                    sC.data.datasets[2].data = j.data.map(d => parseFloat(d.disk));
+                    sC.update();
+                    const x = j.data[j.data.length - 1];
+                    document.getElementById("cpu").textContent = x.cpu + "%";
+                    document.getElementById("mem").textContent = x.memory + "%";
+                    document.getElementById("disk").textContent = x.disk + "%";
+                }
+            } catch (e) { console.error(e); }
+        }
+        async function loadDhcp() {
+            try {
+                let url = API + "?action=dhcp_history";
+                if (customStart && customEnd) {
+                    url += `&start_time=${encodeURIComponent(customStart)}&end_time=${encodeURIComponent(customEnd)}`;
+                } else {
+                    url += `&hours=${selectedHours}`;
+                }
+                const r = await fetch(url);
+                const j = await r.json();
+                if (j.success && j.data && j.data.length) {
+                    const g = {};
+                    j.data.forEach(d => {
+                        if (!g[d.ip]) g[d.ip] = { h: d.hostname, d: [] };
+                        g[d.ip].d.push({ t: d.time, l: parseFloat(d.latency) });
+                    });
+                    const ts = [...new Set(j.data.map(d => d.time))];
+                    const lb = ts.map(x => x.split(" ")[1]);
+                    const cl = ["#3b82f6", "#22c55e", "#f97316", "#a855f7", "#ef4444", "#06b6d4"];
+                    const ds = Object.keys(g).map((ip, i) => ({
+                        label: g[ip].h || ip,
+                        data: ts.map(x => { const f = g[ip].d.find(y => y.t === x); return f ? f.l : null; }),
+                        borderColor: cl[i % 6],
+                        tension: .3,
+                        fill: false
+                    }));
+                    dC.data.labels = lb;
+                    dC.data.datasets = ds;
+                    dC.update();
+                }
+            } catch (e) { console.error(e); }
+        }
         async function loadLatest() { try { const r = await fetch(API + "?action=latest"); const j = await r.json(); if (j.success && j.data.dhcp) { document.getElementById("tbl").innerHTML = j.data.dhcp.map(d => "<tr><td><b>" + (d.dhcp_hostname || "-") + "</b></td><td>" + d.dhcp_ip + "</td><td><span class=\"badge " + (d.reachable ? "on" : "off") + "\">" + (d.reachable ? t("st") : t("stOff")) + "</span></td><td class=\"lat\">" + (d.latency_ms ? parseFloat(d.latency_ms).toFixed(2) + " ms" : "-") + "</td><td>" + (d.recorded_at ? new Date(d.recorded_at).toLocaleTimeString() : "-") + "</td></tr>").join(""); document.getElementById("st").textContent = t("st"); document.getElementById("dot").className = "dot"; } else throw new Error(); } catch (e) { document.getElementById("st").textContent = t("stFail"); document.getElementById("dot").className = "dot offline"; } }
         function refresh() { loadLatest(); loadSys(); loadDhcp(); document.getElementById("upd").textContent = t("upd") + " " + new Date().toLocaleTimeString(); }
         document.addEventListener("DOMContentLoaded", () => { applyTheme(); applyLang(); init(); refresh(); setInterval(refresh, 60000); });

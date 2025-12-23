@@ -189,3 +189,41 @@ docker exec phpipam_phpipam-web_1 cp -r /health_check/includes /phpipam/health_d
 ---
 
 **部署完成時間**: 2025-12-19 11:11
+
+---
+
+## v2.1 更新紀錄 (2025-12-23)
+
+### 新增功能：彈性時段查詢
+
+#### API 更新
+- 新增 `start_time` 和 `end_time` 參數支援自訂時間範圍查詢
+- 更新 `getSystemHistory()` 和 `getDhcpHistory()` 函數
+
+**API 範例**:
+```bash
+# 固定時段 (3 小時)
+?action=system_history&hours=3
+
+# 自訂時間範圍
+?action=system_history&start_time=2025-12-22 00:00&end_time=2025-12-22 05:00
+```
+
+#### Dashboard 更新
+- 新增時段選擇器 (1h/3h/6h/8h/12h/24h + 自訂範圍)
+- 新增自訂時間範圍選擇器
+- 新增 `changePeriod()` 和 `applyCustomRange()` JavaScript 函數
+- 完整多語系支援 (EN/簡中/繁中)
+
+#### 更新步驟
+```bash
+# 複製更新的檔案到容器
+docker cp api_stats.php phpipam_phpipam-web_1:/phpipam/health_dashboard/api/
+docker cp index.html phpipam_phpipam-web_1:/phpipam/health_dashboard/
+
+# 驗證
+curl -sk "https://ipam-tw.pouchen.com/health_dashboard/api/api_stats.php?action=system_history&hours=3"
+```
+
+**更新時間**: 2025-12-23 11:50
+

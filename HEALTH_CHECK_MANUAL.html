@@ -261,7 +261,7 @@
 <body>
     <div class="container">
         <h1>📊 phpIPAM 健康檢查監控系統</h1>
-        <p class="subtitle">完整說明書 v2.0 | 2025-12-19</p>
+        <p class="subtitle">完整說明書 v2.1 | 2025-12-23</p>
 
         <!-- 目錄 -->
         <div class="card">
@@ -331,7 +331,11 @@
                     <p>每 60 秒自動重新整理資料</p>
                 </div>
                 <div class="feature-card">
-                    <h4>📊 24 小時統計</h4>
+                    <h4>⏱️ 彈性時段查詢</h4>
+                    <p>固定時段 (1h/3h/6h/8h/12h/24h) 或自訂時間範圍查詢</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📈 歷史統計</h4>
                     <p>avg / min / max 統計數據查詢</p>
                 </div>
             </div>
@@ -377,11 +381,41 @@
             <h4>取得最新狀態</h4>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=latest</code></pre>
 
-            <h4>取得系統歷史資料</h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&hours=24</code></pre>
+            <h4>取得系統歷史資料 (固定時段)</h4>
+            <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&hours=6</code></pre>
 
-            <h4>取得 DHCP 歷史資料</h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&hours=24</code></pre>
+            <h4>取得系統歷史資料 (自訂時間範圍)</h4>
+            <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
+
+            <h4>取得 DHCP 歷史資料 (固定時段)</h4>
+            <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&hours=3</code></pre>
+
+            <h4>取得 DHCP 歷史資料 (自訂時間範圍)</h4>
+            <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
+
+            <h4>API 參數說明</h4>
+            <table>
+                <tr>
+                    <th>參數</th>
+                    <th>說明</th>
+                    <th>預設值</th>
+                </tr>
+                <tr>
+                    <td>hours</td>
+                    <td>固定時段查詢 (小時)</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>start_time</td>
+                    <td>自訂範圍開始時間 (Y-m-d H:i)</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>end_time</td>
+                    <td>自訂範圍結束時間 (Y-m-d H:i)</td>
+                    <td>-</td>
+                </tr>
+            </table>
 
             <h3>4.2 DHCP 配置 API</h3>
             <p>Base URL: <span class="code-inline">/health_dashboard/api/api_dhcp_config.php</span></p>
@@ -620,8 +654,8 @@ docker exec phpipam_phpipam-cron_1 php /health_check/scripts/collect_stats.php</
         </div>
 
         <div class="footer">
-            <p>📊 phpIPAM 健康檢查監控系統 v2.0</p>
-            <p>報告生成時間：2025-12-19 11:54</p>
+            <p>📊 phpIPAM 健康檢查監控系統 v2.1</p>
+            <p>報告更新時間：2025-12-23 11:50</p>
             <p>Jason Cheng | IT Infrastructure</p>
         </div>
     </div>
