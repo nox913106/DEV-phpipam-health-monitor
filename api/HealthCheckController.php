@@ -3,64 +3,64 @@
  * HealthCheckController.php
  * 
  * phpIPAM API Controller for Health Check
- * 整合系統資訊、網路統計、DHCP 檢查和 24 小時歷史統計功能
+ * ?��?系統資�??�網路統計、DHCP 檢查??24 小�?歷史統�??�能
  * 
  * @author Jason Cheng
  * @created 2025-12-02
- * @updated 2025-12-18 - 加入 24 小時歷史統計功能
+ * @updated 2025-12-18 - ?�入 24 小�?歷史統�??�能
  */
 
-// 引入必要的類別
+// 引入必�??��???
 require_once(__DIR__ . '/../includes/SystemInfo.php');
 require_once(__DIR__ . '/../includes/NetworkStats.php');
 require_once(__DIR__ . '/../includes/DhcpChecker.php');
 require_once(__DIR__ . '/../includes/StatsCalculator.php');
 
 /**
- * 健康檢查 API Controller
+ * ?�康檢查 API Controller
  * 
- * 此 Controller 應整合到 phpIPAM 的 API 架構中
- * 路徑: /api/{app_id}/tools/daily_health_check/
+ * �?Controller ?�整?�到 phpIPAM ??API ?��?�?
+ * 路�?: /api/{app_id}/tools/daily_health_check/
  */
 class HealthCheckController {
     
-    /** @var PDO 資料庫連線 (用於歷史統計) */
+    /** @var PDO 資�?庫�?? (?�於歷史統�?) */
     private static $db = null;
     
     /**
-     * 設定資料庫連線
+     * 設�?資�?庫�??
      * 
-     * @param PDO $db 資料庫連線
+     * @param PDO $db 資�?庫�??
      */
     public static function setDatabase($db) {
         self::$db = $db;
     }
     
     /**
-     * 取得資料庫連線
-     * 嘗試從 phpIPAM 環境取得資料庫連線
+     * ?��?資�?庫�??
+     * ?�試�?phpIPAM ?��??��?資�?庫�??
      * 
-     * @return PDO|null 資料庫連線或 null
+     * @return PDO|null 資�?庫�????null
      */
     private static function getDatabase() {
-        // 如果已設定，直接返回
+        // 如�?已設定�??�接返�?
         if (self::$db !== null) {
             return self::$db;
         }
         
-        // 嘗試從 phpIPAM 環境取得
+        // ?�試�?phpIPAM ?��??��?
         global $Database;
         if (isset($Database) && $Database instanceof Database) {
             try {
-                // phpIPAM 的 Database 類別
+                // phpIPAM ??Database 類別
                 self::$db = $Database->getConnection();
                 return self::$db;
             } catch (Exception $e) {
-                // 忽略錯誤，返回 null
+                // 忽略?�誤，�???null
             }
         }
         
-        // 嘗試從配置檔建立連線
+        // ?�試從�?置�?建�????
         $config_file = __DIR__ . '/../config/database.php';
         if (file_exists($config_file)) {
             try {
@@ -72,7 +72,7 @@ class HealthCheckController {
                 ]);
                 return self::$db;
             } catch (Exception $e) {
-                // 忽略錯誤
+                // 忽略?�誤
             }
         }
         
@@ -80,49 +80,49 @@ class HealthCheckController {
     }
     
     /**
-     * 執行健康檢查
+     * ?��??�康檢查
      * 
-     * @param array $params GET 參數
-     * @return array API 回應
+     * @param array $params GET ?�數
+     * @return array API ?��?
      */
     public static function execute($params = []) {
         try {
             $start_time = microtime(true);
             
-            // 解析參數
+            // �???�數
             $dhcp_ips = isset($params['dhcp_server_ip']) ? $params['dhcp_server_ip'] : '';
             $include_history = isset($params['include_history']) ? 
                 filter_var($params['include_history'], FILTER_VALIDATE_BOOLEAN) : true;
             
-            // 預設 DHCP 伺服器列表
+            // ?�設 DHCP 伺�??��?�?
             if (empty($dhcp_ips)) {
                 $dhcp_ips = '172.16.5.196,172.23.13.10,172.23.174.5,172.23.199.150,172.23.110.1,172.23.94.254';
             }
             
-            // 取得資料庫連線 (用於歷史統計)
+            // ?��?資�?庫�?? (?�於歷史統�?)
             $db = $include_history ? self::getDatabase() : null;
             
-            // 收集系統資訊 (含歷史統計)
+            // ?��?系統資�? (?�歷?�統�?
             if ($db !== null) {
                 $system_info = SystemInfo::getAllWithHistory($db);
             } else {
                 $system_info = SystemInfo::getAll();
             }
             
-            // 收集網路統計
+            // ?��?網路統�?
             $network_stats = NetworkStats::getStats();
             
-            // 檢查 DHCP 伺服器 (含歷史統計)
+            // 檢查 DHCP 伺�???(?�歷?�統�?
             if ($db !== null) {
                 $dhcp_results = DhcpChecker::checkWithHistory($dhcp_ips, $db);
             } else {
                 $dhcp_results = DhcpChecker::check($dhcp_ips);
             }
             
-            // 計算執行時間
+            // 計�??��??��?
             $execution_time = microtime(true) - $start_time;
             
-            // 建立回應資料
+            // 建�??��?資�?
             $result = [
                 'report_type' => 'daily_health_check',
                 'generated_at' => date('c'),
@@ -142,16 +142,16 @@ class HealthCheckController {
     }
     
     /**
-     * 僅取得 24 小時統計摘要
+     * ?��?�?24 小�?統�??��?
      * 
-     * @return array API 回應
+     * @return array API ?��?
      */
     public static function getStatsSummary() {
         try {
             $db = self::getDatabase();
             
             if ($db === null) {
-                return self::errorResponse('資料庫連線不可用');
+                return self::errorResponse('資�?庫�??不可??);
             }
             
             $summary = StatsCalculator::getSummary($db);
@@ -167,11 +167,11 @@ class HealthCheckController {
     }
     
     /**
-     * 成功回應格式（符合 phpIPAM API 規範）
+     * ?��??��??��?（符??phpIPAM API 規�?�?
      * 
-     * @param array $data 資料
-     * @param float $time 執行時間
-     * @return array 格式化回應
+     * @param array $data 資�?
+     * @param float $time ?��??��?
+     * @return array ?��??��???
      */
     private static function successResponse($data, $time) {
         return [
@@ -183,10 +183,10 @@ class HealthCheckController {
     }
     
     /**
-     * 錯誤回應格式（符合 phpIPAM API 規範）
+     * ?�誤?��??��?（符??phpIPAM API 規�?�?
      * 
-     * @param string $message 錯誤訊息
-     * @return array 格式化回應
+     * @param string $message ?�誤訊息
+     * @return array ?��??��???
      */
     private static function errorResponse($message) {
         return [
@@ -198,12 +198,12 @@ class HealthCheckController {
     }
 }
 
-// 如果直接執行此檔案（用於測試）
+// 如�??�接?��?此�?案�??�於測試�?
 if (php_sapi_name() === 'cli') {
-    // CLI 模式測試
+    // CLI 模�?測試
     header('Content-Type: application/json');
     
-    // 模擬 GET 參數
+    // 模擬 GET ?�數
     $params = [];
     if (isset($argv[1])) {
         parse_str($argv[1], $params);

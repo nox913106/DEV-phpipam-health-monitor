@@ -1,9 +1,9 @@
 <?php
 /**
- * api_dhcp_config.php - DHCP 伺服器配置管理 API
+ * api_dhcp_config.php - DHCP 伺�??��?置管??API
  * 
- * 提供 DHCP 伺服器列表的增刪修查功能
- * 配置儲存在 JSON 檔案中，可動態修改
+ * ?��? DHCP 伺�??��?表�?增刪修查?�能
+ * ?�置?��???JSON 檔�?中�??��??�修??
  * 
  * @author Jason Cheng
  * @created 2025-12-19
@@ -14,28 +14,28 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// 處理 CORS preflight
+// ?��? CORS preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-// 配置檔路徑
+// ?�置檔路�?
 define('CONFIG_FILE', __DIR__ . '/../config/dhcp_servers.json');
 
 /**
- * 讀取 DHCP 伺服器配置
+ * 讀??DHCP 伺�??��?�?
  */
 function loadConfig() {
     if (!file_exists(CONFIG_FILE)) {
-        // 預設配置
+        // ?�設?�置
         $default = [
-            ['ip' => '172.16.5.196', 'hostname' => 'DHCP-CH-HQ2', 'location' => '彰化總部2', 'enabled' => true],
-            ['ip' => '172.23.13.10', 'hostname' => 'DHCP-CH-PGT', 'location' => '彰化埔鹽', 'enabled' => true],
-            ['ip' => '172.23.174.5', 'hostname' => 'DHCP-TC-HQ', 'location' => '台中總部', 'enabled' => true],
-            ['ip' => '172.23.199.150', 'hostname' => 'DHCP-TC-UAIC', 'location' => '台中', 'enabled' => true],
-            ['ip' => '172.23.110.1', 'hostname' => 'DHCP-TP-XY', 'location' => '台北', 'enabled' => true],
-            ['ip' => '172.23.94.254', 'hostname' => 'DHCP-TP-BaoYu-CoreSW', 'location' => '台北寶裕', 'enabled' => true],
+            ['ip' => '172.16.5.196', 'hostname' => 'DHCP-CH-HQ2', 'location' => '彰�?總部2', 'enabled' => true],
+            ['ip' => '172.23.13.10', 'hostname' => 'DHCP-CH-PGT', 'location' => '彰�??�鹽', 'enabled' => true],
+            ['ip' => '172.23.174.5', 'hostname' => 'DHCP-TC-HQ', 'location' => '?�中總部', 'enabled' => true],
+            ['ip' => '172.23.199.150', 'hostname' => 'DHCP-TC-UAIC', 'location' => '?�中', 'enabled' => true],
+            ['ip' => '172.23.110.1', 'hostname' => 'DHCP-TP-XY', 'location' => '?��?', 'enabled' => true],
+            ['ip' => '172.23.94.254', 'hostname' => 'DHCP-TP-BaoYu-CoreSW', 'location' => '?��?寶�?', 'enabled' => true],
         ];
         saveConfig($default);
         return $default;
@@ -46,7 +46,7 @@ function loadConfig() {
 }
 
 /**
- * 儲存 DHCP 伺服器配置
+ * ?��? DHCP 伺�??��?�?
  */
 function saveConfig($config) {
     $dir = dirname(CONFIG_FILE);
@@ -57,14 +57,14 @@ function saveConfig($config) {
 }
 
 /**
- * 驗證 IP 格式
+ * 驗�? IP ?��?
  */
 function validateIp($ip) {
     return filter_var($ip, FILTER_VALIDATE_IP) !== false;
 }
 
 /**
- * 取得所有伺服器
+ * ?��??�?�伺?�器
  */
 function getAll() {
     $servers = loadConfig();
@@ -72,7 +72,7 @@ function getAll() {
 }
 
 /**
- * 取得單一伺服器
+ * ?��??��?伺�???
  */
 function getOne($ip) {
     $servers = loadConfig();
@@ -85,7 +85,7 @@ function getOne($ip) {
 }
 
 /**
- * 新增伺服器
+ * ?��?伺�???
  */
 function addServer($data) {
     if (empty($data['ip'])) {
@@ -98,7 +98,7 @@ function addServer($data) {
     
     $servers = loadConfig();
     
-    // 檢查是否已存在
+    // 檢查?�否已�???
     foreach ($servers as $server) {
         if ($server['ip'] === $data['ip']) {
             return ['success' => false, 'error' => 'Server already exists'];
@@ -115,14 +115,14 @@ function addServer($data) {
     $servers[] = $newServer;
     saveConfig($servers);
     
-    // 同時更新 HistoryCollector 的 hostnames
+    // ?��??�新 HistoryCollector ??hostnames
     updateHistoryCollector($servers);
     
     return ['success' => true, 'data' => $newServer, 'message' => 'Server added'];
 }
 
 /**
- * 更新伺服器
+ * ?�新伺�???
  */
 function updateServer($ip, $data) {
     $servers = loadConfig();
@@ -149,7 +149,7 @@ function updateServer($ip, $data) {
 }
 
 /**
- * 刪除伺服器
+ * ?�除伺�???
  */
 function deleteServer($ip) {
     $servers = loadConfig();
@@ -168,16 +168,16 @@ function deleteServer($ip) {
 }
 
 /**
- * 同步更新 HistoryCollector
+ * ?�步?�新 HistoryCollector
  */
 function updateHistoryCollector($servers) {
-    // 這個函數用於在容器內更新程式碼中的 hostnames
-    // 由於我們現在使用 JSON 配置，HistoryCollector 也應該從 JSON 讀取
-    // 這裡暫時不做任何事，因為我們需要修改 HistoryCollector 來從 JSON 讀取
+    // ?�個函?�用?�在容器?�更?��?式碼中�? hostnames
+    // ?�於?�們現?�使??JSON ?�置，HistoryCollector 也�?該�? JSON 讀??
+    // ?�裡?��?不�?任�?事�??�為?�們�?要修??HistoryCollector 來�? JSON 讀??
 }
 
 /**
- * 取得啟用的伺服器 IP 列表
+ * ?��??�用?�伺?�器 IP ?�表
  */
 function getEnabledIps() {
     $servers = loadConfig();
@@ -190,13 +190,13 @@ function getEnabledIps() {
     return ['success' => true, 'data' => $ips, 'count' => count($ips)];
 }
 
-// 主程式
+// 主�?�?
 try {
     $method = $_SERVER['REQUEST_METHOD'];
     $action = $_GET['action'] ?? '';
     $ip = $_GET['ip'] ?? '';
     
-    // 取得 POST/PUT 資料
+    // ?��? POST/PUT 資�?
     $input = json_decode(file_get_contents('php://input'), true) ?: [];
     
     switch ($method) {

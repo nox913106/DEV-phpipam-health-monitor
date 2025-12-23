@@ -1,8 +1,8 @@
 <?php
 /**
- * api_stats.php - 統計資料 API 端點
+ * api_stats.php - 統�?資�? API 端�?
  * 
- * 提供 JSON 格式的統計資料給 Dashboard 使用
+ * ?��? JSON ?��??�統計�??�給 Dashboard 使用
  * 
  * @author Jason Cheng
  * @created 2025-12-19
@@ -11,7 +11,7 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
-// 資料庫配置
+// 資�?庫�?�?
 function getDatabase() {
     $host = getenv('IPAM_DATABASE_HOST') ?: 'phpipam-mariadb';
     $user = getenv('IPAM_DATABASE_USER') ?: 'phpipam';
@@ -25,11 +25,11 @@ function getDatabase() {
     ]);
 }
 
-// 取得系統資源歷史 (用於曲線圖)
+// ?��?系統資�?歷史 (?�於?��???
 function getSystemHistory($db, $hours = 24, $start_time = null, $end_time = null) {
     $params = [];
     
-    // 判斷使用自訂時間範圍還是固定時段
+    // ?�斷使用?��??��?範�??�是?��??�段
     if ($start_time && $end_time) {
         $where = "recorded_at BETWEEN :start_time AND :end_time";
         $params[':start_time'] = $start_time;
@@ -53,11 +53,11 @@ function getSystemHistory($db, $hours = 24, $start_time = null, $end_time = null
     return $stmt->fetchAll();
 }
 
-// 取得 DHCP 延遲歷史 (用於曲線圖)
+// ?��? DHCP 延遲歷史 (?�於?��???
 function getDhcpHistory($db, $hours = 24, $start_time = null, $end_time = null) {
     $params = [];
     
-    // 判斷使用自訂時間範圍還是固定時段
+    // ?�斷使用?��??��?範�??�是?��??�段
     if ($start_time && $end_time) {
         $where = "recorded_at BETWEEN :start_time AND :end_time";
         $params[':start_time'] = $start_time;
@@ -82,13 +82,13 @@ function getDhcpHistory($db, $hours = 24, $start_time = null, $end_time = null) 
     return $stmt->fetchAll();
 }
 
-// 取得最新狀態
+// ?��??�?��???
 function getLatestStatus($db) {
-    // 系統資源
+    // 系統資�?
     $sql1 = "SELECT * FROM health_check_system_history ORDER BY recorded_at DESC LIMIT 1";
     $system = $db->query($sql1)->fetch();
     
-    // DHCP 最新狀態
+    // DHCP ?�?��???
     $sql2 = "SELECT dhcp_ip, dhcp_hostname, reachable, latency_ms, recorded_at 
              FROM health_check_dhcp_history h1
              WHERE recorded_at = (SELECT MAX(recorded_at) FROM health_check_dhcp_history h2 WHERE h1.dhcp_ip = h2.dhcp_ip)
@@ -98,20 +98,20 @@ function getLatestStatus($db) {
     return ['system' => $system, 'dhcp' => $dhcp];
 }
 
-// 取得 24 小時統計摘要
+// ?��? 24 小�?統�??��?
 function getStats24h($db) {
     require_once(__DIR__ . '/../includes/StatsCalculator.php');
     return StatsCalculator::getSummary($db);
 }
 
-// 主程式
+// 主�?�?
 try {
     $db = getDatabase();
     
     $action = $_GET['action'] ?? 'latest';
     $hours = (int)($_GET['hours'] ?? 24);
     
-    // 自訂時間範圍參數 (格式: Y-m-d H:i 或 Y-m-d\TH:i)
+    // ?��??��?範�??�數 (?��?: Y-m-d H:i ??Y-m-d\TH:i)
     $start_time = isset($_GET['start_time']) ? str_replace('T', ' ', $_GET['start_time']) : null;
     $end_time = isset($_GET['end_time']) ? str_replace('T', ' ', $_GET['end_time']) : null;
     

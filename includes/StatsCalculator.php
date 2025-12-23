@@ -2,8 +2,8 @@
 /**
  * StatsCalculator.php
  * 
- * 統計計算器
- * 從歷史資料計算 24 小時統計 (平均值、最小值、最大值)
+ * 統�?計�???
+ * 從歷?��??��?�?24 小�?統�? (平�??�、�?小值、�?大�?
  * 
  * @author Jason Cheng
  * @created 2025-12-18
@@ -12,31 +12,31 @@
 class StatsCalculator {
     
     /**
-     * 取得 24 小時系統資源統計
+     * ?��? 24 小�?系統資�?統�?
      * 
-     * @param PDO $db 資料庫連線
-     * @param int $hours 統計時間範圍 (預設 24 小時)
-     * @return array 統計結果
+     * @param PDO $db 資�?庫�??
+     * @param int $hours 統�??��?範�? (?�設 24 小�?)
+     * @return array 統�?結�?
      */
     public static function getSystemStats24h($db, $hours = 24) {
         try {
             $sql = "SELECT 
-                -- CPU 統計
+                -- CPU 統�?
                 AVG(cpu_usage_percent) as cpu_avg,
                 MIN(cpu_usage_percent) as cpu_min,
                 MAX(cpu_usage_percent) as cpu_max,
                 
-                -- 記憶體統計
+                -- 記憶體統�?
                 AVG(memory_usage_percent) as memory_avg,
                 MIN(memory_usage_percent) as memory_min,
                 MAX(memory_usage_percent) as memory_max,
                 
-                -- 磁碟統計
+                -- 磁�?統�?
                 AVG(disk_usage_percent) as disk_avg,
                 MIN(disk_usage_percent) as disk_min,
                 MAX(disk_usage_percent) as disk_max,
                 
-                -- 樣本數
+                -- �?��??
                 COUNT(*) as samples
                 
             FROM health_check_system_history
@@ -46,7 +46,7 @@ class StatsCalculator {
             $stmt->execute([':hours' => $hours]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            // 如果沒有資料，返回空統計
+            // 如�?沒�?資�?，�??�空統�?
             if (!$row || $row['samples'] == 0) {
                 return self::emptySystemStats();
             }
@@ -80,12 +80,12 @@ class StatsCalculator {
     }
     
     /**
-     * 取得 24 小時 DHCP 統計
+     * ?��? 24 小�? DHCP 統�?
      * 
-     * @param PDO $db 資料庫連線
-     * @param string $ip DHCP 伺服器 IP (可選，空值則返回所有伺服器)
-     * @param int $hours 統計時間範圍 (預設 24 小時)
-     * @return array 統計結果
+     * @param PDO $db 資�?庫�??
+     * @param string $ip DHCP 伺�???IP (?�選，空?��?返�??�?�伺?�器)
+     * @param int $hours 統�??��?範�? (?�設 24 小�?)
+     * @return array 統�?結�?
      */
     public static function getDhcpStats24h($db, $ip = null, $hours = 24) {
         try {
@@ -95,15 +95,15 @@ class StatsCalculator {
                 dhcp_ip,
                 dhcp_hostname,
                 
-                -- 延遲統計 (只計算可達的記錄)
+                -- 延遲統�? (?��?算可?��?記�?)
                 AVG(CASE WHEN reachable = 1 THEN latency_ms ELSE NULL END) as avg_latency,
                 MIN(CASE WHEN reachable = 1 THEN latency_ms ELSE NULL END) as min_latency,
                 MAX(CASE WHEN reachable = 1 THEN latency_ms ELSE NULL END) as max_latency,
                 
-                -- 封包遺失率統計
+                -- 封�??�失?�統�?
                 AVG(packet_loss_percent) as avg_packet_loss,
                 
-                -- 可用性統計
+                -- ?�用?�統�?
                 SUM(CASE WHEN reachable = 1 THEN 1 ELSE 0 END) as reachable_count,
                 COUNT(*) as total_count,
                 (SUM(CASE WHEN reachable = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100 as availability_percent
@@ -111,7 +111,7 @@ class StatsCalculator {
             FROM health_check_dhcp_history
             WHERE recorded_at >= DATE_SUB(NOW(), INTERVAL :hours HOUR)";
             
-            // 如果指定 IP，加入篩選條件
+            // 如�??��? IP，�??�篩?��?�?
             if ($ip !== null) {
                 $sql .= " AND dhcp_ip = :ip";
                 $params[':ip'] = $ip;
@@ -123,7 +123,7 @@ class StatsCalculator {
             $stmt->execute($params);
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            // 如果指定單一 IP，直接返回結果
+            // 如�??��??��? IP，直?��??��???
             if ($ip !== null) {
                 if (empty($rows)) {
                     return self::emptyDhcpStats($ip);
@@ -131,7 +131,7 @@ class StatsCalculator {
                 return self::formatDhcpStats($rows[0], $hours);
             }
             
-            // 返回所有伺服器的統計
+            // 返�??�?�伺?�器?�統�?
             $results = [];
             foreach ($rows as $row) {
                 $results[$row['dhcp_ip']] = self::formatDhcpStats($row, $hours);
@@ -148,11 +148,11 @@ class StatsCalculator {
     }
     
     /**
-     * 格式化 DHCP 統計結果
+     * ?��???DHCP 統�?結�?
      * 
-     * @param array $row 資料庫查詢結果
-     * @param int $hours 統計時間範圍
-     * @return array 格式化的統計
+     * @param array $row 資�?庫查詢�???
+     * @param int $hours 統�??��?範�?
+     * @return array ?��??��?統�?
      */
     private static function formatDhcpStats($row, $hours) {
         return [
@@ -170,10 +170,10 @@ class StatsCalculator {
     }
     
     /**
-     * 返回空的系統統計結構
+     * 返�?空�?系統統�?結�?
      * 
-     * @param string $error 錯誤訊息 (可選)
-     * @return array 空統計結構
+     * @param string $error ?�誤訊息 (?�選)
+     * @return array 空統計�?�?
      */
     private static function emptySystemStats($error = null) {
         $empty = [
@@ -188,7 +188,7 @@ class StatsCalculator {
             'memory' => $empty,
             'disk' => $empty,
             'has_data' => false,
-            'note' => '尚無歷史資料，請等待數據收集'
+            'note' => '尚無歷史資�?，�?等�??��??��?'
         ];
         
         if ($error) {
@@ -199,11 +199,11 @@ class StatsCalculator {
     }
     
     /**
-     * 返回空的 DHCP 統計結構
+     * 返�?空�? DHCP 統�?結�?
      * 
-     * @param string $ip DHCP 伺服器 IP
-     * @param string $error 錯誤訊息 (可選)
-     * @return array 空統計結構
+     * @param string $ip DHCP 伺�???IP
+     * @param string $error ?�誤訊息 (?�選)
+     * @return array 空統計�?�?
      */
     private static function emptyDhcpStats($ip, $error = null) {
         $result = [
@@ -215,7 +215,7 @@ class StatsCalculator {
             'availability_percent' => null,
             'samples' => 0,
             'has_data' => false,
-            'note' => '尚無歷史資料，請等待數據收集'
+            'note' => '尚無歷史資�?，�?等�??��??��?'
         ];
         
         if ($error) {
@@ -226,16 +226,16 @@ class StatsCalculator {
     }
     
     /**
-     * 取得統計摘要 (用於快速總覽)
+     * ?��?統�??��? (?�於快速總�?
      * 
-     * @param PDO $db 資料庫連線
-     * @return array 統計摘要
+     * @param PDO $db 資�?庫�??
+     * @return array 統�??��?
      */
     public static function getSummary($db) {
         $system = self::getSystemStats24h($db);
         $dhcp = self::getDhcpStats24h($db);
         
-        // 計算 DHCP 整體可用性
+        // 計�? DHCP ?��??�用??
         $total_availability = 0;
         $dhcp_count = 0;
         foreach ($dhcp as $ip => $stats) {

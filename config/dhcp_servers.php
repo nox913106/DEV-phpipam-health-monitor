@@ -1,62 +1,62 @@
 <?php
 /**
- * dhcp_servers.php - DHCP ä¼ºæœå™¨é…ç½®æª”
+ * dhcp_servers.php - DHCP ä¼ºæ??¨é?ç½®æ?
  * 
- * æ­¤æª”æ¡ˆå®šç¾©è¦ç›£æ§çš„ DHCP ä¼ºæœå™¨åˆ—è¡¨
- * å¯éš¨æ™‚ä¿®æ”¹ï¼Œç„¡éœ€é‡å•Ÿæœå‹™
+ * æ­¤æ?æ¡ˆå?ç¾©è???§??DHCP ä¼ºæ??¨å?è¡?
+ * ?¯éš¨?‚ä¿®?¹ï??¡é??å??å?
  * 
  * @author Jason Cheng
  * @created 2025-12-19
  */
 
 return [
-    // å½°åŒ–å€åŸŸ
+    // å½°å??€??
     [
         'ip' => '172.16.5.196',
         'hostname' => 'DHCP-CH-HQ2',
-        'location' => 'å½°åŒ–ç¸½éƒ¨2',
+        'location' => 'å½°å?ç¸½éƒ¨2',
         'enabled' => true
     ],
     [
         'ip' => '172.23.13.10',
         'hostname' => 'DHCP-CH-PGT',
-        'location' => 'å½°åŒ–åŸ”é¹½',
+        'location' => 'å½°å??”é¹½',
         'enabled' => true
     ],
     
-    // å°ä¸­å€åŸŸ
+    // ?°ä¸­?€??
     [
         'ip' => '172.23.174.5',
         'hostname' => 'DHCP-TC-HQ',
-        'location' => 'å°ä¸­ç¸½éƒ¨',
+        'location' => '?°ä¸­ç¸½éƒ¨',
         'enabled' => true
     ],
     [
         'ip' => '172.23.199.150',
         'hostname' => 'DHCP-TC-UAIC',
-        'location' => 'å°ä¸­',
+        'location' => '?°ä¸­',
         'enabled' => true
     ],
     
-    // å°åŒ—å€åŸŸ
+    // ?°å??€??
     [
         'ip' => '172.23.110.1',
         'hostname' => 'DHCP-TP-XY',
-        'location' => 'å°åŒ—',
+        'location' => '?°å?',
         'enabled' => true
     ],
     [
         'ip' => '172.23.94.254',
         'hostname' => 'DHCP-TP-BaoYu-CoreSW',
-        'location' => 'å°åŒ—å¯¶è£•',
+        'location' => '?°å?å¯¶è?',
         'enabled' => true
     ],
     
-    // æ–°å¢ä¼ºæœå™¨ç¯„ä¾‹ (è¨­ enabled=false æš«æ™‚åœç”¨)
+    // ?°å?ä¼ºæ??¨ç?ä¾?(è¨?enabled=false ?«æ??œç”¨)
     // [
     //     'ip' => '10.1.1.1',
     //     'hostname' => 'DHCP-NEW',
-    //     'location' => 'æ–°æ“šé»',
+    //     'location' => '?°æ?é»?,
     //     'enabled' => false
     // ],
 ];

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # phpIPAM Health Monitor Integration Setup Script
-# 用於容器重啟後恢復 Health Monitor 設定
+# ?�於容器?��?後恢�?Health Monitor 設�?
 #
 # Usage: ./setup_phpipam_integration.sh
 #
@@ -16,10 +16,10 @@ echo "=== phpIPAM Health Monitor Integration Setup ==="
 echo "Time: $(date)"
 echo ""
 
-# 容器名稱
+# 容器?�稱
 WEB_CONTAINER="phpipam_phpipam-web_1"
 
-# 檢查容器是否運行
+# 檢查容器?�否?��?
 if ! docker ps | grep -q "$WEB_CONTAINER"; then
     echo "[ERROR] Container $WEB_CONTAINER is not running"
     exit 1
@@ -67,7 +67,7 @@ else
     echo "    health-monitor already exists, skipping"
 fi
 
-# 驗證
+# 驗�?
 echo ""
 echo "=== Verification ==="
 docker exec $WEB_CONTAINER php -l /phpipam/app/tools/tools-menu-config.php

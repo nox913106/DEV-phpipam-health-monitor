@@ -2,8 +2,8 @@
 /**
  * DhcpChecker.php
  * 
- * DHCP 伺服器連線檢查類別
- * 使用 ping 檢查 DHCP 伺服器的連線狀態
+ * DHCP 伺�??��??檢查類別
+ * 使用 ping 檢查 DHCP 伺�??��?????�??
  * 
  * @author Jason Cheng
  * @created 2025-12-02
@@ -12,17 +12,17 @@
 class DhcpChecker {
     
     /**
-     * 檢查單一或多個 DHCP 伺服器
+     * 檢查?��??��???DHCP 伺�???
      * 
-     * @param string|array $ips IP 位址（字串或陣列）
+     * @param string|array $ips IP 位�?（�?串�????�?
      * @param int $count Ping 次數
-     * @param int $timeout 逾時秒數
-     * @return array 檢查結果
+     * @param int $timeout ?��?秒數
+     * @return array 檢查結�?
      */
     public static function check($ips, $count = 4, $timeout = 2) {
-        // 標準化輸入為陣列
+        // 標�??�輸?�為???
         if (is_string($ips)) {
-            // 支援逗號分隔的 IP 字串
+            // ?�援?��??��???IP 字串
             $ips = array_map('trim', explode(',', $ips));
         }
         
@@ -35,27 +35,27 @@ class DhcpChecker {
     }
     
     /**
-     * 檢查 DHCP 伺服器並包含 24 小時歷史統計
+     * 檢查 DHCP 伺�??�並?�含 24 小�?歷史統�?
      * 
-     * @param string|array $ips IP 位址
-     * @param PDO $db 資料庫連線 (可選)
+     * @param string|array $ips IP 位�?
+     * @param PDO $db 資�?庫�?? (?�選)
      * @param int $count Ping 次數
-     * @param int $timeout 逾時秒數
-     * @return array 檢查結果 (含歷史統計)
+     * @param int $timeout ?��?秒數
+     * @return array 檢查結�? (?�歷?�統�?
      */
     public static function checkWithHistory($ips, $db = null, $count = 4, $timeout = 2) {
-        // 先執行即時檢查
+        // ?�執行即?�檢??
         $current = self::check($ips, $count, $timeout);
         
-        // 如果沒有資料庫連線，直接返回即時結果
+        // 如�?沒�?資�?庫�??，直?��??�即?��???
         if ($db === null) {
             return $current;
         }
         
-        // 載入統計計算器
+        // 載入統�?計�???
         require_once(__DIR__ . '/StatsCalculator.php');
         
-        // 為每個結果加入 24 小時統計
+        // ?��??��??��???24 小�?統�?
         foreach ($current as &$result) {
             $stats = StatsCalculator::getDhcpStats24h($db, $result['ip']);
             $result['stats_24h'] = $stats;
@@ -65,15 +65,15 @@ class DhcpChecker {
     }
     
     /**
-     * 檢查單一 DHCP 伺服器
+     * 檢查?��? DHCP 伺�???
      * 
-     * @param string $ip IP 位址
+     * @param string $ip IP 位�?
      * @param int $count Ping 次數
-     * @param int $timeout 逾時秒數
-     * @return array 檢查結果
+     * @param int $timeout ?��?秒數
+     * @return array 檢查結�?
      */
     private static function checkSingle($ip, $count, $timeout) {
-        // 驗證 IP 格式
+        // 驗�? IP ?��?
         if (!self::validateIp($ip)) {
             return [
                 'ip' => $ip,
@@ -83,35 +83,35 @@ class DhcpChecker {
             ];
         }
         
-        // 執行 ping 檢查
+        // ?��? ping 檢查
         $ping_result = self::ping($ip, $count, $timeout);
         
         return array_merge(['ip' => $ip], $ping_result);
     }
     
     /**
-     * 驗證 IP 位址格式
+     * 驗�? IP 位�??��?
      * 
-     * @param string $ip IP 位址
-     * @return bool 是否有效
+     * @param string $ip IP 位�?
+     * @return bool ?�否?��?
      */
     private static function validateIp($ip) {
         return filter_var($ip, FILTER_VALIDATE_IP) !== false;
     }
     
     /**
-     * 執行 ping 指令
+     * ?��? ping ?�令
      * 
-     * @param string $ip IP 位址
+     * @param string $ip IP 位�?
      * @param int $count Ping 次數
-     * @param int $timeout 逾時秒數
-     * @return array Ping 結果
+     * @param int $timeout ?��?秒數
+     * @return array Ping 結�?
      */
     private static function ping($ip, $count, $timeout) {
-        // 安全驗證：確保 IP 格式正確（防止指令注入）
+        // 安全驗�?：確�?IP ?��?�?��（防止�?令注?��?
         $ip = escapeshellarg($ip);
         
-        // 建立 ping 指令
+        // 建�? ping ?�令
         $command = sprintf(
             "ping -c %d -W %d %s 2>&1",
             (int)$count,
@@ -119,29 +119,29 @@ class DhcpChecker {
             $ip
         );
         
-        // 執行指令
+        // ?��??�令
         $output = [];
         $return_code = 0;
         exec($command, $output, $return_code);
         
-        // 解析結果
+        // �??結�?
         return self::parsePingOutput($output, $return_code, $count);
     }
     
     /**
-     * 解析 ping 指令輸出
+     * �?? ping ?�令輸出
      * 
-     * @param array $output 指令輸出
-     * @param int $return_code 返回碼
-     * @param int $expected_count 預期 ping 次數
-     * @return array 解析後的結果
+     * @param array $output ?�令輸出
+     * @param int $return_code 返�?�?
+     * @param int $expected_count ?��? ping 次數
+     * @return array �??後�?結�?
      */
     private static function parsePingOutput($output, $return_code, $expected_count) {
         $output_text = implode("\n", $output);
         
-        // Ping 失敗
+        // Ping 失�?
         if ($return_code !== 0) {
-            // 嘗試從輸出中提取錯誤訊息
+            // ?�試從輸?�中?��??�誤訊息
             $error = 'Host unreachable';
             if (preg_match('/(Destination Host Unreachable|Network is unreachable)/i', $output_text, $matches)) {
                 $error = $matches[1];
@@ -154,27 +154,27 @@ class DhcpChecker {
             ];
         }
         
-        // 解析統計資訊
-        // 範例: "4 packets transmitted, 4 received, 0% packet loss, time 3003ms"
+        // �??統�?資�?
+        // 範�?: "4 packets transmitted, 4 received, 0% packet loss, time 3003ms"
         if (preg_match('/(\d+) packets transmitted, (\d+) received, ([\d.]+)% packet loss/', $output_text, $matches)) {
             $transmitted = (int)$matches[1];
             $received = (int)$matches[2];
             $packet_loss = (float)$matches[3];
         } else {
-            // 如果無法解析，假設全部成功
+            // 如�??��?�??，�?設全?��???
             $transmitted = $expected_count;
             $received = $expected_count;
             $packet_loss = 0;
         }
         
-        // 解析平均延遲
-        // 範例: "rtt min/avg/max/mdev = 0.123/0.145/0.167/0.015 ms"
+        // �??平�?延遲
+        // 範�?: "rtt min/avg/max/mdev = 0.123/0.145/0.167/0.015 ms"
         $avg_latency = 0;
         if (preg_match('/rtt min\/avg\/max\/mdev = ([\d.]+)\/([\d.]+)\/([\d.]+)\/([\d.]+) ms/', $output_text, $matches)) {
             $avg_latency = (float)$matches[2];
         }
         
-        // 判斷是否可連線（至少收到一個回應）
+        // ?�斷?�否?��??（至少收?��??��??��?
         $reachable = $received > 0;
         
         return [

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>phpIPAM 健康檢查監控系統 - 完整說明書</title>
+    <title>phpIPAM ?�康檢查??��系統 - 完整說�???/title>
     <style>
         :root {
             --bg: #0f172a;
@@ -260,44 +260,44 @@
 
 <body>
     <div class="container">
-        <h1>📊 phpIPAM 健康檢查監控系統</h1>
-        <p class="subtitle">完整說明書 v2.1 | 2025-12-23</p>
+        <h1>?? phpIPAM ?�康檢查??��系統</h1>
+        <p class="subtitle">完整說�???v2.1 | 2025-12-23</p>
 
-        <!-- 目錄 -->
+        <!-- ?��? -->
         <div class="card">
-            <h2>📑 目錄</h2>
+            <h2>?? ?��?</h2>
             <div class="toc">
                 <a href="#overview">1. 系統概覽</a>
-                <a href="#features">2. 功能特色</a>
-                <a href="#dashboard">3. Dashboard 使用說明</a>
-                <a href="#api">4. API 參考</a>
-                <a href="#dhcp-management">5. DHCP 伺服器管理</a>
-                <a href="#deployment">6. Docker 部署說明</a>
-                <a href="#maintenance">7. 維護與故障排除</a>
+                <a href="#features">2. ?�能?�色</a>
+                <a href="#dashboard">3. Dashboard 使用說�?</a>
+                <a href="#api">4. API ?��?/a>
+                <a href="#dhcp-management">5. DHCP 伺�??�管??/a>
+                <a href="#deployment">6. Docker ?�署說�?</a>
+                <a href="#maintenance">7. 維護?��??��???/a>
             </div>
         </div>
 
         <!-- 系統概覽 -->
         <div class="card" id="overview">
             <h2>1. 系統概覽</h2>
-            <p>phpIPAM 健康檢查監控系統提供 24 小時歷史統計功能，用於監控系統資源和 DHCP 伺服器狀態。</p>
+            <p>phpIPAM ?�康檢查??��系統?��? 24 小�?歷史統�??�能，用?�監?�系統�?源�? DHCP 伺�??��??��?/p>
 
             <div class="grid">
                 <div class="stat-box">
-                    <div class="stat-value">✅</div>
-                    <div class="stat-label">即時監控</div>
+                    <div class="stat-value">??/div>
+                    <div class="stat-label">?��???��</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">24h</div>
-                    <div class="stat-label">歷史統計</div>
+                    <div class="stat-label">歷史統�?</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">6</div>
-                    <div class="stat-label">DHCP 伺服器</div>
+                    <div class="stat-label">DHCP 伺�???/div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">5 min</div>
-                    <div class="stat-label">資料採集間隔</div>
+                    <div class="stat-label">資�??��??��?</div>
                 </div>
             </div>
 
@@ -306,226 +306,226 @@
                     target="_blank">https://ipam-tw.pouchen.com/health_dashboard/</a></p>
         </div>
 
-        <!-- 功能特色 -->
+        <!-- ?�能?�色 -->
         <div class="card" id="features">
-            <h2>2. 功能特色</h2>
+            <h2>2. ?�能?�色</h2>
             <div class="feature-grid">
                 <div class="feature-card">
-                    <h4>🌙 Light/Dark Mode</h4>
-                    <p>支援深色和淺色主題切換，自動記憶使用者偏好</p>
+                    <h4>?? Light/Dark Mode</h4>
+                    <p>?�援深色?�淺?�主題�??��??��?記憶使用?��?�?/p>
                 </div>
                 <div class="feature-card">
-                    <h4>🌐 多語系支援</h4>
-                    <p>English / 简体中文 / 繁體中文 三種語言切換</p>
+                    <h4>?? 多�?系支??/h4>
+                    <p>English / 简体中??/ 繁�?中�? 三種語�??��?</p>
                 </div>
                 <div class="feature-card">
-                    <h4>📈 即時曲線圖</h4>
-                    <p>系統資源和 DHCP 延遲趨勢視覺化</p>
+                    <h4>?? ?��??��???/h4>
+                    <p>系統資�???DHCP 延遲趨勢視覺??/p>
                 </div>
                 <div class="feature-card">
-                    <h4>⚙️ DHCP 管理 UI</h4>
-                    <p>視覺化新增、編輯、刪除 DHCP 伺服器</p>
+                    <h4>?��? DHCP 管�? UI</h4>
+                    <p>視覺?�新增、編輯、刪??DHCP 伺�???/p>
                 </div>
                 <div class="feature-card">
-                    <h4>🔄 自動更新</h4>
-                    <p>每 60 秒自動重新整理資料</p>
+                    <h4>?? ?��??�新</h4>
+                    <p>�?60 秒自?��??�整?��???/p>
                 </div>
                 <div class="feature-card">
-                    <h4>⏱️ 彈性時段查詢</h4>
-                    <p>固定時段 (1h/3h/6h/8h/12h/24h) 或自訂時間範圍查詢</p>
+                    <h4>?��? 彈性�?段查�?/h4>
+                    <p>?��??�段 (1h/3h/6h/8h/12h/24h) ?�自訂�??��??�查�?/p>
                 </div>
                 <div class="feature-card">
-                    <h4>📈 歷史統計</h4>
-                    <p>avg / min / max 統計數據查詢</p>
+                    <h4>?? 歷史統�?</h4>
+                    <p>avg / min / max 統�??��??�詢</p>
                 </div>
             </div>
         </div>
 
-        <!-- Dashboard 使用說明 -->
+        <!-- Dashboard 使用說�? -->
         <div class="card" id="dashboard">
-            <h2>3. Dashboard 使用說明</h2>
+            <h2>3. Dashboard 使用說�?</h2>
 
-            <h3>3.1 主題切換</h3>
-            <p>點擊右上角的 🌙 / ☀️ 按鈕切換深色/淺色主題。設定會自動儲存到瀏覽器。</p>
+            <h3>3.1 主�??��?</h3>
+            <p>點�??��?角�? ?? / ?��??��??��?深色/淺色主�??�設定�??��??��??�瀏覽?��?/p>
 
-            <h3>3.2 語系切換</h3>
-            <p>使用右上角的下拉選單選擇語言：</p>
+            <h3>3.2 語系?��?</h3>
+            <p>使用?��?角�?下�??�單?��?語�?�?/p>
             <ul>
-                <li><strong>English</strong> - 英文（預設）</li>
-                <li><strong>简体中文</strong> - 簡體中文</li>
-                <li><strong>繁體中文</strong> - 繁體中文</li>
+                <li><strong>English</strong> - ?��?（�?設�?</li>
+                <li><strong>简体中??/strong> - 簡�?中�?</li>
+                <li><strong>繁�?中�?</strong> - 繁�?中�?</li>
             </ul>
 
-            <h3>3.3 監控頁籤 (Monitor)</h3>
+            <h3>3.3 ??��?�籤 (Monitor)</h3>
             <ul>
-                <li><strong>系統資源</strong>：CPU、記憶體、磁碟使用率 (即時數值 + 曲線圖)</li>
-                <li><strong>DHCP 延遲趨勢</strong>：各伺服器 ping 延遲曲線圖</li>
-                <li><strong>DHCP 狀態表格</strong>：主機名稱、IP、狀態、延遲、時間</li>
+                <li><strong>系統資�?</strong>：CPU?��??��??��?碟使?��? (?��??��?+ ?��???</li>
+                <li><strong>DHCP 延遲趨勢</strong>：�?伺�???ping 延遲?��???/li>
+                <li><strong>DHCP ?�?�表??/strong>：主機�?稱、IP?��??�、延?�、�???/li>
             </ul>
 
-            <h3>3.4 DHCP 管理頁籤</h3>
+            <h3>3.4 DHCP 管�??�籤</h3>
             <ul>
-                <li>點擊 <span class="code-inline">+ 新增</span> 按鈕新增伺服器</li>
-                <li>點擊 <span class="code-inline">編輯</span> 按鈕修改伺服器資訊</li>
-                <li>點擊 <span class="code-inline">刪除</span> 按鈕移除伺服器（需確認）</li>
+                <li>點�? <span class="code-inline">+ ?��?</span> ?��??��?伺�???/li>
+                <li>點�? <span class="code-inline">編輯</span> ?��?修改伺�??��?�?/li>
+                <li>點�? <span class="code-inline">?�除</span> ?��?移除伺�??��??�確�?�?/li>
             </ul>
         </div>
 
-        <!-- API 參考 -->
+        <!-- API ?��?-->
         <div class="card" id="api">
-            <h2>4. API 參考</h2>
+            <h2>4. API ?��?/h2>
 
-            <h3>4.1 統計 API</h3>
+            <h3>4.1 統�? API</h3>
             <p>Base URL: <span class="code-inline">/health_dashboard/api/api_stats.php</span></p>
 
-            <h4>取得最新狀態</h4>
+            <h4>?��??�?��???/h4>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=latest</code></pre>
 
-            <h4>取得系統歷史資料 (固定時段)</h4>
+            <h4>?��?系統歷史資�? (?��??�段)</h4>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&hours=6</code></pre>
 
-            <h4>取得系統歷史資料 (自訂時間範圍)</h4>
+            <h4>?��?系統歷史資�? (?��??��?範�?)</h4>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
 
-            <h4>取得 DHCP 歷史資料 (固定時段)</h4>
+            <h4>?��? DHCP 歷史資�? (?��??�段)</h4>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&hours=3</code></pre>
 
-            <h4>取得 DHCP 歷史資料 (自訂時間範圍)</h4>
+            <h4>?��? DHCP 歷史資�? (?��??��?範�?)</h4>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
 
-            <h4>API 參數說明</h4>
+            <h4>API ?�數說�?</h4>
             <table>
                 <tr>
-                    <th>參數</th>
-                    <th>說明</th>
-                    <th>預設值</th>
+                    <th>?�數</th>
+                    <th>說�?</th>
+                    <th>?�設??/th>
                 </tr>
                 <tr>
                     <td>hours</td>
-                    <td>固定時段查詢 (小時)</td>
+                    <td>?��??�段?�詢 (小�?)</td>
                     <td>24</td>
                 </tr>
                 <tr>
                     <td>start_time</td>
-                    <td>自訂範圍開始時間 (Y-m-d H:i)</td>
+                    <td>?��?範�??��??��? (Y-m-d H:i)</td>
                     <td>-</td>
                 </tr>
                 <tr>
                     <td>end_time</td>
-                    <td>自訂範圍結束時間 (Y-m-d H:i)</td>
+                    <td>?��?範�?結�??��? (Y-m-d H:i)</td>
                     <td>-</td>
                 </tr>
             </table>
 
-            <h3>4.2 DHCP 配置 API</h3>
+            <h3>4.2 DHCP ?�置 API</h3>
             <p>Base URL: <span class="code-inline">/health_dashboard/api/api_dhcp_config.php</span></p>
 
-            <h4>查詢所有伺服器</h4>
+            <h4>?�詢?�?�伺?�器</h4>
             <pre><code>curl -sk "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php"</code></pre>
 
-            <h4>新增伺服器</h4>
+            <h4>?��?伺�???/h4>
             <pre><code>curl -sk -X POST -H "Content-Type: application/json" \
-  -d '{"ip":"10.1.1.1","hostname":"NEW-DHCP","location":"新據點"}' \
+  -d '{"ip":"10.1.1.1","hostname":"NEW-DHCP","location":"?��?�?}' \
   "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php"</code></pre>
 
-            <h4>修改伺服器</h4>
+            <h4>修改伺�???/h4>
             <pre><code>curl -sk -X PUT -H "Content-Type: application/json" \
-  -d '{"hostname":"Updated-Name","location":"新位置"}' \
+  -d '{"hostname":"Updated-Name","location":"?��?�?}' \
   "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php?ip=10.1.1.1"</code></pre>
 
-            <h4>刪除伺服器</h4>
+            <h4>?�除伺�???/h4>
             <pre><code>curl -sk -X DELETE \
   "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php?ip=10.1.1.1"</code></pre>
         </div>
 
-        <!-- DHCP 伺服器管理 -->
+        <!-- DHCP 伺�??�管??-->
         <div class="card" id="dhcp-management">
-            <h2>5. DHCP 伺服器管理</h2>
+            <h2>5. DHCP 伺�??�管??/h2>
 
-            <h3>5.1 方式一：Dashboard UI（建議）</h3>
+            <h3>5.1 ?��?一：Dashboard UI（建議�?</h3>
             <ol>
-                <li>開啟 Dashboard: <a
+                <li>?��? Dashboard: <a
                         href="https://ipam-tw.pouchen.com/health_dashboard/">https://ipam-tw.pouchen.com/health_dashboard/</a>
                 </li>
-                <li>點擊 <strong>DHCP</strong> 頁籤</li>
-                <li>使用介面上的按鈕進行新增、編輯、刪除操作</li>
+                <li>點�? <strong>DHCP</strong> ?�籤</li>
+                <li>使用介面上�??��??��??��??�編輯、刪?��?�?/li>
             </ol>
 
-            <h3>5.2 方式二：直接編輯 JSON 檔案</h3>
-            <pre><code># 從容器複製出來
+            <h3>5.2 ?��?二�??�接編輯 JSON 檔�?</h3>
+            <pre><code># 從容?��?製出�?
 docker cp phpipam_phpipam-web_1:/phpipam/health_dashboard/config/dhcp_servers.json /tmp/
 
-# 編輯檔案
+# 編輯檔�?
 vi /tmp/dhcp_servers.json
 
-# 複製回容器
+# 複製?�容??
 docker cp /tmp/dhcp_servers.json phpipam_phpipam-web_1:/phpipam/health_dashboard/config/
 docker cp /tmp/dhcp_servers.json phpipam_phpipam-cron_1:/health_check/config/</code></pre>
 
-            <h3>5.3 方式三：使用 curl API</h3>
-            <p>請參考上方 API 參考章節的 DHCP 配置 API。</p>
+            <h3>5.3 ?��?三�?使用 curl API</h3>
+            <p>請�??��???API ?�考�?節??DHCP ?�置 API??/p>
 
-            <h3>5.4 目前監控的 DHCP 伺服器</h3>
+            <h3>5.4 ?��???��??DHCP 伺�???/h3>
             <table>
                 <tr>
-                    <th>IP 位址</th>
-                    <th>主機名稱</th>
+                    <th>IP 位�?</th>
+                    <th>主�??�稱</th>
                     <th>位置</th>
                 </tr>
                 <tr>
                     <td>172.16.5.196</td>
                     <td>DHCP-CH-HQ2</td>
-                    <td>彰化總公司</td>
+                    <td>彰�?總公??/td>
                 </tr>
                 <tr>
                     <td>172.23.13.10</td>
                     <td>DHCP-CH-PGT</td>
-                    <td>彰化PGT_G3</td>
+                    <td>彰�?PGT_G3</td>
                 </tr>
                 <tr>
                     <td>172.23.174.5</td>
                     <td>DHCP-TC-HQ</td>
-                    <td>台中總部</td>
+                    <td>?�中總部</td>
                 </tr>
                 <tr>
                     <td>172.23.199.150</td>
                     <td>DHCP-TC-UAIC</td>
-                    <td>台中光威</td>
+                    <td>?�中?��?</td>
                 </tr>
                 <tr>
                     <td>172.23.110.1</td>
                     <td>DHCP-TP-XY</td>
-                    <td>台北信義</td>
+                    <td>?��?信義</td>
                 </tr>
                 <tr>
                     <td>172.23.94.254</td>
                     <td>DHCP-TP-BaoYu</td>
-                    <td>台北寶裕</td>
+                    <td>?��?寶�?</td>
                 </tr>
                 <tr>
                     <td>172.23.127.169</td>
                     <td>DHCP-TC-CBD</td>
-                    <td>台中CBD</td>
+                    <td>?�中CBD</td>
                 </tr>
             </table>
         </div>
 
-        <!-- Docker 部署說明 -->
+        <!-- Docker ?�署說�? -->
         <div class="card" id="deployment">
-            <h2>6. Docker 部署說明</h2>
+            <h2>6. Docker ?�署說�?</h2>
 
-            <h3>6.1 環境資訊</h3>
+            <h3>6.1 ?��?資�?</h3>
             <table>
                 <tr>
-                    <th>項目</th>
-                    <th>值</th>
+                    <th>?�目</th>
+                    <th>??/th>
                 </tr>
                 <tr>
-                    <td>伺服器</td>
+                    <td>伺�???/td>
                     <td>stwphpipam-p (ipam-tw.pouchen.com)</td>
                 </tr>
                 <tr>
-                    <td>phpIPAM 版本</td>
+                    <td>phpIPAM ?�本</td>
                     <td>v1.7.4</td>
                 </tr>
                 <tr>
@@ -542,121 +542,121 @@ docker cp /tmp/dhcp_servers.json phpipam_phpipam-cron_1:/health_check/config/</c
                 </tr>
             </table>
 
-            <h3>6.2 檔案位置</h3>
+            <h3>6.2 檔�?位置</h3>
             <h4>Web 容器 (phpipam_phpipam-web_1)</h4>
             <pre><code>/phpipam/health_dashboard/
-├── index.html           # Dashboard 主頁
-├── api/
-│   ├── api_stats.php       # 統計 API
-│   └── api_dhcp_config.php # DHCP 配置 API
-├── config/
-│   └── dhcp_servers.json   # DHCP 伺服器配置
-└── includes/
-    ├── StatsCalculator.php
-    └── HistoryCollector.php</code></pre>
+?��??� index.html           # Dashboard 主�?
+?��??� api/
+??  ?��??� api_stats.php       # 統�? API
+??  ?��??� api_dhcp_config.php # DHCP ?�置 API
+?��??� config/
+??  ?��??� dhcp_servers.json   # DHCP 伺�??��?�?
+?��??� includes/
+    ?��??� StatsCalculator.php
+    ?��??� HistoryCollector.php</code></pre>
 
             <h4>Cron 容器 (phpipam_phpipam-cron_1)</h4>
             <pre><code>/health_check/
-├── scripts/
-│   └── collect_stats.php   # 資料收集腳本
-├── includes/
-│   ├── StatsCalculator.php
-│   └── HistoryCollector.php
-└── config/
-    └── dhcp_servers.json</code></pre>
+?��??� scripts/
+??  ?��??� collect_stats.php   # 資�??��??�本
+?��??� includes/
+??  ?��??� StatsCalculator.php
+??  ?��??� HistoryCollector.php
+?��??� config/
+    ?��??� dhcp_servers.json</code></pre>
 
-            <h3>6.3 Cron 設定</h3>
+            <h3>6.3 Cron 設�?</h3>
             <pre><code>*/5 * * * * php /health_check/scripts/collect_stats.php >> /var/log/health_check.log 2>&1</code></pre>
 
-            <h3>6.4 資料表</h3>
+            <h3>6.4 資�?�?/h3>
             <ul>
-                <li><span class="code-inline">health_check_system_history</span> - 系統資源歷史</li>
+                <li><span class="code-inline">health_check_system_history</span> - 系統資�?歷史</li>
                 <li><span class="code-inline">health_check_dhcp_history</span> - DHCP 延遲歷史</li>
             </ul>
         </div>
 
-        <!-- 維護與故障排除 -->
+        <!-- 維護?��??��???-->
         <div class="card" id="maintenance">
-            <h2>7. 維護與故障排除</h2>
+            <h2>7. 維護?��??��???/h2>
 
-            <h3>7.1 檢查 Cron 是否正常運作</h3>
-            <pre><code># 查看 Cron 日誌
+            <h3>7.1 檢查 Cron ?�否�?��?��?</h3>
+            <pre><code># ?��? Cron ?��?
 docker exec phpipam_phpipam-cron_1 tail -20 /var/log/health_check.log
 
-# 手動執行收集腳本
+# ?��??��??��??�本
 docker exec phpipam_phpipam-cron_1 php /health_check/scripts/collect_stats.php</code></pre>
 
-            <h3>7.2 檢查資料庫資料</h3>
-            <pre><code># 查看系統資源歷史
+            <h3>7.2 檢查資�?庫�???/h3>
+            <pre><code># ?��?系統資�?歷史
 docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -p*** phpipam \
   -e "SELECT * FROM health_check_system_history ORDER BY id DESC LIMIT 5"
 
-# 查看 DHCP 歷史
+# ?��? DHCP 歷史
 docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -p*** phpipam \
   -e "SELECT * FROM health_check_dhcp_history ORDER BY id DESC LIMIT 10"</code></pre>
 
             <h3>7.3 測試 API</h3>
-            <pre><code># 在容器內測試
+            <pre><code># ?�容?�內測試
 docker exec phpipam_phpipam-web_1 php /phpipam/health_dashboard/api/api_stats.php
 
-# 透過 HTTPS 測試
+# ?��? HTTPS 測試
 curl -sk "https://ipam-tw.pouchen.com/health_dashboard/api/api_stats.php?action=latest"</code></pre>
 
-            <h3>7.4 更新 Dashboard</h3>
-            <pre><code># 複製本地檔案到容器
+            <h3>7.4 ?�新 Dashboard</h3>
+            <pre><code># 複製?�地檔�??�容??
 docker cp /path/to/index.html phpipam_phpipam-web_1:/phpipam/health_dashboard/</code></pre>
 
-            <h3>7.5 DHCP Management 與 Monitor 的關係</h3>
+            <h3>7.5 DHCP Management ??Monitor ?��?�?/h3>
             <div class="note">
-                <strong>💡 重要說明</strong>
-                <p><strong>DHCP Management</strong> 管理的是「配置」，決定 Cron 要收集哪些 DHCP 伺服器的資料。</p>
-                <p><strong>Monitor</strong> 顯示的是「資料庫歷史資料」，包含所有曾經收集過的記錄。</p>
-                <p>因此：</p>
+                <strong>?�� ?��?說�?</strong>
+                <p><strong>DHCP Management</strong> 管�??�是?��?置」�?決�? Cron 要收?�哪�?DHCP 伺�??��?資�???/p>
+                <p><strong>Monitor</strong> 顯示?�是?��??�庫歷史資�??��??�含?�?�曾經收?��??��??��?/p>
+                <p>?�此�?/p>
                 <ul>
-                    <li>在 DHCP Management 刪除 DHCP 伺服器後，<strong>舊資料仍會保留在 Monitor 中</strong></li>
-                    <li>新增 DHCP 伺服器後，需要等待下次 Cron 執行（每 5 分鐘）才會出現在 Monitor</li>
-                    <li>歷史資料會在 7 天後自動清理</li>
+                    <li>??DHCP Management ?�除 DHCP 伺�??��?�?strong>?��??��??��??�在 Monitor �?/strong></li>
+                    <li>?��? DHCP 伺�??��?，�?要�?待�?�?Cron ?��?（�? 5 ?��?）�??�出?�在 Monitor</li>
+                    <li>歷史資�??�在 7 天�??��?清�?</li>
                 </ul>
             </div>
 
-            <h3>7.6 手動刪除 DHCP 歷史資料</h3>
-            <p>如果需要立即從 Monitor 移除已刪除的 DHCP 伺服器資料，請執行以下命令：</p>
-            <pre><code># 刪除指定 IP 的所有歷史記錄
+            <h3>7.6 ?��??�除 DHCP 歷史資�?</h3>
+            <p>如�??�要�??��? Monitor 移除已刪?��? DHCP 伺�??��??��?請執行以下命令�?</p>
+            <pre><code># ?�除?��? IP ?��??�歷?��???
 docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -pmy_secret_phpipam_pass phpipam \
-  -e "DELETE FROM health_check_dhcp_history WHERE dhcp_ip = '要刪除的IP'"
+  -e "DELETE FROM health_check_dhcp_history WHERE dhcp_ip = '要刪?��?IP'"
 
-# 範例：刪除 172.23.127.69 的歷史資料
+# 範�?：刪??172.23.127.69 ?�歷?��???
 docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -pmy_secret_phpipam_pass phpipam \
   -e "DELETE FROM health_check_dhcp_history WHERE dhcp_ip = '172.23.127.69'"
 
-# 確認刪除結果
+# 確�??�除結�?
 docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -pmy_secret_phpipam_pass phpipam \
   -e "SELECT DISTINCT dhcp_ip, dhcp_hostname FROM health_check_dhcp_history ORDER BY dhcp_ip"</code></pre>
 
-            <h3>7.7 同步 DHCP 配置到 Cron 容器</h3>
-            <p>在 DHCP Management 新增或修改 DHCP 伺服器後，需要同步配置到 Cron 容器：</p>
-            <pre><code># 同步配置
+            <h3>7.7 ?�步 DHCP ?�置??Cron 容器</h3>
+            <p>??DHCP Management ?��??�修??DHCP 伺�??��?，�?要�?步�?置到 Cron 容器�?/p>
+            <pre><code># ?�步?�置
 docker cp phpipam_phpipam-web_1:/phpipam/health_dashboard/config/dhcp_servers.json /tmp/
 docker cp /tmp/dhcp_servers.json phpipam_phpipam-cron_1:/health_check/config/
 
-# 手動執行收集（不用等 5 分鐘）
+# ?��??��??��?（�??��? 5 ?��?�?
 docker exec phpipam_phpipam-cron_1 php /health_check/scripts/collect_stats.php</code></pre>
 
             <div class="warning">
-                <strong>⚠️ 注意事項</strong>
+                <strong>?��? 注�?事�?</strong>
                 <ul>
-                    <li>修改 DHCP 伺服器配置後，需要同步到 Cron 容器並等待收集腳本執行才會生效</li>
-                    <li>刪除 DHCP 配置不會自動刪除歷史資料，如需立即生效請手動刪除歷史記錄</li>
-                    <li>資料保留 7 天，超過會自動清理</li>
-                    <li>容器重啟後 Dashboard 檔案會保留，但需確認 Volume 設定</li>
+                    <li>修改 DHCP 伺�??��?置�?，�?要�?步到 Cron 容器並�?待收?�腳?�執行�??��???/li>
+                    <li>?�除 DHCP ?�置不�??��??�除歷史資�?，�??�立即?��?請�??�刪?�歷?��???/li>
+                    <li>資�?保�? 7 天�?超�??�自?��???/li>
+                    <li>容器?��?�?Dashboard 檔�??��??��?但�?確�? Volume 設�?</li>
                 </ul>
             </div>
         </div>
 
         <div class="footer">
-            <p>📊 phpIPAM 健康檢查監控系統 v2.1</p>
-            <p>報告更新時間：2025-12-23 13:21</p>
-            <p>新增：phpIPAM Tools 整合、彈性時段查詢</p>
+            <p>?? phpIPAM ?�康檢查??��系統 v2.1</p>
+            <p>?��??�新?��?�?025-12-23 13:21</p>
+            <p>?��?：phpIPAM Tools ?��??��??��?段查�?/p>
             <p>Jason Cheng | IT Infrastructure</p>
         </div>
     </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>phpIPAM 健康檢查功能部署報告</title>
+    <title>phpIPAM ?�康檢查?�能?�署?��?</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -207,45 +207,45 @@
 
 <body>
     <div class="container">
-        <h1>📊 phpIPAM 健康檢查功能部署報告</h1>
-        <p class="subtitle">24 小時歷史統計 + 監控 Dashboard</p>
+        <h1>?? phpIPAM ?�康檢查?�能?�署?��?</h1>
+        <p class="subtitle">24 小�?歷史統�? + ??�� Dashboard</p>
 
-        <!-- 部署摘要 -->
+        <!-- ?�署?��? -->
         <div class="card">
-            <h2>部署摘要</h2>
+            <h2>?�署?��?</h2>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <div class="summary-value">✅</div>
-                    <div class="summary-label">資料表建立</div>
+                    <div class="summary-value">??/div>
+                    <div class="summary-label">資�?表建�?/div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-value">✅</div>
-                    <div class="summary-label">Cron 排程</div>
+                    <div class="summary-value">??/div>
+                    <div class="summary-label">Cron ?��?</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-value">✅</div>
-                    <div class="summary-label">API 端點</div>
+                    <div class="summary-value">??/div>
+                    <div class="summary-label">API 端�?</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-value">✅</div>
+                    <div class="summary-value">??/div>
                     <div class="summary-label">Dashboard</div>
                 </div>
             </div>
             <table>
                 <tr>
-                    <th>項目</th>
-                    <th>詳情</th>
+                    <th>?�目</th>
+                    <th>詳�?</th>
                 </tr>
                 <tr>
-                    <td>部署日期</td>
+                    <td>?�署?��?</td>
                     <td>2025-12-19</td>
                 </tr>
                 <tr>
-                    <td>目標環境</td>
+                    <td>?��??��?</td>
                     <td>Docker phpIPAM v1.7.4</td>
                 </tr>
                 <tr>
-                    <td>伺服器</td>
+                    <td>伺�???/td>
                     <td>stwphpipam-p (ipam-tw.pouchen.com)</td>
                 </tr>
                 <tr>
@@ -256,56 +256,56 @@
             </table>
         </div>
 
-        <!-- 環境資訊 -->
+        <!-- ?��?資�? -->
         <div class="card">
-            <h2>環境資訊</h2>
+            <h2>?��?資�?</h2>
             <table>
                 <tr>
                     <th>容器</th>
-                    <th>映像</th>
-                    <th>用途</th>
+                    <th>?��?</th>
+                    <th>?��?/th>
                 </tr>
                 <tr>
                     <td>phpipam_phpipam-web_1</td>
                     <td>phpipam/phpipam-www:v1.7.4</td>
-                    <td>Web 服務 + Dashboard</td>
+                    <td>Web ?��? + Dashboard</td>
                 </tr>
                 <tr>
                     <td>phpipam_phpipam-cron_1</td>
                     <td>phpipam/phpipam-cron:v1.7.4</td>
-                    <td>Cron 排程 + 資料收集</td>
+                    <td>Cron ?��? + 資�??��?</td>
                 </tr>
                 <tr>
                     <td>phpipam_phpipam-mariadb_1</td>
                     <td>mariadb:latest</td>
-                    <td>資料庫</td>
+                    <td>資�?�?/td>
                 </tr>
             </table>
         </div>
 
-        <!-- 部署步驟 -->
+        <!-- ?�署步�? -->
         <div class="card">
-            <h2>部署步驟紀錄</h2>
+            <h2>?�署步�?紀??/h2>
 
             <div class="step">
                 <div class="step-header">
-                    <span class="step-title">Step 1 - 環境確認</span>
+                    <span class="step-title">Step 1 - ?��?確�?</span>
                     <span class="step-time">08:19</span>
                 </div>
-                <span class="badge success">✓ 完成</span>
+                <span class="badge success">??完�?</span>
                 <ul>
-                    <li>確認 Docker 容器狀態</li>
-                    <li>取得 docker-compose.yml 配置</li>
-                    <li>確認資料庫連線資訊</li>
+                    <li>確�? Docker 容器?�??/li>
+                    <li>?��? docker-compose.yml ?�置</li>
+                    <li>確�?資�?庫�??資�?</li>
                 </ul>
             </div>
 
             <div class="step">
                 <div class="step-header">
-                    <span class="step-title">Step 2 - 建立資料表</span>
+                    <span class="step-title">Step 2 - 建�?資�?�?/span>
                     <span class="step-time">08:28</span>
                 </div>
-                <span class="badge success">✓ 完成</span>
+                <span class="badge success">??完�?</span>
                 <pre><code>docker exec -i phpipam_phpipam-mariadb_1 mariadb -u phpipam -p*** phpipam &lt; health_check_tables.sql
 
 Tables: health_check_system_history, health_check_dhcp_history</code></pre>
@@ -313,10 +313,10 @@ Tables: health_check_system_history, health_check_dhcp_history</code></pre>
 
             <div class="step">
                 <div class="step-header">
-                    <span class="step-title">Step 3 - 上傳程式檔案</span>
+                    <span class="step-title">Step 3 - 上傳程�?檔�?</span>
                     <span class="step-time">08:30</span>
                 </div>
-                <span class="badge success">✓ 完成</span>
+                <span class="badge success">??完�?</span>
                 <ul>
                     <li>StatsCalculator.php (5175 bytes)</li>
                     <li>HistoryCollector.php (4667 bytes)</li>
@@ -328,10 +328,10 @@ Successfully copied 17.4kB</code></pre>
 
             <div class="step">
                 <div class="step-header">
-                    <span class="step-title">Step 4 - 測試腳本</span>
+                    <span class="step-title">Step 4 - 測試?�本</span>
                     <span class="step-time">08:34</span>
                 </div>
-                <span class="badge success">✓ 完成</span>
+                <span class="badge success">??完�?</span>
                 <pre><code>=== Health Check Collector ===
 [OK] DB connected
 [OK] System: CPU=0.05%, Mem=16.5%, Disk=59.15%
@@ -347,110 +347,110 @@ Done in 18176.25ms</code></pre>
 
             <div class="step">
                 <div class="step-header">
-                    <span class="step-title">Step 5 - 設定 Cron Job</span>
+                    <span class="step-title">Step 5 - 設�? Cron Job</span>
                     <span class="step-time">08:37</span>
                 </div>
-                <span class="badge success">✓ 完成</span>
+                <span class="badge success">??完�?</span>
                 <pre><code>*/5 * * * * php /health_check/scripts/collect_stats.php >> /var/log/health_check.log 2>&1</code></pre>
             </div>
 
             <div class="step">
                 <div class="step-header">
-                    <span class="step-title">Step 6 - 部署 Dashboard</span>
+                    <span class="step-title">Step 6 - ?�署 Dashboard</span>
                     <span class="step-time">11:08</span>
                 </div>
-                <span class="badge success">✓ 完成</span>
+                <span class="badge success">??完�?</span>
                 <ul>
-                    <li>建立 api_stats.php API 端點</li>
-                    <li>建立 index.html Dashboard (曲線圖)</li>
-                    <li>複製到 phpipam-web 容器 /phpipam/health_dashboard/</li>
+                    <li>建�? api_stats.php API 端�?</li>
+                    <li>建�? index.html Dashboard (?��???</li>
+                    <li>複製??phpipam-web 容器 /phpipam/health_dashboard/</li>
                 </ul>
             </div>
         </div>
 
-        <!-- 功能說明 -->
+        <!-- ?�能說�? -->
         <div class="card">
-            <h2>功能說明</h2>
+            <h2>?�能說�?</h2>
 
-            <h3>📈 24 小時統計</h3>
+            <h3>?? 24 小�?統�?</h3>
             <table>
                 <tr>
-                    <th>指標</th>
-                    <th>統計項目</th>
+                    <th>?��?</th>
+                    <th>統�??�目</th>
                 </tr>
                 <tr>
-                    <td>系統資源</td>
-                    <td>CPU / 記憶體 / 磁碟 使用率 (avg, min, max)</td>
+                    <td>系統資�?</td>
+                    <td>CPU / 記憶�?/ 磁�? 使用??(avg, min, max)</td>
                 </tr>
                 <tr>
-                    <td>DHCP 伺服器</td>
-                    <td>延遲 (avg, min, max) / 封包遺失率 / 可用性</td>
+                    <td>DHCP 伺�???/td>
+                    <td>延遲 (avg, min, max) / 封�??�失??/ ?�用??/td>
                 </tr>
             </table>
 
-            <h3>🖥️ Dashboard 功能</h3>
+            <h3>?���?Dashboard ?�能</h3>
             <ul>
-                <li>系統資源即時數值與曲線圖</li>
-                <li>DHCP 伺服器狀態表格</li>
-                <li>DHCP 延遲趨勢曲線圖 (6 台伺服器)</li>
-                <li>每 60 秒自動更新</li>
+                <li>系統資�??��??�值�??��???/li>
+                <li>DHCP 伺�??��??�表??/li>
+                <li>DHCP 延遲趨勢?��???(6 ?�伺?�器)</li>
+                <li>�?60 秒自?�更??/li>
             </ul>
 
-            <h3>⚙️ DHCP 配置</h3>
-            <p>如需新增或修改 DHCP 伺服器，編輯以下檔案：</p>
+            <h3>?��? DHCP ?�置</h3>
+            <p>如�??��??�修??DHCP 伺�??��?編輯以�?檔�?�?/p>
             <pre><code>/health_check/includes/HistoryCollector.php
 
 $hostnames = [
     '172.16.5.196' => 'DHCP-CH-HQ2',
     '172.23.13.10' => 'DHCP-CH-PGT',
-    // 新增伺服器...
+    // ?��?伺�???..
 ];</code></pre>
         </div>
 
-        <!-- DHCP 伺服器 -->
+        <!-- DHCP 伺�???-->
         <div class="card">
-            <h2>監控的 DHCP 伺服器</h2>
+            <h2>??��??DHCP 伺�???/h2>
             <table>
                 <tr>
-                    <th>IP 位址</th>
-                    <th>主機名稱</th>
+                    <th>IP 位�?</th>
+                    <th>主�??�稱</th>
                     <th>位置</th>
                 </tr>
                 <tr>
                     <td>172.16.5.196</td>
                     <td>DHCP-CH-HQ2</td>
-                    <td>彰化總部2</td>
+                    <td>彰�?總部2</td>
                 </tr>
                 <tr>
                     <td>172.23.13.10</td>
                     <td>DHCP-CH-PGT</td>
-                    <td>彰化埔鹽</td>
+                    <td>彰�??�鹽</td>
                 </tr>
                 <tr>
                     <td>172.23.174.5</td>
                     <td>DHCP-TC-HQ</td>
-                    <td>台中總部</td>
+                    <td>?�中總部</td>
                 </tr>
                 <tr>
                     <td>172.23.199.150</td>
                     <td>DHCP-TC-UAIC</td>
-                    <td>台中</td>
+                    <td>?�中</td>
                 </tr>
                 <tr>
                     <td>172.23.110.1</td>
                     <td>DHCP-TP-XY</td>
-                    <td>台北</td>
+                    <td>?��?</td>
                 </tr>
                 <tr>
                     <td>172.23.94.254</td>
                     <td>DHCP-TP-BaoYu</td>
-                    <td>台北寶裕</td>
+                    <td>?��?寶�?</td>
                 </tr>
             </table>
         </div>
 
         <div class="footer">
-            <p>報告生成時間：2025-12-19 11:11</p>
+            <p>?��??��??��?�?025-12-19 11:11</p>
             <p>phpIPAM Health Check Deployment Report</p>
         </div>
     </div>

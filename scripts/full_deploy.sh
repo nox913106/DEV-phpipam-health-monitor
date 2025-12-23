@@ -1,9 +1,9 @@
-#!/bin/bash
+﻿#!/bin/bash
 #
 # phpIPAM Health Monitor - Full Deployment Script
 # 一鍵部署 Health Monitor (包含 Dashboard + phpIPAM Tools 整合)
 #
-# Usage: curl -sL https://raw.githubusercontent.com/nox913106/DEV-phpipam/master/scripts/full_deploy.sh | bash
+# Usage: curl -sL https://raw.githubusercontent.com/nox913106/DEV-phpipam-health-monitor/master/scripts/full_deploy.sh | bash
 #
 # @author Jason Cheng
 # @version 2.1
@@ -12,7 +12,7 @@
 
 set -e
 
-GITHUB_RAW="https://raw.githubusercontent.com/nox913106/DEV-phpipam/master"
+GITHUB_RAW="https://raw.githubusercontent.com/nox913106/DEV-phpipam-health-monitor/master"
 WEB_CONTAINER="phpipam_phpipam-web_1"
 CRON_CONTAINER="phpipam_phpipam-cron_1"
 DB_CONTAINER="phpipam_phpipam-mariadb_1"

@@ -356,11 +356,11 @@
     <div class="header">
         <h1 id="title">phpIPAM Health Monitor</h1>
         <div class="controls">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">??</button>
             <select id="langSelect" onchange="changeLang(this.value)">
                 <option value="en">English</option>
-                <option value="zh-CN">简体中文</option>
-                <option value="zh-TW">繁體中文</option>
+                <option value="zh-CN">简体中??/option>
+                <option value="zh-TW">繁�?中�?</option>
             </select>
             <div class="status"><span class="dot" id="dot"></span><span id="st">Connecting...</span></div>
             <button class="btn" onclick="refresh()" id="refreshBtn">Refresh</button>
@@ -457,8 +457,8 @@
         const DHCP_API = "/health_dashboard/api/api_dhcp_config.php";
         const i18n = {
             en: { title: "phpIPAM Health Monitor", st: "Online", stOff: "Offline", stFail: "Connection Failed", refresh: "Refresh", sys: "System Resources", cpu: "CPU", mem: "Memory", disk: "Disk", dhcp: "DHCP Latency Trend", dhcpSt: "DHCP Server Status", host: "Hostname", ip: "IP", status: "Status", lat: "Latency", time: "Time", upd: "Updated at", tabMon: "Monitor", tabMng: "DHCP Management", manage: "DHCP Server Management", add: "+ Add Server", edit: "Edit", del: "Delete", save: "Save", cancel: "Cancel", addTitle: "Add Server", editTitle: "Edit Server", lblIP: "IP Address", lblHost: "Hostname", lblLoc: "Location", confirmDel: "Delete this server?", enabled: "Enabled", disabled: "Disabled" },
-            "zh-CN": { title: "phpIPAM 健康监控", st: "在线", stOff: "离线", stFail: "连线失败", refresh: "刷新", sys: "系统资源", cpu: "CPU", mem: "内存", disk: "磁盘", dhcp: "DHCP 延迟趋势", dhcpSt: "DHCP 服务器状态", host: "主机名", ip: "IP", status: "状态", lat: "延迟", time: "时间", upd: "更新于", tabMon: "监控", tabMng: "DHCP 管理", manage: "DHCP 服务器管理", add: "+ 新增服务器", edit: "编辑", del: "删除", save: "保存", cancel: "取消", addTitle: "新增服务器", editTitle: "编辑服务器", lblIP: "IP 地址", lblHost: "主机名", lblLoc: "位置", confirmDel: "确定删除该服务器?", enabled: "启用", disabled: "停用" },
-            "zh-TW": { title: "phpIPAM 健康監控", st: "線上", stOff: "離線", stFail: "連線失敗", refresh: "重整", sys: "系統資源", cpu: "CPU", mem: "記憶體", disk: "磁碟", dhcp: "DHCP 延遲趨勢", dhcpSt: "DHCP 伺服器狀態", host: "主機名稱", ip: "IP", status: "狀態", lat: "延遲", time: "時間", upd: "更新於", tabMon: "監控", tabMng: "DHCP 管理", manage: "DHCP 伺服器管理", add: "+ 新增伺服器", edit: "編輯", del: "刪除", save: "儲存", cancel: "取消", addTitle: "新增伺服器", editTitle: "編輯伺服器", lblIP: "IP 位址", lblHost: "主機名稱", lblLoc: "位置", confirmDel: "確定刪除此伺服器?", enabled: "啟用", disabled: "停用" }
+            "zh-CN": { title: "phpIPAM ?�康?�控", st: "?�线", stOff: "离线", stFail: "连线失败", refresh: "?�新", sys: "系�?资�?", cpu: "CPU", mem: "?��?", disk: "磁�?", dhcp: "DHCP 延�?趋势", dhcpSt: "DHCP ?�务?�状??, host: "主机??, ip: "IP", status: "?��?, lat: "延�?", time: "?�间", upd: "?�新�?, tabMon: "?�控", tabMng: "DHCP 管�?", manage: "DHCP ?�务?�管??, add: "+ ?��??�务??, edit: "编�?", del: "?�除", save: "保�?", cancel: "?��?", addTitle: "?��??�务??, editTitle: "编�??�务??, lblIP: "IP ?��?", lblHost: "主机??, lblLoc: "位置", confirmDel: "确�??�除该�??�器?", enabled: "?�用", disabled: "?�用" },
+            "zh-TW": { title: "phpIPAM ?�康??��", st: "線�?", stOff: "?��?", stFail: "???失�?", refresh: "?�整", sys: "系統資�?", cpu: "CPU", mem: "記憶�?, disk: "磁�?", dhcp: "DHCP 延遲趨勢", dhcpSt: "DHCP 伺�??��???, host: "主�??�稱", ip: "IP", status: "?�??, lat: "延遲", time: "?��?", upd: "?�新??, tabMon: "??��", tabMng: "DHCP 管�?", manage: "DHCP 伺�??�管??, add: "+ ?��?伺�???, edit: "編輯", del: "?�除", save: "?��?", cancel: "?��?", addTitle: "?��?伺�???, editTitle: "編輯伺�???, lblIP: "IP 位�?", lblHost: "主�??�稱", lblLoc: "位置", confirmDel: "確�??�除此伺?�器?", enabled: "?�用", disabled: "?�用" }
         };
         let lang = localStorage.getItem("lang") || "en";
         let theme = localStorage.getItem("theme") || "dark";
@@ -473,7 +473,7 @@
         }
         function applyTheme() {
             document.documentElement.setAttribute("data-theme", theme);
-            document.getElementById("themeBtn").textContent = theme === "dark" ? "🌙" : "☀️";
+            document.getElementById("themeBtn").textContent = theme === "dark" ? "??" : "?��?;
         }
         function applyLang() {
             document.getElementById("title").textContent = t("title");

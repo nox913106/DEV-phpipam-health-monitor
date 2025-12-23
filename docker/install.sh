@@ -1,62 +1,59 @@
 #!/bin/bash
-# phpIPAM Health Dashboard - 一鍵安裝腳本
-
+# phpIPAM Health Dashboard - 一?��?裝腳??
 set -e
 
 echo "=========================================="
-echo "phpIPAM Health Dashboard 一鍵部署"
+echo "phpIPAM Health Dashboard 一?�部�?
 echo "=========================================="
 
-# 檢查 Docker 是否安裝
+# 檢查 Docker ?�否安�?
 if ! command -v docker &> /dev/null; then
-    echo "[ERROR] Docker 未安裝，請先安裝 Docker"
+    echo "[ERROR] Docker ?��?裝�?請�?安�? Docker"
     exit 1
 fi
 
-# 檢查 docker-compose 是否安裝
+# 檢查 docker-compose ?�否安�?
 if ! command -v docker-compose &> /dev/null; then
-    echo "[ERROR] docker-compose 未安裝，請先安裝 docker-compose"
+    echo "[ERROR] docker-compose ?��?裝�?請�?安�? docker-compose"
     exit 1
 fi
 
-# 切換到腳本目錄
-cd "$(dirname "$0")"
+# ?��??�腳?�目??cd "$(dirname "$0")"
 
-# 檢查 .env 檔案
+# 檢查 .env 檔�?
 if [ ! -f .env ]; then
-    echo "[INFO] 建立 .env 配置檔案..."
+    echo "[INFO] 建�? .env ?�置檔�?..."
     cp .env.example .env
-    echo "[WARN] 請編輯 .env 檔案設定密碼後重新執行此腳本"
+    echo "[WARN] 請編�?.env 檔�?設�?密碼後�??�執行此?�本"
     echo "       vi .env"
     exit 1
 fi
 
-# 檢查密碼是否已設定
-source .env
+# 檢查密碼?�否已設�?source .env
 if [ "$MYSQL_ROOT_PASSWORD" = "your_root_password_here" ] || [ "$MYSQL_PASSWORD" = "your_phpipam_password_here" ]; then
-    echo "[ERROR] 請先修改 .env 中的密碼設定"
+    echo "[ERROR] 請�?修改 .env 中�?密碼設�?"
     exit 1
 fi
 
-echo "[1/4] 啟動 Docker 服務..."
+echo "[1/4] ?��? Docker ?��?..."
 docker-compose up -d
 
-echo "[2/4] 等待 MariaDB 啟動 (30秒)..."
+echo "[2/4] 等�? MariaDB ?��? (30�?..."
 sleep 30
 
-echo "[3/4] 檢查服務狀態..."
+echo "[3/4] 檢查?��??�??.."
 docker-compose ps
 
-echo "[4/4] 初始化健康檢查 Cron..."
+echo "[4/4] ?��??�健康檢??Cron..."
 docker-compose exec phpipam-cron sh -c 'echo "*/5 * * * * php /health_check/scripts/collect_stats.php >> /var/log/health_check.log 2>&1" >> /etc/crontabs/root'
 
 echo ""
 echo "=========================================="
-echo "✅ 部署完成！"
+echo "???�署完�?�?
 echo "=========================================="
 echo ""
-echo "📌 phpIPAM:           http://$(hostname -I | awk '{print $1}')/"
-echo "📌 Health Dashboard:  http://$(hostname -I | awk '{print $1}')/health_dashboard/"
+echo "?? phpIPAM:           http://$(hostname -I | awk '{print $1}')/"
+echo "?? Health Dashboard:  http://$(hostname -I | awk '{print $1}')/health_dashboard/"
 echo ""
-echo "⚠️  首次使用請訪問 phpIPAM 完成初始化設定"
+echo "?��?  首次使用請訪??phpIPAM 完�??��??�設�?
 echo ""

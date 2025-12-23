@@ -2,8 +2,8 @@
 /**
  * SystemInfo.php
  * 
- * 系統資訊收集類別
- * 收集 phpIPAM 主機的系統資源使用情況
+ * 系統資�??��?類別
+ * ?��? phpIPAM 主�??�系統�?源使?��?�?
  * 
  * @author Jason Cheng
  * @created 2025-12-02
@@ -12,9 +12,9 @@
 class SystemInfo {
     
     /**
-     * 取得完整的系統資訊
+     * ?��?完整?�系統�?�?
      * 
-     * @return array 系統資訊陣列
+     * @return array 系統資�????
      */
     public static function getAll() {
         return [
@@ -24,26 +24,26 @@ class SystemInfo {
     }
     
     /**
-     * 取得完整的系統資訊 (含 24 小時歷史統計)
+     * ?��?完整?�系統�?�?(??24 小�?歷史統�?)
      * 
-     * @param PDO $db 資料庫連線 (可選)
-     * @return array 系統資訊陣列 (含歷史統計)
+     * @param PDO $db 資�?庫�?? (?�選)
+     * @return array 系統資�???? (?�歷?�統�?
      */
     public static function getAllWithHistory($db = null) {
         $current = self::getAll();
         
-        // 如果沒有資料庫連線，直接返回即時結果
+        // 如�?沒�?資�?庫�??，直?��??�即?��???
         if ($db === null) {
             return $current;
         }
         
-        // 載入統計計算器
+        // 載入統�?計�???
         require_once(__DIR__ . '/StatsCalculator.php');
         
-        // 取得 24 小時統計
+        // ?��? 24 小�?統�?
         $stats24h = StatsCalculator::getSystemStats24h($db);
         
-        // 整合統計到各資源
+        // ?��?統�??��?資�?
         $current['system_resources']['cpu']['stats_24h'] = $stats24h['cpu'];
         $current['system_resources']['memory']['stats_24h'] = $stats24h['memory'];
         $current['system_resources']['disk']['stats_24h'] = $stats24h['disk'];
@@ -54,9 +54,9 @@ class SystemInfo {
     }
     
     /**
-     * 取得主機基本資訊
+     * ?��?主�??�本資�?
      * 
-     * @return array 主機資訊
+     * @return array 主�?資�?
      */
     public static function getHostInfo() {
         $hostname = gethostname();
@@ -72,9 +72,9 @@ class SystemInfo {
     }
     
     /**
-     * 取得作業系統資訊
+     * ?��?作業系統資�?
      * 
-     * @return string OS 資訊
+     * @return string OS 資�?
      */
     private static function getOSInfo() {
         if (file_exists('/etc/os-release')) {
@@ -85,9 +85,9 @@ class SystemInfo {
     }
     
     /**
-     * 取得系統運行時間（秒）
+     * ?��?系統?��??��?（�?�?
      * 
-     * @return int 運行時間（秒）
+     * @return int ?��??��?（�?�?
      */
     private static function getUptime() {
         if (file_exists('/proc/uptime')) {
@@ -99,10 +99,10 @@ class SystemInfo {
     }
     
     /**
-     * 格式化運行時間
+     * ?��??��?行�???
      * 
      * @param int $seconds 秒數
-     * @return string 格式化的時間字串
+     * @return string ?��??��??��?字串
      */
     private static function formatUptime($seconds) {
         $days = floor($seconds / 86400);
@@ -113,9 +113,9 @@ class SystemInfo {
     }
     
     /**
-     * 取得系統資源使用情況
+     * ?��?系統資�?使用?��?
      * 
-     * @return array 資源使用情況
+     * @return array 資�?使用?��?
      */
     public static function getSystemResources() {
         return [
@@ -126,28 +126,28 @@ class SystemInfo {
     }
     
     /**
-     * 取得 CPU 使用率
+     * ?��? CPU 使用??
      * 
-     * @return array CPU 資訊
+     * @return array CPU 資�?
      */
     private static function getCpuUsage() {
         $cpu_usage = 0;
         $cores = 1;
         $load_average = [0, 0, 0];
         
-        // 取得 CPU 核心數
+        // ?��? CPU ?��???
         if (file_exists('/proc/cpuinfo')) {
             $cpuinfo = file_get_contents('/proc/cpuinfo');
             preg_match_all('/^processor/m', $cpuinfo, $matches);
             $cores = count($matches[0]);
         }
         
-        // 取得負載平均
+        // ?��?負�?平�?
         if (function_exists('sys_getloadavg')) {
             $load_average = sys_getloadavg();
         }
         
-        // 計算 CPU 使用率（基於 1 分鐘負載平均）
+        // 計�? CPU 使用?��??�於 1 ?��?負�?平�?�?
         $cpu_usage = ($load_average[0] / $cores) * 100;
         
         return [
@@ -162,9 +162,9 @@ class SystemInfo {
     }
     
     /**
-     * 取得記憶體使用情況
+     * ?��?記憶體使?��?�?
      * 
-     * @return array 記憶體資訊
+     * @return array 記憶體�?�?
      */
     private static function getMemoryUsage() {
         $mem_total = 0;
@@ -174,7 +174,7 @@ class SystemInfo {
         if (file_exists('/proc/meminfo')) {
             $meminfo = file_get_contents('/proc/meminfo');
             
-            // 解析 meminfo
+            // �?? meminfo
             if (preg_match('/MemTotal:\s+(\d+)/', $meminfo, $matches)) {
                 $mem_total = (int)$matches[1]; // KB
             }
@@ -198,10 +198,10 @@ class SystemInfo {
     }
     
     /**
-     * 取得硬碟使用情況
+     * ?��?硬�?使用?��?
      * 
-     * @param string $path 要檢查的路徑（預設為根目錄）
-     * @return array 硬碟資訊
+     * @param string $path 要檢?��?路�?（�?設為?�目?��?
+     * @return array 硬�?資�?
      */
     private static function getDiskUsage($path = '/') {
         $total = disk_total_space($path);
