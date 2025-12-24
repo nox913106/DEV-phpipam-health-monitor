@@ -111,8 +111,8 @@ function get_db_connection($config) {
  */
 function save_dhcp_history($pdo, $records) {
     $sql = "INSERT INTO health_check_dhcp_history 
-            (dhcp_ip, dhcp_hostname, dhcp_location, reachable, latency_ms, recorded_at)
-            VALUES (?, ?, ?, ?, ?, NOW())";
+            (dhcp_ip, dhcp_hostname, reachable, latency_ms, recorded_at)
+            VALUES (?, ?, ?, ?, NOW())";
     
     $stmt = $pdo->prepare($sql);
     
@@ -121,7 +121,6 @@ function save_dhcp_history($pdo, $records) {
             $stmt->execute([
                 $record['ip'],
                 $record['hostname'] ?? '',
-                $record['location'] ?? '',
                 $record['reachable'] ? 1 : 0,
                 $record['latency_ms']
             ]);
