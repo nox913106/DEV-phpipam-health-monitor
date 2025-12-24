@@ -148,13 +148,30 @@ function cleanup_old_data($pdo, $days = 7) {
 }
 
 /**
+ * 計算下一個對齊時間點（對齊到 5 秒）
+ */
+function get_next_aligned_time() {
+    $now = time();
+    return $now - ($now % MONITOR_INTERVAL) + MONITOR_INTERVAL;
+}
+
+/**
  * 主要監控迴圈
  */
 function main_loop($db_config, $dhcp_config_path) {
-    echo "=== DHCP Monitor Daemon ===\n";
+    echo "=== DHCP Monitor Daemon (Aligned) ===\n";
     echo "Interval: " . MONITOR_INTERVAL . " seconds\n";
-    echo "Starting at: " . date('Y-m-d H:i:s') . "\n";
-    echo "===========================\n\n";
+    echo "Started at: " . date('Y-m-d H:i:s') . "\n";
+    
+    // 等待到下一個對齊時間點
+    $next = get_next_aligned_time();
+    $wait = $next - time();
+    if ($wait > 0) {
+        echo "Waiting {$wait}s to align to :00/:05/:10... pattern\n";
+        sleep($wait);
+    }
+    echo "First run at: " . date('Y-m-d H:i:s') . "\n";
+    echo "===================================\n\n";
     
     $iteration = 0;
     $cleanup_counter = 0;
@@ -163,7 +180,7 @@ function main_loop($db_config, $dhcp_config_path) {
         $iteration++;
         $start_time = microtime(true);
         
-        // 載入 DHCP 伺服器清單（每次重新載入以支援即時更新）
+        // 載入 DHCP 伺服器清單
         $servers = load_dhcp_servers($dhcp_config_path);
         
         if (empty($servers)) {
@@ -187,7 +204,6 @@ function main_loop($db_config, $dhcp_config_path) {
             $records[] = [
                 'ip' => $server['ip'],
                 'hostname' => $server['hostname'] ?? '',
-                'location' => $server['location'] ?? '',
                 'reachable' => $result['reachable'],
                 'latency_ms' => $result['latency_ms']
             ];
@@ -196,16 +212,12 @@ function main_loop($db_config, $dhcp_config_path) {
         // 儲存結果
         save_dhcp_history($pdo, $records);
         
-        // 每 100 次迭代清理一次舊資料（約 8 分鐘一次）
+        // 每 100 次迭代清理一次舊資料
         $cleanup_counter++;
         if ($cleanup_counter >= 100) {
             cleanup_old_data($pdo);
             $cleanup_counter = 0;
         }
-        
-        // 計算執行時間並等待
-        $elapsed = microtime(true) - $start_time;
-        $sleep_time = max(0, MONITOR_INTERVAL - $elapsed);
         
         // 每 12 次（1 分鐘）輸出一次狀態
         if ($iteration % 12 == 0) {
@@ -213,6 +225,9 @@ function main_loop($db_config, $dhcp_config_path) {
             echo date('Y-m-d H:i:s') . " - Iteration $iteration: $online/" . count($records) . " online\n";
         }
         
+        // 精準對齊到下一個 5 秒點
+        $next_run = get_next_aligned_time();
+        $sleep_time = max(0, $next_run - time());
         if ($sleep_time > 0) {
             usleep($sleep_time * 1000000);
         }
