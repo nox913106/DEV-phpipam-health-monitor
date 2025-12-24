@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>phpIPAM 專案規範</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/panzoom@9/dist/panzoom.min.js"></script>
     <style>
         :root {
             --bg: #0f172a;
@@ -161,15 +163,22 @@
             background: var(--blue);
         }
 
-        .diagram {
+        .mermaid-container {
             background: var(--card);
-            padding: 1.5rem;
             border-radius: 0.5rem;
-            margin: 1rem 0;
-            font-family: 'Consolas', monospace;
-            white-space: pre;
-            overflow-x: auto;
-            line-height: 1.4;
+            padding: 1rem;
+            overflow: hidden;
+            cursor: grab;
+            min-height: 300px;
+        }
+
+        .mermaid-container:active {
+            cursor: grabbing;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
         }
 
         .badge {
@@ -199,18 +208,21 @@
             text-decoration: underline;
         }
 
+        ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
         footer {
             text-align: center;
             padding: 2rem;
             color: var(--text2);
             border-top: 1px solid var(--card);
             margin-top: 2rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
         }
     </style>
 </head>
@@ -305,26 +317,33 @@
 
     <div class="card">
         <h2 data-i18n="networkArch">🌐 網路架構</h2>
-        <div class="diagram"> ┌─────────────────┐
-            │ Nginx:443 │
-            │ (SSL Termination)│
-            └────────┬────────┘
-            │
-            ┌──────────────┴──────────────┐
-            │ my_custom_network │
-            │ 192.168.255.0/24 │
-            │ │
-            ┌─────────┴─────────┐ ┌─────────────┴─────────────┐
-            │ phpipam-web │ │ phpipam-cron │
-            │ (:80 internal) │ │ (DHCP Monitor Daemon) │
-            └─────────┬─────────┘ └─────────────┬─────────────┘
-            │ │
-            └──────────────┬──────────────┘
-            │
-            ┌─────────┴─────────┐
-            │ phpipam-mariadb │
-            │ (:3306) │
-            └───────────────────┘</div>
+        <div class="mermaid-container" id="mermaid-container">
+            <div class="mermaid" id="mermaid-diagram">
+                graph TB
+                subgraph External["🌐 External Access"]
+                NGINX["Nginx:443<br />SSL Termination"]
+                end
+
+                subgraph Network["my_custom_network (192.168.255.0/24)"]
+                WEB["phpipam-web<br />:80 internal"]
+                CRON["phpipam-cron<br />DHCP Monitor"]
+                DB["phpipam-mariadb<br />:3306"]
+                end
+
+                NGINX --> WEB
+                NGINX --> CRON
+                WEB --> DB
+                CRON --> DB
+
+                style NGINX fill:#7c3aed,color:#fff
+                style WEB fill:#22c55e,color:#fff
+                style CRON fill:#f97316,color:#fff
+                style DB fill:#dc2626,color:#fff
+            </div>
+        </div>
+        <p style="text-align: center; color: var(--text2); font-size: 0.85rem; margin-top: 0.5rem;">
+            🖱️ 滾輪縮放 | 左鍵拖移
+        </p>
     </div>
 
     <div class="card">
@@ -367,15 +386,15 @@
 
         <h3 data-i18n="healthCheck">Health Check 模組</h3>
         <ul>
-            <li data-i18n="deploy1">檔案放置於 <code>/opt/health_check/</code></li>
-            <li data-i18n="deploy2">由 <code>phpipam-cron</code> 容器執行</li>
-            <li data-i18n="deploy3">Volume mount：<code>/opt/health_check:/health_check</code></li>
+            <li>檔案放置於 <code>/opt/health_check/</code></li>
+            <li>由 <code>phpipam-cron</code> 容器執行</li>
+            <li>Volume mount：<code>/opt/health_check:/health_check</code></li>
         </ul>
 
         <h3 data-i18n="dhcpDaemon">DHCP Monitor Daemon</h3>
         <ul>
-            <li data-i18n="daemon1">Log 路徑：<code>/var/log/dhcp_monitor.log</code></li>
-            <li data-i18n="daemon2">設定檔：<code>/health_check/config/dhcp_servers.json</code></li>
+            <li>Log 路徑：<code>/var/log/dhcp_monitor.log</code></li>
+            <li>設定檔：<code>/health_check/config/dhcp_servers.json</code></li>
         </ul>
 
         <h3 data-i18n="dbConn">資料庫連線</h3>
@@ -418,6 +437,29 @@
     </footer>
 
     <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: { curve: 'basis' }
+        });
+
+        // Initialize Panzoom after Mermaid renders
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const container = document.getElementById('mermaid-container');
+                const svg = container.querySelector('svg');
+                if (svg) {
+                    const pz = panzoom(svg, {
+                        maxZoom: 3,
+                        minZoom: 0.5,
+                        bounds: true,
+                        boundsPadding: 0.1
+                    });
+                }
+            }, 500);
+        });
+
         const translations = {
             'zh-TW': {
                 title: '📋 phpIPAM 專案規範', subtitle: '生產環境系統架構文件',
@@ -427,11 +469,8 @@
                 networkArch: '🌐 網路架構', volumes: '💾 Volume Mounts',
                 dbData: '資料庫資料', logoFiles: 'Logo 檔案', caCert: 'CA 憑證',
                 healthModule: 'Health Check 模組', deploySpec: '🔧 開發部署規範',
-                healthCheck: 'Health Check 模組', deploy1: '檔案放置於 /opt/health_check/',
-                deploy2: '由 phpipam-cron 容器執行', deploy3: 'Volume mount：/opt/health_check:/health_check',
-                dhcpDaemon: 'DHCP Monitor Daemon', daemon1: 'Log 路徑：/var/log/dhcp_monitor.log',
-                daemon2: '設定檔：/health_check/config/dhcp_servers.json', dbConn: '資料庫連線',
-                repos: '📁 相關 GitHub 專案', project: '專案'
+                healthCheck: 'Health Check 模組', dhcpDaemon: 'DHCP Monitor Daemon',
+                dbConn: '資料庫連線', repos: '📁 相關 GitHub 專案', project: '專案'
             },
             'zh-CN': {
                 title: '📋 phpIPAM 项目规范', subtitle: '生产环境系统架构文件',
@@ -441,11 +480,8 @@
                 networkArch: '🌐 网络架构', volumes: '💾 Volume Mounts',
                 dbData: '数据库数据', logoFiles: 'Logo 文件', caCert: 'CA 证书',
                 healthModule: 'Health Check 模块', deploySpec: '🔧 开发部署规范',
-                healthCheck: 'Health Check 模块', deploy1: '文件放置于 /opt/health_check/',
-                deploy2: '由 phpipam-cron 容器执行', deploy3: 'Volume mount：/opt/health_check:/health_check',
-                dhcpDaemon: 'DHCP Monitor Daemon', daemon1: 'Log 路径：/var/log/dhcp_monitor.log',
-                daemon2: '设置档：/health_check/config/dhcp_servers.json', dbConn: '数据库连接',
-                repos: '📁 相关 GitHub 项目', project: '项目'
+                healthCheck: 'Health Check 模块', dhcpDaemon: 'DHCP Monitor Daemon',
+                dbConn: '数据库连接', repos: '📁 相关 GitHub 项目', project: '项目'
             },
             'en': {
                 title: '📋 phpIPAM Project Specification', subtitle: 'Production System Architecture',
@@ -455,11 +491,8 @@
                 networkArch: '🌐 Network Architecture', volumes: '💾 Volume Mounts',
                 dbData: 'Database Data', logoFiles: 'Logo Files', caCert: 'CA Certificate',
                 healthModule: 'Health Check Module', deploySpec: '🔧 Deployment Specification',
-                healthCheck: 'Health Check Module', deploy1: 'Files placed at /opt/health_check/',
-                deploy2: 'Executed by phpipam-cron container', deploy3: 'Volume mount: /opt/health_check:/health_check',
-                dhcpDaemon: 'DHCP Monitor Daemon', daemon1: 'Log path: /var/log/dhcp_monitor.log',
-                daemon2: 'Config: /health_check/config/dhcp_servers.json', dbConn: 'Database Connection',
-                repos: '📁 Related GitHub Repos', project: 'Project'
+                healthCheck: 'Health Check Module', dhcpDaemon: 'DHCP Monitor Daemon',
+                dbConn: 'Database Connection', repos: '📁 Related GitHub Repos', project: 'Project'
             }
         };
 
