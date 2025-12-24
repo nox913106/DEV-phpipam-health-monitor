@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>phpIPAM ?•Â∫∑Ê™¢Êü•??éßÁ≥ªÁµ± - ÂÆåÊï¥Ë™™Ê???/title>
+    <title>phpIPAM Health Check Manual</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -28,638 +28,260 @@
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.7;
-            padding: 40px 20px;
+            line-height: 1.6;
+            padding: 2rem;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 2.5rem;
+        header {
             text-align: center;
-            margin-bottom: 8px;
+            padding: 2rem;
             background: linear-gradient(135deg, var(--blue), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .subtitle {
-            text-align: center;
-            color: var(--text2);
-            margin-bottom: 40px;
-            font-size: 1.1rem;
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
         }
 
         .card {
             background: var(--bg2);
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 28px;
-            border: 1px solid var(--card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        h2 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        h2::before {
-            content: '';
-            width: 5px;
-            height: 28px;
-            background: var(--blue);
-            border-radius: 3px;
-        }
-
-        h3 {
-            font-size: 1.1rem;
+        .card h2 {
             color: var(--blue);
-            margin: 20px 0 12px 0;
-        }
-
-        h4 {
-            font-size: 1rem;
-            color: var(--orange);
-            margin: 16px 0 8px 0;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--card);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 16px 0;
         }
 
         th,
         td {
-            padding: 14px;
+            padding: 0.75rem;
             text-align: left;
             border-bottom: 1px solid var(--card);
         }
 
         th {
-            color: var(--text2);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            background: rgba(51, 65, 85, 0.3);
+            background: var(--card);
+            color: var(--blue);
+        }
+
+        code {
+            background: var(--card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Consolas', monospace;
+        }
+
+        pre {
+            background: #0d1117;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
             font-weight: 600;
         }
 
-        .badge.success {
+        .badge-success {
             background: rgba(34, 197, 94, 0.2);
             color: var(--green);
         }
 
-        .badge.info {
+        .badge-info {
             background: rgba(59, 130, 246, 0.2);
             color: var(--blue);
         }
 
-        pre {
-            background: #0a0f1a;
-            padding: 18px;
-            border-radius: 10px;
-            overflow-x: auto;
-            font-size: 0.9rem;
-            margin: 12px 0;
-            border: 1px solid var(--card);
-        }
-
-        code {
-            color: var(--green);
-            font-family: 'Consolas', monospace;
-        }
-
-        .code-inline {
-            background: rgba(59, 130, 246, 0.15);
-            padding: 3px 8px;
-            border-radius: 4px;
-            color: var(--blue);
-            font-family: 'Consolas', monospace;
-            font-size: 0.9rem;
-        }
-
-        ul,
-        ol {
-            padding-left: 24px;
-            margin: 12px 0;
-        }
-
-        li {
-            margin: 8px 0;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-
-        .stat-box {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--green);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text2);
-            margin-top: 6px;
-        }
-
         a {
             color: var(--blue);
-            text-decoration: none;
         }
 
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .toc {
-            background: var(--card);
-            padding: 20px 28px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .toc a {
-            display: block;
-            padding: 6px 0;
-            color: var(--text);
-        }
-
-        .toc a:hover {
-            color: var(--blue);
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .feature-card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid var(--blue);
-        }
-
-        .feature-card h4 {
-            margin-top: 0;
-            color: var(--text);
-        }
-
-        .note {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--blue);
-            padding: 16px 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 16px 0;
-        }
-
-        .warning {
-            background: rgba(249, 115, 22, 0.1);
-            border-left: 4px solid var(--orange);
-            padding: 16px 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 16px 0;
-        }
-
-        .footer {
+        footer {
             text-align: center;
+            padding: 2rem;
             color: var(--text2);
-            font-size: 0.9rem;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid var(--card);
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>?? phpIPAM ?•Â∫∑Ê™¢Êü•??éßÁ≥ªÁµ±</h1>
-        <p class="subtitle">ÂÆåÊï¥Ë™™Ê???v2.1 | 2025-12-23</p>
+    <header>
+        <h1>phpIPAM Health Check Manual</h1>
+        <p>Complete Documentation for Health Monitoring System</p>
+    </header>
 
-        <!-- ?ÆÈ? -->
-        <div class="card">
-            <h2>?? ?ÆÈ?</h2>
-            <div class="toc">
-                <a href="#overview">1. Á≥ªÁµ±Ê¶ÇË¶Ω</a>
-                <a href="#features">2. ?üËÉΩ?πËâ≤</a>
-                <a href="#dashboard">3. Dashboard ‰ΩøÁî®Ë™™Ê?</a>
-                <a href="#api">4. API ?ÉËÄ?/a>
-                <a href="#dhcp-management">5. DHCP ‰º∫Ê??®ÁÆ°??/a>
-                <a href="#deployment">6. Docker ?®ÁΩ≤Ë™™Ê?</a>
-                <a href="#maintenance">7. Á∂≠Ë≠∑?áÊ??úÊ???/a>
-            </div>
-        </div>
+    <div class="card">
+        <h2>Overview</h2>
+        <p>The phpIPAM Health Check System provides real-time monitoring of system resources and DHCP servers.</p>
+        <table>
+            <tr>
+                <td>Version</td>
+                <td><span class="badge badge-success">v2.2.1</span></td>
+            </tr>
+            <tr>
+                <td>System Monitoring</td>
+                <td>Every 5 minutes (CPU, Memory, Disk)</td>
+            </tr>
+            <tr>
+                <td>DHCP Monitoring</td>
+                <td><span class="badge badge-success">Every 5 seconds</span></td>
+            </tr>
+            <tr>
+                <td>Data Retention</td>
+                <td>7 days (auto cleanup)</td>
+            </tr>
+        </table>
+    </div>
 
-        <!-- Á≥ªÁµ±Ê¶ÇË¶Ω -->
-        <div class="card" id="overview">
-            <h2>1. Á≥ªÁµ±Ê¶ÇË¶Ω</h2>
-            <p>phpIPAM ?•Â∫∑Ê™¢Êü•??éßÁ≥ªÁµ±?ê‰? 24 Â∞èÊ?Ê≠∑Âè≤Áµ±Ë??üËÉΩÔºåÁî®?ºÁõ£?ßÁ≥ªÁµ±Ë?Ê∫êÂ? DHCP ‰º∫Ê??®Á??ã„Ä?/p>
-
-            <div class="grid">
-                <div class="stat-box">
-                    <div class="stat-value">??/div>
-                    <div class="stat-label">?≥Ê???éß</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">24h</div>
-                    <div class="stat-label">Ê≠∑Âè≤Áµ±Ë?</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">6</div>
-                    <div class="stat-label">DHCP ‰º∫Ê???/div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">5 min</div>
-                    <div class="stat-label">Ë≥áÊ??°È??ìÈ?</div>
-                </div>
-            </div>
-
-            <h3>Dashboard URL</h3>
-            <p><a href="https://ipam-tw.pouchen.com/health_dashboard/"
-                    target="_blank">https://ipam-tw.pouchen.com/health_dashboard/</a></p>
-        </div>
-
-        <!-- ?üËÉΩ?πËâ≤ -->
-        <div class="card" id="features">
-            <h2>2. ?üËÉΩ?πËâ≤</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h4>?? Light/Dark Mode</h4>
-                    <p>?ØÊè¥Ê∑±Ëâ≤?åÊ∑∫?≤‰∏ªÈ°åÂ??õÔ??™Â?Ë®òÊÜ∂‰ΩøÁî®?ÖÂ?Â•?/p>
-                </div>
-                <div class="feature-card">
-                    <h4>?? Â§öË?Á≥ªÊîØ??/h4>
-                    <p>English / ÁÆÄ‰Ωì‰∏≠??/ ÁπÅÈ?‰∏≠Ê? ‰∏âÁ®ÆË™ûË??áÊ?</p>
-                </div>
-                <div class="feature-card">
-                    <h4>?? ?≥Ê??≤Á???/h4>
-                    <p>Á≥ªÁµ±Ë≥áÊ???DHCP Âª∂ÈÅ≤Ë∂®Âã¢Ë¶ñË¶∫??/p>
-                </div>
-                <div class="feature-card">
-                    <h4>?ôÔ? DHCP ÁÆ°Á? UI</h4>
-                    <p>Ë¶ñË¶∫?ñÊñ∞Â¢û„ÄÅÁ∑®ËºØ„ÄÅÂà™??DHCP ‰º∫Ê???/p>
-                </div>
-                <div class="feature-card">
-                    <h4>?? ?™Â??¥Êñ∞</h4>
-                    <p>ÊØ?60 ÁßíËá™?ïÈ??∞Êï¥?ÜË???/p>
-                </div>
-                <div class="feature-card">
-                    <h4>?±Ô? ÂΩàÊÄßÊ?ÊÆµÊü•Ë©?/h4>
-                    <p>?∫Â??ÇÊÆµ (1h/3h/6h/8h/12h/24h) ?ñËá™Ë®ÇÊ??ìÁ??çÊü•Ë©?/p>
-                </div>
-                <div class="feature-card">
-                    <h4>?? Ê≠∑Âè≤Áµ±Ë?</h4>
-                    <p>avg / min / max Áµ±Ë??∏Ê??•Ë©¢</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dashboard ‰ΩøÁî®Ë™™Ê? -->
-        <div class="card" id="dashboard">
-            <h2>3. Dashboard ‰ΩøÁî®Ë™™Ê?</h2>
-
-            <h3>3.1 ‰∏ªÈ??áÊ?</h3>
-            <p>ÈªûÊ??≥‰?ËßíÁ? ?? / ?ÄÔ∏??âÈ??áÊ?Ê∑±Ëâ≤/Ê∑∫Ëâ≤‰∏ªÈ??ÇË®≠ÂÆöÊ??™Â??≤Â??∞ÁÄèË¶Ω?®„Ä?/p>
-
-            <h3>3.2 Ë™ûÁ≥ª?áÊ?</h3>
-            <p>‰ΩøÁî®?≥‰?ËßíÁ?‰∏ãÊ??∏ÂñÆ?∏Ê?Ë™ûË?Ôº?/p>
-            <ul>
-                <li><strong>English</strong> - ?±Ê?ÔºàÈ?Ë®≠Ô?</li>
-                <li><strong>ÁÆÄ‰Ωì‰∏≠??/strong> - Á∞°È?‰∏≠Ê?</li>
-                <li><strong>ÁπÅÈ?‰∏≠Ê?</strong> - ÁπÅÈ?‰∏≠Ê?</li>
-            </ul>
-
-            <h3>3.3 ??éß?ÅÁ±§ (Monitor)</h3>
-            <ul>
-                <li><strong>Á≥ªÁµ±Ë≥áÊ?</strong>ÔºöCPU?ÅË??∂È??ÅÁ?Á¢ü‰Ωø?®Á? (?≥Ê??∏ÂÄ?+ ?≤Á???</li>
-                <li><strong>DHCP Âª∂ÈÅ≤Ë∂®Âã¢</strong>ÔºöÂ?‰º∫Ê???ping Âª∂ÈÅ≤?≤Á???/li>
-                <li><strong>DHCP ?Ä?ãË°®??/strong>Ôºö‰∏ªÊ©üÂ?Á®±„ÄÅIP?ÅÁ??ã„ÄÅÂª∂?≤„ÄÅÊ???/li>
-            </ul>
-
-            <h3>3.4 DHCP ÁÆ°Á??ÅÁ±§</h3>
-            <ul>
-                <li>ÈªûÊ? <span class="code-inline">+ ?∞Â?</span> ?âÈ??∞Â?‰º∫Ê???/li>
-                <li>ÈªûÊ? <span class="code-inline">Á∑®ËºØ</span> ?âÈ?‰øÆÊîπ‰º∫Ê??®Ë?Ë®?/li>
-                <li>ÈªûÊ? <span class="code-inline">?™Èô§</span> ?âÈ?ÁßªÈô§‰º∫Ê??®Ô??ÄÁ¢∫Ë?Ôº?/li>
-            </ul>
-        </div>
-
-        <!-- API ?ÉËÄ?-->
-        <div class="card" id="api">
-            <h2>4. API ?ÉËÄ?/h2>
-
-            <h3>4.1 Áµ±Ë? API</h3>
-            <p>Base URL: <span class="code-inline">/health_dashboard/api/api_stats.php</span></p>
-
-            <h4>?ñÂ??Ä?∞Á???/h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=latest</code></pre>
-
-            <h4>?ñÂ?Á≥ªÁµ±Ê≠∑Âè≤Ë≥áÊ? (?∫Â??ÇÊÆµ)</h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&hours=6</code></pre>
-
-            <h4>?ñÂ?Á≥ªÁµ±Ê≠∑Âè≤Ë≥áÊ? (?™Ë??ÇÈ?ÁØÑÂ?)</h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=system_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
-
-            <h4>?ñÂ? DHCP Ê≠∑Âè≤Ë≥áÊ? (?∫Â??ÇÊÆµ)</h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&hours=3</code></pre>
-
-            <h4>?ñÂ? DHCP Ê≠∑Âè≤Ë≥áÊ? (?™Ë??ÇÈ?ÁØÑÂ?)</h4>
-            <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
-
-            <h4>API ?ÉÊï∏Ë™™Ê?</h4>
-            <table>
-                <tr>
-                    <th>?ÉÊï∏</th>
-                    <th>Ë™™Ê?</th>
-                    <th>?êË®≠??/th>
-                </tr>
-                <tr>
-                    <td>hours</td>
-                    <td>?∫Â??ÇÊÆµ?•Ë©¢ (Â∞èÊ?)</td>
-                    <td>24</td>
-                </tr>
-                <tr>
-                    <td>start_time</td>
-                    <td>?™Ë?ÁØÑÂ??ãÂ??ÇÈ? (Y-m-d H:i)</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>end_time</td>
-                    <td>?™Ë?ÁØÑÂ?ÁµêÊ??ÇÈ? (Y-m-d H:i)</td>
-                    <td>-</td>
-                </tr>
-            </table>
-
-            <h3>4.2 DHCP ?çÁΩÆ API</h3>
-            <p>Base URL: <span class="code-inline">/health_dashboard/api/api_dhcp_config.php</span></p>
-
-            <h4>?•Ë©¢?Ä?â‰º∫?çÂô®</h4>
-            <pre><code>curl -sk "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php"</code></pre>
-
-            <h4>?∞Â?‰º∫Ê???/h4>
-            <pre><code>curl -sk -X POST -H "Content-Type: application/json" \
-  -d '{"ip":"10.1.1.1","hostname":"NEW-DHCP","location":"?∞Ê?Èª?}' \
-  "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php"</code></pre>
-
-            <h4>‰øÆÊîπ‰º∫Ê???/h4>
-            <pre><code>curl -sk -X PUT -H "Content-Type: application/json" \
-  -d '{"hostname":"Updated-Name","location":"?∞‰?ÁΩ?}' \
-  "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php?ip=10.1.1.1"</code></pre>
-
-            <h4>?™Èô§‰º∫Ê???/h4>
-            <pre><code>curl -sk -X DELETE \
-  "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php?ip=10.1.1.1"</code></pre>
-        </div>
-
-        <!-- DHCP ‰º∫Ê??®ÁÆ°??-->
-        <div class="card" id="dhcp-management">
-            <h2>5. DHCP ‰º∫Ê??®ÁÆ°??/h2>
-
-            <h3>5.1 ?πÂ?‰∏ÄÔºöDashboard UIÔºàÂª∫Ë≠∞Ô?</h3>
-            <ol>
-                <li>?ãÂ? Dashboard: <a
+    <div class="card">
+        <h2>Dashboard Access</h2>
+        <table>
+            <tr>
+                <td>Standalone URL</td>
+                <td><a
                         href="https://ipam-tw.pouchen.com/health_dashboard/">https://ipam-tw.pouchen.com/health_dashboard/</a>
-                </li>
-                <li>ÈªûÊ? <strong>DHCP</strong> ?ÅÁ±§</li>
-                <li>‰ΩøÁî®‰ªãÈù¢‰∏äÁ??âÈ??≤Ë??∞Â??ÅÁ∑®ËºØ„ÄÅÂà™?§Ê?‰Ω?/li>
-            </ol>
+                </td>
+            </tr>
+            <tr>
+                <td>Embedded URL</td>
+                <td><a
+                        href="https://ipam-tw.pouchen.com/index.php?page=tools&section=health-monitor">https://ipam-tw.pouchen.com/index.php?page=tools&section=health-monitor</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <h3>5.2 ?πÂ?‰∫åÔ??¥Êé•Á∑®ËºØ JSON Ê™îÊ?</h3>
-            <pre><code># ÂæûÂÆπ?®Ë?Ë£ΩÂá∫‰æ?
-docker cp phpipam_phpipam-web_1:/phpipam/health_dashboard/config/dhcp_servers.json /tmp/
+    <div class="card">
+        <h2>Features</h2>
+        <ul style="margin-left: 1.5rem;">
+            <li>Real-time system resource monitoring (CPU, Memory, Disk)</li>
+            <li>DHCP server availability monitoring with 5-second intervals</li>
+            <li>24-hour historical statistics with charts</li>
+            <li>Light/Dark mode theme support</li>
+            <li>Multi-language support (EN/ZH-TW/ZH-CN)</li>
+            <li>DHCP server management UI</li>
+            <li>Flexible time range queries</li>
+        </ul>
+    </div>
 
-# Á∑®ËºØÊ™îÊ?
-vi /tmp/dhcp_servers.json
+    <div class="card">
+        <h2>API Endpoints</h2>
+        <pre>
+# Get latest status
+GET /health_dashboard/api/api_stats.php?action=latest
 
-# Ë§áË£Ω?ûÂÆπ??
-docker cp /tmp/dhcp_servers.json phpipam_phpipam-web_1:/phpipam/health_dashboard/config/
-docker cp /tmp/dhcp_servers.json phpipam_phpipam-cron_1:/health_check/config/</code></pre>
+# Get system history
+GET /health_dashboard/api/api_stats.php?action=system_history&hours=6
 
-            <h3>5.3 ?πÂ?‰∏âÔ?‰ΩøÁî® curl API</h3>
-            <p>Ë´ãÂ??É‰???API ?ÉËÄÉÁ?ÁØÄ??DHCP ?çÁΩÆ API??/p>
+# Get DHCP history  
+GET /health_dashboard/api/api_stats.php?action=dhcp_history&hours=3
 
-            <h3>5.4 ?ÆÂ???éß??DHCP ‰º∫Ê???/h3>
-            <table>
+# Get DHCP server list
+GET /health_dashboard/api/api_dhcp_config.php?action=list
+        </pre>
+    </div>
+
+    <div class="card">
+        <h2>DHCP Servers</h2>
+        <table>
+            <thead>
                 <tr>
-                    <th>IP ‰ΩçÂ?</th>
-                    <th>‰∏ªÊ??çÁ®±</th>
-                    <th>‰ΩçÁΩÆ</th>
+                    <th>IP</th>
+                    <th>Hostname</th>
+                    <th>Location</th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>172.16.5.196</td>
                     <td>DHCP-CH-HQ2</td>
-                    <td>ÂΩ∞Â?Á∏ΩÂÖ¨??/td>
+                    <td>Changhua HQ2</td>
                 </tr>
                 <tr>
                     <td>172.23.13.10</td>
                     <td>DHCP-CH-PGT</td>
-                    <td>ÂΩ∞Â?PGT_G3</td>
+                    <td>Changhua Puyan</td>
                 </tr>
                 <tr>
                     <td>172.23.174.5</td>
                     <td>DHCP-TC-HQ</td>
-                    <td>?∞‰∏≠Á∏ΩÈÉ®</td>
+                    <td>Taichung HQ</td>
                 </tr>
                 <tr>
                     <td>172.23.199.150</td>
                     <td>DHCP-TC-UAIC</td>
-                    <td>?∞‰∏≠?âÂ?</td>
+                    <td>Taichung</td>
                 </tr>
                 <tr>
                     <td>172.23.110.1</td>
                     <td>DHCP-TP-XY</td>
-                    <td>?∞Â?‰ø°Áæ©</td>
+                    <td>Taipei</td>
                 </tr>
                 <tr>
                     <td>172.23.94.254</td>
                     <td>DHCP-TP-BaoYu</td>
-                    <td>?∞Â?ÂØ∂Ë?</td>
+                    <td>Taipei Baoyu</td>
                 </tr>
                 <tr>
                     <td>172.23.127.169</td>
                     <td>DHCP-TC-CBD</td>
-                    <td>?∞‰∏≠CBD</td>
+                    <td>Taichung CBD</td>
                 </tr>
-            </table>
-        </div>
-
-        <!-- Docker ?®ÁΩ≤Ë™™Ê? -->
-        <div class="card" id="deployment">
-            <h2>6. Docker ?®ÁΩ≤Ë™™Ê?</h2>
-
-            <h3>6.1 ?∞Â?Ë≥áË?</h3>
-            <table>
-                <tr>
-                    <th>?ÖÁõÆ</th>
-                    <th>??/th>
-                </tr>
-                <tr>
-                    <td>‰º∫Ê???/td>
-                    <td>stwphpipam-p (ipam-tw.pouchen.com)</td>
-                </tr>
-                <tr>
-                    <td>phpIPAM ?àÊú¨</td>
-                    <td>v1.7.4</td>
-                </tr>
-                <tr>
-                    <td>Web ÂÆπÂô®</td>
-                    <td>phpipam_phpipam-web_1</td>
-                </tr>
-                <tr>
-                    <td>Cron ÂÆπÂô®</td>
-                    <td>phpipam_phpipam-cron_1</td>
-                </tr>
-                <tr>
-                    <td>MariaDB ÂÆπÂô®</td>
-                    <td>phpipam_phpipam-mariadb_1</td>
-                </tr>
-            </table>
-
-            <h3>6.2 Ê™îÊ?‰ΩçÁΩÆ</h3>
-            <h4>Web ÂÆπÂô® (phpipam_phpipam-web_1)</h4>
-            <pre><code>/phpipam/health_dashboard/
-?ú‚??Ä index.html           # Dashboard ‰∏ªÈ?
-?ú‚??Ä api/
-??  ?ú‚??Ä api_stats.php       # Áµ±Ë? API
-??  ?î‚??Ä api_dhcp_config.php # DHCP ?çÁΩÆ API
-?ú‚??Ä config/
-??  ?î‚??Ä dhcp_servers.json   # DHCP ‰º∫Ê??®È?ÁΩ?
-?î‚??Ä includes/
-    ?ú‚??Ä StatsCalculator.php
-    ?î‚??Ä HistoryCollector.php</code></pre>
-
-            <h4>Cron ÂÆπÂô® (phpipam_phpipam-cron_1)</h4>
-            <pre><code>/health_check/
-?ú‚??Ä scripts/
-??  ?î‚??Ä collect_stats.php   # Ë≥áÊ??∂È??≥Êú¨
-?ú‚??Ä includes/
-??  ?ú‚??Ä StatsCalculator.php
-??  ?î‚??Ä HistoryCollector.php
-?î‚??Ä config/
-    ?î‚??Ä dhcp_servers.json</code></pre>
-
-            <h3>6.3 Cron Ë®≠Â?</h3>
-            <pre><code>*/5 * * * * php /health_check/scripts/collect_stats.php >> /var/log/health_check.log 2>&1</code></pre>
-
-            <h3>6.4 Ë≥áÊ?Ë°?/h3>
-            <ul>
-                <li><span class="code-inline">health_check_system_history</span> - Á≥ªÁµ±Ë≥áÊ?Ê≠∑Âè≤</li>
-                <li><span class="code-inline">health_check_dhcp_history</span> - DHCP Âª∂ÈÅ≤Ê≠∑Âè≤</li>
-            </ul>
-        </div>
-
-        <!-- Á∂≠Ë≠∑?áÊ??úÊ???-->
-        <div class="card" id="maintenance">
-            <h2>7. Á∂≠Ë≠∑?áÊ??úÊ???/h2>
-
-            <h3>7.1 Ê™¢Êü• Cron ?ØÂê¶Ê≠?∏∏?ã‰?</h3>
-            <pre><code># ?•Á? Cron ?•Ë?
-docker exec phpipam_phpipam-cron_1 tail -20 /var/log/health_check.log
-
-# ?ãÂ??∑Ë??∂È??≥Êú¨
-docker exec phpipam_phpipam-cron_1 php /health_check/scripts/collect_stats.php</code></pre>
-
-            <h3>7.2 Ê™¢Êü•Ë≥áÊ?Â∫´Ë???/h3>
-            <pre><code># ?•Á?Á≥ªÁµ±Ë≥áÊ?Ê≠∑Âè≤
-docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -p*** phpipam \
-  -e "SELECT * FROM health_check_system_history ORDER BY id DESC LIMIT 5"
-
-# ?•Á? DHCP Ê≠∑Âè≤
-docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -p*** phpipam \
-  -e "SELECT * FROM health_check_dhcp_history ORDER BY id DESC LIMIT 10"</code></pre>
-
-            <h3>7.3 Ê∏¨Ë©¶ API</h3>
-            <pre><code># ?®ÂÆπ?®ÂÖßÊ∏¨Ë©¶
-docker exec phpipam_phpipam-web_1 php /phpipam/health_dashboard/api/api_stats.php
-
-# ?èÈ? HTTPS Ê∏¨Ë©¶
-curl -sk "https://ipam-tw.pouchen.com/health_dashboard/api/api_stats.php?action=latest"</code></pre>
-
-            <h3>7.4 ?¥Êñ∞ Dashboard</h3>
-            <pre><code># Ë§áË£Ω?¨Âú∞Ê™îÊ??∞ÂÆπ??
-docker cp /path/to/index.html phpipam_phpipam-web_1:/phpipam/health_dashboard/</code></pre>
-
-            <h3>7.5 DHCP Management ??Monitor ?ÑÈ?‰ø?/h3>
-            <div class="note">
-                <strong>?í° ?çË?Ë™™Ê?</strong>
-                <p><strong>DHCP Management</strong> ÁÆ°Á??ÑÊòØ?åÈ?ÁΩÆ„ÄçÔ?Ê±∫Â? Cron Ë¶ÅÊî∂?ÜÂì™‰∫?DHCP ‰º∫Ê??®Á?Ë≥áÊ???/p>
-                <p><strong>Monitor</strong> È°ØÁ§∫?ÑÊòØ?åË??ôÂ∫´Ê≠∑Âè≤Ë≥áÊ??çÔ??ÖÂê´?Ä?âÊõæÁ∂ìÊî∂?ÜÈ??ÑË??Ñ„Ä?/p>
-                <p>?†Ê≠§Ôº?/p>
-                <ul>
-                    <li>??DHCP Management ?™Èô§ DHCP ‰º∫Ê??®Â?Ôº?strong>?äË??ô‰??É‰??ôÂú® Monitor ‰∏?/strong></li>
-                    <li>?∞Â? DHCP ‰º∫Ê??®Â?ÔºåÈ?Ë¶ÅÁ?ÂæÖ‰?Ê¨?Cron ?∑Ë?ÔºàÊ? 5 ?ÜÈ?ÔºâÊ??ÉÂá∫?æÂú® Monitor</li>
-                    <li>Ê≠∑Âè≤Ë≥áÊ??ÉÂú® 7 Â§©Â??™Â?Ê∏ÖÁ?</li>
-                </ul>
-            </div>
-
-            <h3>7.6 ?ãÂ??™Èô§ DHCP Ê≠∑Âè≤Ë≥áÊ?</h3>
-            <p>Â¶ÇÊ??ÄË¶ÅÁ??≥Â? Monitor ÁßªÈô§Â∑≤Âà™?§Á? DHCP ‰º∫Ê??®Ë??ôÔ?Ë´ãÂü∑Ë°å‰ª•‰∏ãÂëΩ‰ª§Ô?</p>
-            <pre><code># ?™Èô§?áÂ? IP ?ÑÊ??âÊ≠∑?≤Ë???
-docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -pmy_secret_phpipam_pass phpipam \
-  -e "DELETE FROM health_check_dhcp_history WHERE dhcp_ip = 'Ë¶ÅÂà™?§Á?IP'"
-
-# ÁØÑ‰?ÔºöÂà™??172.23.127.69 ?ÑÊ≠∑?≤Ë???
-docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -pmy_secret_phpipam_pass phpipam \
-  -e "DELETE FROM health_check_dhcp_history WHERE dhcp_ip = '172.23.127.69'"
-
-# Á¢∫Ë??™Èô§ÁµêÊ?
-docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -pmy_secret_phpipam_pass phpipam \
-  -e "SELECT DISTINCT dhcp_ip, dhcp_hostname FROM health_check_dhcp_history ORDER BY dhcp_ip"</code></pre>
-
-            <h3>7.7 ?åÊ≠• DHCP ?çÁΩÆ??Cron ÂÆπÂô®</h3>
-            <p>??DHCP Management ?∞Â??ñ‰øÆ??DHCP ‰º∫Ê??®Â?ÔºåÈ?Ë¶ÅÂ?Ê≠•È?ÁΩÆÂà∞ Cron ÂÆπÂô®Ôº?/p>
-            <pre><code># ?åÊ≠•?çÁΩÆ
-docker cp phpipam_phpipam-web_1:/phpipam/health_dashboard/config/dhcp_servers.json /tmp/
-docker cp /tmp/dhcp_servers.json phpipam_phpipam-cron_1:/health_check/config/
-
-# ?ãÂ??∑Ë??∂È?Ôºà‰??®Á? 5 ?ÜÈ?Ôº?
-docker exec phpipam_phpipam-cron_1 php /health_check/scripts/collect_stats.php</code></pre>
-
-            <div class="warning">
-                <strong>?†Ô? Ê≥®Ê?‰∫ãÈ?</strong>
-                <ul>
-                    <li>‰øÆÊîπ DHCP ‰º∫Ê??®È?ÁΩÆÂ?ÔºåÈ?Ë¶ÅÂ?Ê≠•Âà∞ Cron ÂÆπÂô®‰∏¶Á?ÂæÖÊî∂?ÜËÖ≥?¨Âü∑Ë°åÊ??ÉÁ???/li>
-                    <li>?™Èô§ DHCP ?çÁΩÆ‰∏çÊ??™Â??™Èô§Ê≠∑Âè≤Ë≥áÊ?ÔºåÂ??ÄÁ´ãÂç≥?üÊ?Ë´ãÊ??ïÂà™?§Ê≠∑?≤Ë???/li>
-                    <li>Ë≥áÊ?‰øùÁ? 7 Â§©Ô?Ë∂ÖÈ??ÉËá™?ïÊ???/li>
-                    <li>ÂÆπÂô®?çÂ?Âæ?Dashboard Ê™îÊ??É‰??ôÔ?‰ΩÜÈ?Á¢∫Ë? Volume Ë®≠Â?</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>?? phpIPAM ?•Â∫∑Ê™¢Êü•??éßÁ≥ªÁµ± v2.1</p>
-            <p>?±Â??¥Êñ∞?ÇÈ?Ôº?025-12-23 13:21</p>
-            <p>?∞Â?ÔºöphpIPAM Tools ?¥Â??ÅÂ??ßÊ?ÊÆµÊü•Ë©?/p>
-            <p>Jason Cheng | IT Infrastructure</p>
-        </div>
+            </tbody>
+        </table>
     </div>
+
+    <div class="card">
+        <h2>Version History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Version</th>
+                    <th>Changes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-12-24</td>
+                    <td><span class="badge badge-success">v2.2.1</span></td>
+                    <td>DHCP monitoring 5min to 5sec, latency parsing bug fixed</td>
+                </tr>
+                <tr>
+                    <td>2025-12-23</td>
+                    <td><span class="badge badge-info">v2.1</span></td>
+                    <td>Dashboard embedded into phpIPAM (Tools > Health Monitor)</td>
+                </tr>
+                <tr>
+                    <td>2025-12-19</td>
+                    <td><span class="badge badge-info">v2.0</span></td>
+                    <td>Initial deployment with 24h history, DHCP management UI</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>phpIPAM Health Check Manual | Last Updated: 2025-12-24</p>
+    </footer>
 </body>
 
 </html>

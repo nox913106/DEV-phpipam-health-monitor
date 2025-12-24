@@ -1,44 +1,35 @@
-# DHCP ä¼ºæ??¨è?è¨?
+# DHCP Server List
 
-?¬å?æ¡ˆç›£?§ç? DHCP ä¼ºæ??¨å?è¡?
+This document lists all DHCP servers monitored by the Health Dashboard.
 
-## ä¼ºæ??¨å?è¡?
+## Server List
 
-| IP ä½å? | ä¸»æ??ç¨± | ä½ç½® | ?€??|
-|---------|---------|------|------|
-| 172.16.5.196 | DHCP-CH-HQ2 | å½°å?ç¸½éƒ¨2 | ???‹ä?ä¸?|
-| 172.23.13.10 | DHCP-CH-PGT | å½°å??”é¹½ | ???‹ä?ä¸?|
-| 172.23.174.5 | DHCP-TC-HQ | ?°ä¸­ç¸½éƒ¨ | ???‹ä?ä¸?|
-| 172.23.199.150 | DHCP-TC-UAIC | ?°ä¸­ | ???‹ä?ä¸?|
-| 172.23.110.1 | DHCP-TP-XY | ?°å? | ???‹ä?ä¸?|
-| 172.23.94.254 | DHCP-TP-BaoYu-CoreSW | ?°å?å¯¶è? | ???‹ä?ä¸?|
+| IP | Hostname | Location | Status |
+|----------|----------|----------|--------|
+| 172.16.5.196 | DHCP-CH-HQ2 | Changhua HQ2 | Enabled |
+| 172.23.13.10 | DHCP-CH-PGT | Changhua Puyan | Enabled |
+| 172.23.174.5 | DHCP-TC-HQ | Taichung HQ | Enabled |
+| 172.23.199.150 | DHCP-TC-UAIC | Taichung | Enabled |
+| 172.23.110.1 | DHCP-TP-XY | Taipei | Enabled |
+| 172.23.94.254 | DHCP-TP-BaoYu | Taipei Baoyu | Enabled |
+| 172.23.127.169 | DHCP-TC-CBD | Taichung CBD | Enabled |
 
-## ?è¨­??§ç¯„å?
+## Configuration File
 
-?¥åº·æª¢æŸ¥ API ?è¨­?ƒæª¢?¥ä?è¿°æ???6 ??DHCP ä¼ºæ??¨ã€?
+The DHCP server configuration is stored in `config/dhcp_servers.json`.
 
-## ?ªè???§ç¯„å?
+## Monitoring Settings
 
-å¦‚é???§?¹å?ä¼ºæ??¨ï??¯åœ¨ API è«‹æ?ä¸­æ?å®šï?
+- **Interval**: Every 5 seconds
+- **Timeout**: 2 seconds
+- **Data Retention**: 7 days
+
+## API Endpoints
 
 ```bash
-# ??§?®ä?ä¼ºæ???
-curl -X GET "https://ipam-tw.pouchen.com/api/mcp/tools/daily_health_check/?dhcp_server_ip=172.16.5.196" \
-  -H "token: YOUR_TOKEN"
+# Get all DHCP servers
+curl "https://ipam-tw.pouchen.com/health_dashboard/api/api_dhcp_config.php?action=list"
 
-# ??§å¤šå€‹ä¼º?å™¨
-curl -X GET "https://ipam-tw.pouchen.com/api/mcp/tools/daily_health_check/?dhcp_server_ip=172.16.5.196,172.23.13.10" \
-  -H "token: YOUR_TOKEN"
+# Get DHCP history
+curl "https://ipam-tw.pouchen.com/api/mcp/tools/daily_health_check/?dhcp_server_ip=172.16.5.196"
 ```
-
-## è®Šæ›´æ­·å²
-
-- 2025-12-02: ?å??ˆæœ¬ï¼Œå???6 ??DHCP ä¼ºæ???
-
-## ç¶­è­·
-
-å¦‚é??°å??–ç§»??DHCP ä¼ºæ??¨ï?
-
-1. ç·¨è¼¯ `config/health_check_config.php`
-2. ?´æ–° `default_dhcp_servers` ???
-3. ?æ–°?¨ç½²??phpIPAM ä¼ºæ???
