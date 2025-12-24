@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>開發日誌 - phpIPAM Health Monitor</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --bg2: #1e293b;
+            --card: #334155;
+            --text: #f1f5f9;
+            --text2: #94a3b8;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --orange: #f97316;
+            --purple: #a855f7;
+        }
+
+        :root.light {
+            --bg: #f8fafc;
+            --bg2: #ffffff;
+            --card: #e2e8f0;
+            --text: #1e293b;
+            --text2: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg2);
+            border: 1px solid var(--card);
+            border-radius: 0.5rem;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: var(--card);
+        }
+
+        .control-btn.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        header p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            color: var(--blue);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--card);
+        }
+
+        .card h3 {
+            color: var(--green);
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card);
+        }
+
+        th {
+            background: var(--card);
+            color: var(--blue);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--blue);
+        }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: var(--card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Consolas', monospace;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text2);
+            border-top: 1px solid var(--card);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+        <button class="control-btn active" onclick="setLang('zh-TW')" data-lang="zh-TW">繁體中文</button>
+        <button class="control-btn" onclick="setLang('zh-CN')" data-lang="zh-CN">简体中文</button>
+        <button class="control-btn" onclick="setLang('en')" data-lang="en">English</button>
+    </div>
+
+    <header>
+        <h1 data-i18n="title">開發日誌</h1>
+        <p data-i18n="subtitle">phpIPAM Health Monitor - 規範套用記錄</p>
+    </header>
+
+    <div class="card">
+        <h2 data-i18n="summary">📋 開發摘要</h2>
+        <table>
+            <tr>
+                <td data-i18n="projectName">專案名稱</td>
+                <td>phpIPAM Health Monitor</td>
+            </tr>
+            <tr>
+                <td data-i18n="devDate">開發日期</td>
+                <td>2024-12-24</td>
+            </tr>
+            <tr>
+                <td data-i18n="objective">目標</td>
+                <td data-i18n="objectiveDesc">套用全域規範標準至所有 HTML 文件</td>
+            </tr>
+            <tr>
+                <td data-i18n="status">狀態</td>
+                <td><span class="badge badge-success" data-i18n="completed">已完成</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="changes">🔧 變更記錄</h2>
+
+        <h3>2024-12-24</h3>
+
+        <h4 data-i18n="phase1Title">Phase 1: 文件標準化修改</h4>
+        <ul>
+            <li data-i18n="change1">新增 Light/Dark Mode 切換功能至 3 個文件</li>
+            <li data-i18n="change2">新增英文/繁中/簡中語系切換功能至 3 個文件</li>
+            <li data-i18n="change3">新增標準頁末資訊（版權宣告、更新日期、文件主題、作者 MG Feng）至 5 個文件</li>
+        </ul>
+
+        <h4 data-i18n="phase2Title">Phase 2: 文件組織</h4>
+        <ul>
+            <li data-i18n="change4">建立 <code>/Docs</code> 資料夾</li>
+            <li data-i18n="change5">移動 <code>DEPLOYMENT_GUIDE.html</code> 到 <code>/Docs</code></li>
+            <li data-i18n="change6">移動 <code>DEPLOYMENT_REPORT.html</code> 到 <code>/Docs</code></li>
+            <li data-i18n="change7">移動 <code>HEALTH_CHECK_MANUAL.html</code> 到 <code>/Docs</code></li>
+            <li data-i18n="change8">新增 <code>DEVELOPMENT_PLAN.html</code> 開發計畫書</li>
+            <li data-i18n="change9">新增 <code>DEVELOPMENT_LOG.html</code> 開發日誌</li>
+        </ul>
+
+        <h4 data-i18n="phase3Title">Phase 3: README 更新</h4>
+        <ul>
+            <li data-i18n="change10">更新 <code>README.md</code> 中的文件路徑</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="filesModified">📁 修改的文件</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th data-i18n="file">文件</th>
+                    <th data-i18n="action">動作</th>
+                    <th data-i18n="changesCol">變更內容</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Docs/DEPLOYMENT_GUIDE.html</code></td>
+                    <td><span class="badge badge-info" data-i18n="modified">修改</span></td>
+                    <td>+Light/Dark +語系切換 +標準頁末</td>
+                </tr>
+                <tr>
+                    <td><code>Docs/DEPLOYMENT_REPORT.html</code></td>
+                    <td><span class="badge badge-info" data-i18n="modified">修改</span></td>
+                    <td>+Light/Dark +語系切換 +標準頁末</td>
+                </tr>
+                <tr>
+                    <td><code>Docs/HEALTH_CHECK_MANUAL.html</code></td>
+                    <td><span class="badge badge-info" data-i18n="modified">修改</span></td>
+                    <td>+Light/Dark +語系切換 +標準頁末</td>
+                </tr>
+                <tr>
+                    <td><code>dashboard/index.html</code></td>
+                    <td><span class="badge badge-info" data-i18n="modified">修改</span></td>
+                    <td>+標準頁末</td>
+                </tr>
+                <tr>
+                    <td><code>docker/health_dashboard/index.html</code></td>
+                    <td><span class="badge badge-info" data-i18n="modified">修改</span></td>
+                    <td>+標準頁末</td>
+                </tr>
+                <tr>
+                    <td><code>Docs/DEVELOPMENT_PLAN.html</code></td>
+                    <td><span class="badge badge-success" data-i18n="new">新增</span></td>
+                    <td data-i18n="planDoc">開發計畫書</td>
+                </tr>
+                <tr>
+                    <td><code>Docs/DEVELOPMENT_LOG.html</code></td>
+                    <td><span class="badge badge-success" data-i18n="new">新增</span></td>
+                    <td data-i18n="logDoc">開發日誌</td>
+                </tr>
+                <tr>
+                    <td><code>README.md</code></td>
+                    <td><span class="badge badge-info" data-i18n="modified">修改</span></td>
+                    <td data-i18n="pathUpdate">更新文件路徑</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="standardsApplied">✅ 套用的規範</h2>
+        <ul>
+            <li data-i18n="std1">✅ Light/Dark Mode 切換功能</li>
+            <li data-i18n="std2">✅ 英文/繁中/簡中 語系切換功能</li>
+            <li data-i18n="std3">✅ 標準頁末資訊（版權宣告、更新日期、文件主題、作者 MG Feng）</li>
+            <li data-i18n="std4">✅ 開發文件存放於 /Docs 資料夾</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>© 2024 MG Feng. All rights reserved.</p>
+        <p>Document: 開發日誌 - phpIPAM Health Monitor 規範套用 | Last Updated: 2024-12-24</p>
+    </footer>
+
+    <script>
+        const translations = {
+            'zh-TW': {
+                title: '開發日誌',
+                subtitle: 'phpIPAM Health Monitor - 規範套用記錄',
+                summary: '📋 開發摘要',
+                projectName: '專案名稱',
+                devDate: '開發日期',
+                objective: '目標',
+                objectiveDesc: '套用全域規範標準至所有 HTML 文件',
+                status: '狀態',
+                completed: '已完成',
+                changes: '🔧 變更記錄',
+                phase1Title: 'Phase 1: 文件標準化修改',
+                phase2Title: 'Phase 2: 文件組織',
+                phase3Title: 'Phase 3: README 更新',
+                change1: '新增 Light/Dark Mode 切換功能至 3 個文件',
+                change2: '新增英文/繁中/簡中語系切換功能至 3 個文件',
+                change3: '新增標準頁末資訊（版權宣告、更新日期、文件主題、作者 MG Feng）至 5 個文件',
+                change4: '建立 /Docs 資料夾',
+                change5: '移動 DEPLOYMENT_GUIDE.html 到 /Docs',
+                change6: '移動 DEPLOYMENT_REPORT.html 到 /Docs',
+                change7: '移動 HEALTH_CHECK_MANUAL.html 到 /Docs',
+                change8: '新增 DEVELOPMENT_PLAN.html 開發計畫書',
+                change9: '新增 DEVELOPMENT_LOG.html 開發日誌',
+                change10: '更新 README.md 中的文件路徑',
+                filesModified: '📁 修改的文件',
+                file: '文件',
+                action: '動作',
+                changesCol: '變更內容',
+                modified: '修改',
+                new: '新增',
+                planDoc: '開發計畫書',
+                logDoc: '開發日誌',
+                pathUpdate: '更新文件路徑',
+                standardsApplied: '✅ 套用的規範',
+                std1: '✅ Light/Dark Mode 切換功能',
+                std2: '✅ 英文/繁中/簡中 語系切換功能',
+                std3: '✅ 標準頁末資訊（版權宣告、更新日期、文件主題、作者 MG Feng）',
+                std4: '✅ 開發文件存放於 /Docs 資料夾'
+            },
+            'zh-CN': {
+                title: '开发日志',
+                subtitle: 'phpIPAM Health Monitor - 规范套用记录',
+                summary: '📋 开发摘要',
+                projectName: '项目名称',
+                devDate: '开发日期',
+                objective: '目标',
+                objectiveDesc: '套用全域规范标准至所有 HTML 文件',
+                status: '状态',
+                completed: '已完成',
+                changes: '🔧 变更记录',
+                phase1Title: 'Phase 1: 文件标准化修改',
+                phase2Title: 'Phase 2: 文件组织',
+                phase3Title: 'Phase 3: README 更新',
+                change1: '新增 Light/Dark Mode 切换功能至 3 个文件',
+                change2: '新增英文/繁中/简中语系切换功能至 3 个文件',
+                change3: '新增标准页末信息（版权声明、更新日期、文件主题、作者 MG Feng）至 5 个文件',
+                change4: '建立 /Docs 资料夹',
+                change5: '移动 DEPLOYMENT_GUIDE.html 到 /Docs',
+                change6: '移动 DEPLOYMENT_REPORT.html 到 /Docs',
+                change7: '移动 HEALTH_CHECK_MANUAL.html 到 /Docs',
+                change8: '新增 DEVELOPMENT_PLAN.html 开发计划书',
+                change9: '新增 DEVELOPMENT_LOG.html 开发日志',
+                change10: '更新 README.md 中的文件路径',
+                filesModified: '📁 修改的文件',
+                file: '文件',
+                action: '动作',
+                changesCol: '变更内容',
+                modified: '修改',
+                new: '新增',
+                planDoc: '开发计划书',
+                logDoc: '开发日志',
+                pathUpdate: '更新文件路径',
+                standardsApplied: '✅ 套用的规范',
+                std1: '✅ Light/Dark Mode 切换功能',
+                std2: '✅ 英文/繁中/简中 语系切换功能',
+                std3: '✅ 标准页末信息（版权声明、更新日期、文件主题、作者 MG Feng）',
+                std4: '✅ 开发文件存放于 /Docs 资料夹'
+            },
+            'en': {
+                title: 'Development Log',
+                subtitle: 'phpIPAM Health Monitor - Standards Application Record',
+                summary: '📋 Development Summary',
+                projectName: 'Project Name',
+                devDate: 'Development Date',
+                objective: 'Objective',
+                objectiveDesc: 'Apply global standards to all HTML files',
+                status: 'Status',
+                completed: 'Completed',
+                changes: '🔧 Change Log',
+                phase1Title: 'Phase 1: File Standardization',
+                phase2Title: 'Phase 2: File Organization',
+                phase3Title: 'Phase 3: README Update',
+                change1: 'Added Light/Dark Mode toggle to 3 files',
+                change2: 'Added EN/ZH-TW/ZH-CN language switch to 3 files',
+                change3: 'Added standard footer (copyright, date, title, author MG Feng) to 5 files',
+                change4: 'Created /Docs folder',
+                change5: 'Moved DEPLOYMENT_GUIDE.html to /Docs',
+                change6: 'Moved DEPLOYMENT_REPORT.html to /Docs',
+                change7: 'Moved HEALTH_CHECK_MANUAL.html to /Docs',
+                change8: 'Added DEVELOPMENT_PLAN.html',
+                change9: 'Added DEVELOPMENT_LOG.html',
+                change10: 'Updated file paths in README.md',
+                filesModified: '📁 Modified Files',
+                file: 'File',
+                action: 'Action',
+                changesCol: 'Changes',
+                modified: 'Modified',
+                new: 'New',
+                planDoc: 'Development Plan',
+                logDoc: 'Development Log',
+                pathUpdate: 'Updated file paths',
+                standardsApplied: '✅ Applied Standards',
+                std1: '✅ Light/Dark Mode toggle',
+                std2: '✅ EN/ZH-TW/ZH-CN language switch',
+                std3: '✅ Standard footer (copyright, date, title, author MG Feng)',
+                std4: '✅ Development files stored in /Docs folder'
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'zh-TW';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.querySelectorAll('[data-lang]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const isDark = root.classList.toggle('light');
+            const btn = document.getElementById('themeBtn');
+            btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'light') {
+                document.documentElement.classList.add('light');
+                document.getElementById('themeBtn').textContent = '☀️ Light';
+            }
+            setLang(currentLang);
+        });
+    </script>
+</body>
+
+</html>

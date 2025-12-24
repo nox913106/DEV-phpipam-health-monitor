@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -360,7 +360,7 @@
             <select id="langSelect" onchange="changeLang(this.value)">
                 <option value="en">English</option>
                 <option value="zh-CN">ÁÆÄ‰Ωì‰∏≠??/option>
-                <option value="zh-TW">ÁπÅÈ?‰∏≠Ê?</option>
+                <option value="zh-TW">ÁπÅÔøΩ?‰∏≠ÔøΩ?</option>
             </select>
             <select id="periodSelect" onchange="changePeriod(this.value)">
                 <option value="1" id="optPeriod1">1 Hour</option>
@@ -472,8 +472,8 @@
         const DHCP_API = "/health_dashboard/api/api_dhcp_config.php";
         const i18n = {
             en: { title: "phpIPAM Health Monitor", st: "Online", stOff: "Offline", stFail: "Connection Failed", refresh: "Refresh", sys: "System Resources", cpu: "CPU", mem: "Memory", disk: "Disk", dhcp: "DHCP Latency Trend", dhcpSt: "DHCP Server Status", host: "Hostname", ip: "IP", status: "Status", lat: "Latency", time: "Time", upd: "Updated at", tabMon: "Monitor", tabMng: "DHCP Management", manage: "DHCP Server Management", add: "+ Add Server", edit: "Edit", del: "Delete", save: "Save", cancel: "Cancel", addTitle: "Add Server", editTitle: "Edit Server", lblIP: "IP Address", lblHost: "Hostname", lblLoc: "Location", confirmDel: "Delete this server?", enabled: "Enabled", disabled: "Disabled", period1: "1 Hour", period3: "3 Hours", period6: "6 Hours", period8: "8 Hours", period12: "12 Hours", period24: "24 Hours", custom: "Custom Range", apply: "Apply" },
-            "zh-CN": { title: "phpIPAM ?•Â∫∑?ëÊéß", st: "?®Á∫ø", stOff: "Á¶ªÁ∫ø", stFail: "ËøûÁ∫øÂ§±Ë¥•", refresh: "?∑Êñ∞", sys: "Á≥ªÁ?ËµÑÊ?", cpu: "CPU", mem: "?ÖÂ?", disk: "Á£ÅÁ?", dhcp: "DHCP Âª∂Ë?Ë∂ãÂäø", dhcpSt: "DHCP ?çÂä°?®Áä∂??, host: "‰∏ªÊú∫??, ip: "IP", status: "?∂ÊÄ?, lat: "Âª∂Ë?", time: "?∂Èó¥", upd: "?¥Êñ∞‰∫?, tabMon: "?ëÊéß", tabMng: "DHCP ÁÆ°Á?", manage: "DHCP ?çÂä°?®ÁÆ°??, add: "+ ?∞Â??çÂä°??, edit: "ÁºñË?", del: "?†Èô§", save: "‰øùÂ?", cancel: "?ñÊ?", addTitle: "?∞Â??çÂä°??, editTitle: "ÁºñË??çÂä°??, lblIP: "IP ?∞Â?", lblHost: "‰∏ªÊú∫??, lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á°ÆÂ??†Èô§ËØ•Ê??°Âô®?", enabled: "?ØÁî®", disabled: "?úÁî®", period1: "1 Â∞èÊó∂", period3: "3 Â∞èÊó∂", period6: "6 Â∞èÊó∂", period8: "8 Â∞èÊó∂", period12: "12 Â∞èÊó∂", period24: "24 Â∞èÊó∂", custom: "?™Â?‰πâË???, apply: "Â∫îÁî®" },
-            "zh-TW": { title: "phpIPAM ?•Â∫∑??éß", st: "Á∑ö‰?", stOff: "?¢Á?", stFail: "???Â§±Ê?", refresh: "?çÊï¥", sys: "Á≥ªÁµ±Ë≥áÊ?", cpu: "CPU", mem: "Ë®òÊÜ∂È´?, disk: "Á£ÅÁ?", dhcp: "DHCP Âª∂ÈÅ≤Ë∂®Âã¢", dhcpSt: "DHCP ‰º∫Ê??®Á???, host: "‰∏ªÊ??çÁ®±", ip: "IP", status: "?Ä??, lat: "Âª∂ÈÅ≤", time: "?ÇÈ?", upd: "?¥Êñ∞??, tabMon: "??éß", tabMng: "DHCP ÁÆ°Á?", manage: "DHCP ‰º∫Ê??®ÁÆ°??, add: "+ ?∞Â?‰º∫Ê???, edit: "Á∑®ËºØ", del: "?™Èô§", save: "?≤Â?", cancel: "?ñÊ?", addTitle: "?∞Â?‰º∫Ê???, editTitle: "Á∑®ËºØ‰º∫Ê???, lblIP: "IP ‰ΩçÂ?", lblHost: "‰∏ªÊ??çÁ®±", lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á¢∫Â??™Èô§Ê≠§‰º∫?çÂô®?", enabled: "?üÁî®", disabled: "?úÁî®", period1: "1 Â∞èÊ?", period3: "3 Â∞èÊ?", period6: "6 Â∞èÊ?", period8: "8 Â∞èÊ?", period12: "12 Â∞èÊ?", period24: "24 Â∞èÊ?", custom: "?™Ë?ÁØÑÂ?", apply: "Â•óÁî®" }
+            "zh-CN": { title: "phpIPAM ?ÔøΩÂ∫∑?ÔøΩÊéß", st: "?ÔøΩÁ∫ø", stOff: "Á¶ªÁ∫ø", stFail: "ËøûÁ∫øÂ§±Ë¥•", refresh: "?ÔøΩÊñ∞", sys: "Á≥ªÔøΩ?ËµÑÔøΩ?", cpu: "CPU", mem: "?ÔøΩÔøΩ?", disk: "Á£ÅÔøΩ?", dhcp: "DHCP Âª∂ÔøΩ?Ë∂ãÂäø", dhcpSt: "DHCP ?ÔøΩÂä°?ÔøΩÁä∂??, host: "‰∏ªÊú∫??, ip: "IP", status: "?ÔøΩÔøΩ?, lat: "Âª∂ÔøΩ?", time: "?ÔøΩÈó¥", upd: "?ÔøΩÊñ∞ÔøΩ?, tabMon: "?ÔøΩÊéß", tabMng: "DHCP ÁÆ°ÔøΩ?", manage: "DHCP ?ÔøΩÂä°?ÔøΩÁÆ°??, add: "+ ?ÔøΩÔøΩ??ÔøΩÂä°??, edit: "ÁºñÔøΩ?", del: "?ÔøΩÈô§", save: "‰øùÔøΩ?", cancel: "?ÔøΩÔøΩ?", addTitle: "?ÔøΩÔøΩ??ÔøΩÂä°??, editTitle: "ÁºñÔøΩ??ÔøΩÂä°??, lblIP: "IP ?ÔøΩÔøΩ?", lblHost: "‰∏ªÊú∫??, lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á°ÆÔøΩ??ÔøΩÈô§ËØ•ÔøΩ??ÔøΩÂô®?", enabled: "?ÔøΩÁî®", disabled: "?ÔøΩÁî®", period1: "1 Â∞èÊó∂", period3: "3 Â∞èÊó∂", period6: "6 Â∞èÊó∂", period8: "8 Â∞èÊó∂", period12: "12 Â∞èÊó∂", period24: "24 Â∞èÊó∂", custom: "?ÔøΩÔøΩ?‰πâÔøΩ???, apply: "Â∫îÁî®" },
+            "zh-TW": { title: "phpIPAM ?ÔøΩÂ∫∑??ÔøΩÔøΩ", st: "Á∑öÔøΩ?", stOff: "?ÔøΩÔøΩ?", stFail: "???Â§±ÔøΩ?", refresh: "?ÔøΩÊï¥", sys: "Á≥ªÁµ±Ë≥áÔøΩ?", cpu: "CPU", mem: "Ë®òÊÜ∂ÔøΩ?, disk: "Á£ÅÔøΩ?", dhcp: "DHCP Âª∂ÈÅ≤Ë∂®Âã¢", dhcpSt: "DHCP ‰º∫ÔøΩ??ÔøΩÔøΩ???, host: "‰∏ªÔøΩ??ÔøΩÁ®±", ip: "IP", status: "?ÔøΩ??, lat: "Âª∂ÈÅ≤", time: "?ÔøΩÔøΩ?", upd: "?ÔøΩÊñ∞??, tabMon: "??ÔøΩÔøΩ", tabMng: "DHCP ÁÆ°ÔøΩ?", manage: "DHCP ‰º∫ÔøΩ??ÔøΩÁÆ°??, add: "+ ?ÔøΩÔøΩ?‰º∫ÔøΩ???, edit: "Á∑®ËºØ", del: "?ÔøΩÈô§", save: "?ÔøΩÔøΩ?", cancel: "?ÔøΩÔøΩ?", addTitle: "?ÔøΩÔøΩ?‰º∫ÔøΩ???, editTitle: "Á∑®ËºØ‰º∫ÔøΩ???, lblIP: "IP ‰ΩçÔøΩ?", lblHost: "‰∏ªÔøΩ??ÔøΩÁ®±", lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á¢∫ÔøΩ??ÔøΩÈô§Ê≠§‰º∫?ÔøΩÂô®?", enabled: "?ÔøΩÁî®", disabled: "?ÔøΩÁî®", period1: "1 Â∞èÔøΩ?", period3: "3 Â∞èÔøΩ?", period6: "6 Â∞èÔøΩ?", period8: "8 Â∞èÔøΩ?", period12: "12 Â∞èÔøΩ?", period24: "24 Â∞èÔøΩ?", custom: "?ÔøΩÔøΩ?ÁØÑÔøΩ?", apply: "Â•óÁî®" }
         };
         let lang = localStorage.getItem("lang") || "en";
         let theme = localStorage.getItem("theme") || "dark";
@@ -490,13 +490,13 @@
         }
         function applyTheme() {
             document.documentElement.setAttribute("data-theme", theme);
-            document.getElementById("themeBtn").textContent = theme === "dark" ? "??" : "?ÄÔ∏?;
+            document.getElementById("themeBtn").textContent = theme === "dark" ? "??" : "?ÔøΩÔøΩ?;
         }
         function changePeriod(val) {
             const customDiv = document.getElementById("customRange");
             if (val === "custom") {
                 customDiv.style.display = "flex";
-                // Ë®≠Â??êË®≠?ÇÈ??∫Ê?Ëø?3 Â∞èÊ?
+                // Ë®≠ÔøΩ??ÔøΩË®≠?ÔøΩÔøΩ??ÔøΩÔøΩ?ÔøΩ?3 Â∞èÔøΩ?
                 const now = new Date();
                 const start = new Date(now.getTime() - 3 * 60 * 60 * 1000);
                 document.getElementById("endTime").value = now.toISOString().slice(0, 16);
@@ -513,8 +513,8 @@
         function applyCustomRange() {
             const start = document.getElementById("startTime").value;
             const end = document.getElementById("endTime").value;
-            if (!start || !end) { alert("Ë´ãÈÅ∏?áÊ??ìÁ???/ Please select time range"); return; }
-            if (new Date(start) >= new Date(end)) { alert("ÁµêÊ??ÇÈ?ÂøÖÈ?Â§ßÊñº?ãÂ??ÇÈ? / End time must be after start time"); return; }
+            if (!start || !end) { alert("Ë´ãÈÅ∏?ÔøΩÔøΩ??ÔøΩÔøΩ???/ Please select time range"); return; }
+            if (new Date(start) >= new Date(end)) { alert("ÁµêÔøΩ??ÔøΩÔøΩ?ÂøÖÔøΩ?Â§ßÊñº?ÔøΩÔøΩ??ÔøΩÔøΩ? / End time must be after start time"); return; }
             customStart = start.replace("T", " ");
             customEnd = end.replace("T", " ");
             loadSys();
@@ -544,7 +544,7 @@
             document.getElementById("lblHost").textContent = t("lblHost");
             document.getElementById("lblLoc").textContent = t("lblLoc");
             document.getElementById("langSelect").value = lang;
-            // ?ÇÊÆµ?∏Ê??®ÁøªË≠?
+            // ?ÔøΩÊÆµ?ÔøΩÔøΩ??ÔøΩÁøªÔøΩ?
             document.getElementById("optPeriod1").textContent = t("period1");
             document.getElementById("optPeriod3").textContent = t("period3");
             document.getElementById("optPeriod6").textContent = t("period6");
@@ -675,6 +675,12 @@
         function refresh() { loadLatest(); loadSys(); loadDhcp(); document.getElementById("upd").textContent = t("upd") + " " + new Date().toLocaleTimeString(); }
         document.addEventListener("DOMContentLoaded", () => { applyTheme(); applyLang(); init(); refresh(); setInterval(refresh, 60000); });
     </script>
+
+    <!-- Standard Footer -->
+    <footer style="text-align: center; padding: 2rem; color: var(--text2); border-top: 1px solid var(--border); margin-top: 2rem;">
+        <p> 2024 MG Feng. All rights reserved.</p>
+        <p>Document: phpIPAM Health Dashboard | Last Updated: 2024-12-24</p>
+    </footer>
 </body>
 
 </html>

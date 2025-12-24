@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -360,7 +360,7 @@
             <select id="langSelect" onchange="changeLang(this.value)">
                 <option value="en">English</option>
                 <option value="zh-CN">ÁÆÄ‰Ωì‰∏≠??/option>
-                <option value="zh-TW">ÁπÅÈ?‰∏≠Ê?</option>
+                <option value="zh-TW">ÁπÅÔøΩ?‰∏≠ÔøΩ?</option>
             </select>
             <div class="status"><span class="dot" id="dot"></span><span id="st">Connecting...</span></div>
             <button class="btn" onclick="refresh()" id="refreshBtn">Refresh</button>
@@ -457,8 +457,8 @@
         const DHCP_API = "/health_dashboard/api/api_dhcp_config.php";
         const i18n = {
             en: { title: "phpIPAM Health Monitor", st: "Online", stOff: "Offline", stFail: "Connection Failed", refresh: "Refresh", sys: "System Resources", cpu: "CPU", mem: "Memory", disk: "Disk", dhcp: "DHCP Latency Trend", dhcpSt: "DHCP Server Status", host: "Hostname", ip: "IP", status: "Status", lat: "Latency", time: "Time", upd: "Updated at", tabMon: "Monitor", tabMng: "DHCP Management", manage: "DHCP Server Management", add: "+ Add Server", edit: "Edit", del: "Delete", save: "Save", cancel: "Cancel", addTitle: "Add Server", editTitle: "Edit Server", lblIP: "IP Address", lblHost: "Hostname", lblLoc: "Location", confirmDel: "Delete this server?", enabled: "Enabled", disabled: "Disabled" },
-            "zh-CN": { title: "phpIPAM ?•Â∫∑?ëÊéß", st: "?®Á∫ø", stOff: "Á¶ªÁ∫ø", stFail: "ËøûÁ∫øÂ§±Ë¥•", refresh: "?∑Êñ∞", sys: "Á≥ªÁ?ËµÑÊ?", cpu: "CPU", mem: "?ÖÂ?", disk: "Á£ÅÁ?", dhcp: "DHCP Âª∂Ë?Ë∂ãÂäø", dhcpSt: "DHCP ?çÂä°?®Áä∂??, host: "‰∏ªÊú∫??, ip: "IP", status: "?∂ÊÄ?, lat: "Âª∂Ë?", time: "?∂Èó¥", upd: "?¥Êñ∞‰∫?, tabMon: "?ëÊéß", tabMng: "DHCP ÁÆ°Á?", manage: "DHCP ?çÂä°?®ÁÆ°??, add: "+ ?∞Â??çÂä°??, edit: "ÁºñË?", del: "?†Èô§", save: "‰øùÂ?", cancel: "?ñÊ?", addTitle: "?∞Â??çÂä°??, editTitle: "ÁºñË??çÂä°??, lblIP: "IP ?∞Â?", lblHost: "‰∏ªÊú∫??, lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á°ÆÂ??†Èô§ËØ•Ê??°Âô®?", enabled: "?ØÁî®", disabled: "?úÁî®" },
-            "zh-TW": { title: "phpIPAM ?•Â∫∑??éß", st: "Á∑ö‰?", stOff: "?¢Á?", stFail: "???Â§±Ê?", refresh: "?çÊï¥", sys: "Á≥ªÁµ±Ë≥áÊ?", cpu: "CPU", mem: "Ë®òÊÜ∂È´?, disk: "Á£ÅÁ?", dhcp: "DHCP Âª∂ÈÅ≤Ë∂®Âã¢", dhcpSt: "DHCP ‰º∫Ê??®Á???, host: "‰∏ªÊ??çÁ®±", ip: "IP", status: "?Ä??, lat: "Âª∂ÈÅ≤", time: "?ÇÈ?", upd: "?¥Êñ∞??, tabMon: "??éß", tabMng: "DHCP ÁÆ°Á?", manage: "DHCP ‰º∫Ê??®ÁÆ°??, add: "+ ?∞Â?‰º∫Ê???, edit: "Á∑®ËºØ", del: "?™Èô§", save: "?≤Â?", cancel: "?ñÊ?", addTitle: "?∞Â?‰º∫Ê???, editTitle: "Á∑®ËºØ‰º∫Ê???, lblIP: "IP ‰ΩçÂ?", lblHost: "‰∏ªÊ??çÁ®±", lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á¢∫Â??™Èô§Ê≠§‰º∫?çÂô®?", enabled: "?üÁî®", disabled: "?úÁî®" }
+            "zh-CN": { title: "phpIPAM ?ÔøΩÂ∫∑?ÔøΩÊéß", st: "?ÔøΩÁ∫ø", stOff: "Á¶ªÁ∫ø", stFail: "ËøûÁ∫øÂ§±Ë¥•", refresh: "?ÔøΩÊñ∞", sys: "Á≥ªÔøΩ?ËµÑÔøΩ?", cpu: "CPU", mem: "?ÔøΩÔøΩ?", disk: "Á£ÅÔøΩ?", dhcp: "DHCP Âª∂ÔøΩ?Ë∂ãÂäø", dhcpSt: "DHCP ?ÔøΩÂä°?ÔøΩÁä∂??, host: "‰∏ªÊú∫??, ip: "IP", status: "?ÔøΩÔøΩ?, lat: "Âª∂ÔøΩ?", time: "?ÔøΩÈó¥", upd: "?ÔøΩÊñ∞ÔøΩ?, tabMon: "?ÔøΩÊéß", tabMng: "DHCP ÁÆ°ÔøΩ?", manage: "DHCP ?ÔøΩÂä°?ÔøΩÁÆ°??, add: "+ ?ÔøΩÔøΩ??ÔøΩÂä°??, edit: "ÁºñÔøΩ?", del: "?ÔøΩÈô§", save: "‰øùÔøΩ?", cancel: "?ÔøΩÔøΩ?", addTitle: "?ÔøΩÔøΩ??ÔøΩÂä°??, editTitle: "ÁºñÔøΩ??ÔøΩÂä°??, lblIP: "IP ?ÔøΩÔøΩ?", lblHost: "‰∏ªÊú∫??, lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á°ÆÔøΩ??ÔøΩÈô§ËØ•ÔøΩ??ÔøΩÂô®?", enabled: "?ÔøΩÁî®", disabled: "?ÔøΩÁî®" },
+            "zh-TW": { title: "phpIPAM ?ÔøΩÂ∫∑??ÔøΩÔøΩ", st: "Á∑öÔøΩ?", stOff: "?ÔøΩÔøΩ?", stFail: "???Â§±ÔøΩ?", refresh: "?ÔøΩÊï¥", sys: "Á≥ªÁµ±Ë≥áÔøΩ?", cpu: "CPU", mem: "Ë®òÊÜ∂ÔøΩ?, disk: "Á£ÅÔøΩ?", dhcp: "DHCP Âª∂ÈÅ≤Ë∂®Âã¢", dhcpSt: "DHCP ‰º∫ÔøΩ??ÔøΩÔøΩ???, host: "‰∏ªÔøΩ??ÔøΩÁ®±", ip: "IP", status: "?ÔøΩ??, lat: "Âª∂ÈÅ≤", time: "?ÔøΩÔøΩ?", upd: "?ÔøΩÊñ∞??, tabMon: "??ÔøΩÔøΩ", tabMng: "DHCP ÁÆ°ÔøΩ?", manage: "DHCP ‰º∫ÔøΩ??ÔøΩÁÆ°??, add: "+ ?ÔøΩÔøΩ?‰º∫ÔøΩ???, edit: "Á∑®ËºØ", del: "?ÔøΩÈô§", save: "?ÔøΩÔøΩ?", cancel: "?ÔøΩÔøΩ?", addTitle: "?ÔøΩÔøΩ?‰º∫ÔøΩ???, editTitle: "Á∑®ËºØ‰º∫ÔøΩ???, lblIP: "IP ‰ΩçÔøΩ?", lblHost: "‰∏ªÔøΩ??ÔøΩÁ®±", lblLoc: "‰ΩçÁΩÆ", confirmDel: "Á¢∫ÔøΩ??ÔøΩÈô§Ê≠§‰º∫?ÔøΩÂô®?", enabled: "?ÔøΩÁî®", disabled: "?ÔøΩÁî®" }
         };
         let lang = localStorage.getItem("lang") || "en";
         let theme = localStorage.getItem("theme") || "dark";
@@ -473,7 +473,7 @@
         }
         function applyTheme() {
             document.documentElement.setAttribute("data-theme", theme);
-            document.getElementById("themeBtn").textContent = theme === "dark" ? "??" : "?ÄÔ∏?;
+            document.getElementById("themeBtn").textContent = theme === "dark" ? "??" : "?ÔøΩÔøΩ?;
         }
         function applyLang() {
             document.getElementById("title").textContent = t("title");
@@ -567,6 +567,12 @@
         function refresh() { loadLatest(); loadSys(); loadDhcp(); document.getElementById("upd").textContent = t("upd") + " " + new Date().toLocaleTimeString(); }
         document.addEventListener("DOMContentLoaded", () => { applyTheme(); applyLang(); init(); refresh(); setInterval(refresh, 60000); });
     </script>
+
+    <!-- Standard Footer -->
+    <footer style="text-align: center; padding: 2rem; color: var(--text2); border-top: 1px solid var(--border); margin-top: 2rem;">
+        <p> 2024 MG Feng. All rights reserved.</p>
+        <p>Document: phpIPAM Health Dashboard | Last Updated: 2024-12-24</p>
+    </footer>
 </body>
 
 </html>

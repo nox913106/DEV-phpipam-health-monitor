@@ -1,0 +1,598 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>phpIPAM Health Check Deployment Report</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --bg2: #1e293b;
+            --card: #334155;
+            --text: #f1f5f9;
+            --text2: #94a3b8;
+            --green: #10b981;
+            --blue: #3b82f6;
+            --orange: #f59e0b;
+            --purple: #7c3aed;
+        }
+
+        :root.light {
+            --bg: #f8fafc;
+            --bg2: #ffffff;
+            --card: #e2e8f0;
+            --text: #1e293b;
+            --text2: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg2);
+            border: 1px solid var(--card);
+            border-radius: 0.5rem;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: var(--card);
+        }
+
+        .control-btn.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1e40af, var(--purple));
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        header p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            color: var(--blue);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card);
+        }
+
+        th {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--blue);
+        }
+
+        pre {
+            background: #0d1117;
+            border: 1px solid var(--card);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            color: #e6edf3;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+
+        
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--card);
+            border: none;
+            border-radius: 0.25rem;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .copy-btn:hover { background: var(--blue); }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text2);
+            border-top: 1px solid var(--card);
+            margin-top: 2rem;
+        }
+
+        a {
+            color: var(--blue);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+        <button class="control-btn active" onclick="setLang('zh-TW')" data-lang="zh-TW">繁體中文</button>
+        <button class="control-btn" onclick="setLang('zh-CN')" data-lang="zh-CN">简体中文</button>
+        <button class="control-btn" onclick="setLang('en')" data-lang="en">English</button>
+    </div>
+
+    <header>
+        <h1 data-i18n="title">phpIPAM Health Check Deployment Report</h1>
+        <p data-i18n="subtitle">24h Historical Statistics + Real-time Dashboard</p>
+    </header>
+
+    <div class="card">
+        <h2 data-i18n="deployInfo">Deployment Info</h2>
+        <table>
+            <tr>
+                <td data-i18n="deployDate">Deploy Date</td>
+                <td>2025-12-19</td>
+            </tr>
+            <tr>
+                <td data-i18n="cronSchedule">Cron Schedule</td>
+                <td data-i18n="cronDesc">Every 5 minutes (system resources)</td>
+            </tr>
+            <tr>
+                <td data-i18n="dhcpMonitor">DHCP Monitor</td>
+                <td><span class="badge badge-success" data-i18n="every5sec">Every 5 seconds</span></td>
+            </tr>
+            <tr>
+                <td data-i18n="apiVersion">API Version</td>
+                <td><span class="badge badge-success">v2.2.1</span></td>
+            </tr>
+            <tr>
+                <td>Dashboard</td>
+                <td><span class="badge badge-info" data-i18n="deployed">Deployed</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="serverInfo">Server Info</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th data-i18n="item">Item</th>
+                    <th data-i18n="details">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-i18n="systemVersion">System Version</td>
+                    <td>Docker phpIPAM v1.7.4</td>
+                </tr>
+                <tr>
+                    <td data-i18n="server">Server</td>
+                    <td>stwphpipam-p (ipam-tw.pouchen.com)</td>
+                </tr>
+                <tr>
+                    <td data-i18n="dashboardStandalone">Dashboard URL (Standalone)</td>
+                    <td><a
+                            href="https://ipam-tw.pouchen.com/health_dashboard/">https://ipam-tw.pouchen.com/health_dashboard/</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-i18n="dashboardEmbedded">Dashboard URL (Embedded)</td>
+                    <td><a
+                            href="https://ipam-tw.pouchen.com/index.php?page=tools&section=health-monitor">https://ipam-tw.pouchen.com/index.php?page=tools&amp;section=health-monitor</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="containerInfo">Container Info</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Container</th>
+                    <th>Image</th>
+                    <th data-i18n="description">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>phpipam_phpipam-web_1</td>
+                    <td>phpipam/phpipam-www:v1.7.4</td>
+                    <td>Web App + Dashboard</td>
+                </tr>
+                <tr>
+                    <td>phpipam_phpipam-cron_1</td>
+                    <td>phpipam/phpipam-cron:v1.7.4</td>
+                    <td>Cron + DHCP Monitor Daemon</td>
+                </tr>
+                <tr>
+                    <td>phpipam_phpipam-mariadb_1</td>
+                    <td>mariadb:latest</td>
+                    <td>Database</td>
+                </tr>
+                <tr>
+                    <td>nginx_nginx_1</td>
+                    <td>nginx:latest</td>
+                    <td>Reverse Proxy + SSL</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="dhcpMonitorSection">DHCP Monitor (v2.2.1)</h2>
+        <table>
+            <tr>
+                <td data-i18n="interval">Interval</td>
+                <td><span class="badge badge-success" data-i18n="every5sec">Every 5 seconds</span></td>
+            </tr>
+            <tr>
+                <td data-i18n="timeAlignment">Time Alignment</td>
+                <td>:00 / :05 / :10 / :15... pattern</td>
+            </tr>
+            <tr>
+                <td data-i18n="dhcpServers">DHCP Servers</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td data-i18n="dataRetention">Data Retention</td>
+                <td data-i18n="retention7days">7 days (auto cleanup)</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="dhcpServerList">DHCP Server List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>IP</th>
+                    <th>Hostname</th>
+                    <th data-i18n="location">Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>172.16.5.196</td>
+                    <td>DHCP-CH-HQ2</td>
+                    <td>Changhua HQ2</td>
+                </tr>
+                <tr>
+                    <td>172.23.13.10</td>
+                    <td>DHCP-CH-PGT</td>
+                    <td>Changhua Puyan</td>
+                </tr>
+                <tr>
+                    <td>172.23.174.5</td>
+                    <td>DHCP-TC-HQ</td>
+                    <td>Taichung HQ</td>
+                </tr>
+                <tr>
+                    <td>172.23.199.150</td>
+                    <td>DHCP-TC-UAIC</td>
+                    <td>Taichung</td>
+                </tr>
+                <tr>
+                    <td>172.23.110.1</td>
+                    <td>DHCP-TP-XY</td>
+                    <td>Taipei</td>
+                </tr>
+                <tr>
+                    <td>172.23.94.254</td>
+                    <td>DHCP-TP-BaoYu</td>
+                    <td>Taipei Baoyu</td>
+                </tr>
+                <tr>
+                    <td>172.23.127.169</td>
+                    <td>DHCP-TC-CBD</td>
+                    <td>Taichung CBD</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="apiEndpoints">API Endpoints</h2>
+        <pre>
+# Get latest status
+GET /health_dashboard/api/api_stats.php?action=latest
+
+# Get system history (fixed period)
+GET /health_dashboard/api/api_stats.php?action=system_history&amp;hours=6
+
+# Get DHCP history
+GET /health_dashboard/api/api_stats.php?action=dhcp_history&amp;hours=3
+
+# Get DHCP config
+GET /health_dashboard/api/api_dhcp_config.php?action=list
+        </pre>
+    </div>
+
+    <div class="card">
+        <h2 data-i18n="changelog">Change Log</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th data-i18n="date">Date</th>
+                    <th data-i18n="version">Version</th>
+                    <th data-i18n="changes">Changes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-12-24</td>
+                    <td><span class="badge badge-success">v2.2.1</span></td>
+                    <td>DHCP monitoring interval optimized from 5 min to 5 sec, latency parsing bug fixed</td>
+                </tr>
+                <tr>
+                    <td>2025-12-23</td>
+                    <td><span class="badge badge-info">v2.1</span></td>
+                    <td>Dashboard embedded into phpIPAM (Tools > Health Monitor)</td>
+                </tr>
+                <tr>
+                    <td>2025-12-19</td>
+                    <td><span class="badge badge-info">v2.0</span></td>
+                    <td>Initial deployment with 24h history, DHCP management UI, multi-language support</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>© 2024 MG Feng. All rights reserved.</p>
+        <p>Document: phpIPAM Health Check Deployment Report | Last Updated: 2024-12-24</p>
+    </footer>
+
+    <script>
+        const translations = {
+            'zh-TW': {
+                title: 'phpIPAM 健康檢查部署報告',
+                subtitle: '24 小時歷史統計 + 即時 Dashboard',
+                deployInfo: '部署資訊',
+                deployDate: '部署日期',
+                cronSchedule: 'Cron 排程',
+                cronDesc: '每 5 分鐘（系統資源）',
+                dhcpMonitor: 'DHCP 監控',
+                every5sec: '每 5 秒',
+                apiVersion: 'API 版本',
+                deployed: '已部署',
+                serverInfo: '伺服器資訊',
+                item: '項目',
+                details: '詳細資訊',
+                systemVersion: '系統版本',
+                server: '伺服器',
+                dashboardStandalone: 'Dashboard URL (獨立)',
+                dashboardEmbedded: 'Dashboard URL (嵌入式)',
+                containerInfo: '容器資訊',
+                description: '說明',
+                dhcpMonitorSection: 'DHCP 監控 (v2.2.1)',
+                interval: '間隔',
+                timeAlignment: '時間對齊',
+                dhcpServers: 'DHCP 伺服器',
+                dataRetention: '資料保留',
+                retention7days: '7 天（自動清理）',
+                dhcpServerList: 'DHCP 伺服器清單',
+                location: '位置',
+                apiEndpoints: 'API 端點',
+                changelog: '變更日誌',
+                date: '日期',
+                version: '版本',
+                changes: '變更內容'
+            },
+            'zh-CN': {
+                title: 'phpIPAM 健康检查部署报告',
+                subtitle: '24 小时历史统计 + 实时 Dashboard',
+                deployInfo: '部署信息',
+                deployDate: '部署日期',
+                cronSchedule: 'Cron 计划',
+                cronDesc: '每 5 分钟（系统资源）',
+                dhcpMonitor: 'DHCP 监控',
+                every5sec: '每 5 秒',
+                apiVersion: 'API 版本',
+                deployed: '已部署',
+                serverInfo: '服务器信息',
+                item: '项目',
+                details: '详细信息',
+                systemVersion: '系统版本',
+                server: '服务器',
+                dashboardStandalone: 'Dashboard URL (独立)',
+                dashboardEmbedded: 'Dashboard URL (嵌入式)',
+                containerInfo: '容器信息',
+                description: '说明',
+                dhcpMonitorSection: 'DHCP 监控 (v2.2.1)',
+                interval: '间隔',
+                timeAlignment: '时间对齐',
+                dhcpServers: 'DHCP 服务器',
+                dataRetention: '数据保留',
+                retention7days: '7 天（自动清理）',
+                dhcpServerList: 'DHCP 服务器列表',
+                location: '位置',
+                apiEndpoints: 'API 端点',
+                changelog: '变更日志',
+                date: '日期',
+                version: '版本',
+                changes: '变更内容'
+            },
+            'en': {
+                title: 'phpIPAM Health Check Deployment Report',
+                subtitle: '24h Historical Statistics + Real-time Dashboard',
+                deployInfo: 'Deployment Info',
+                deployDate: 'Deploy Date',
+                cronSchedule: 'Cron Schedule',
+                cronDesc: 'Every 5 minutes (system resources)',
+                dhcpMonitor: 'DHCP Monitor',
+                every5sec: 'Every 5 seconds',
+                apiVersion: 'API Version',
+                deployed: 'Deployed',
+                serverInfo: 'Server Info',
+                item: 'Item',
+                details: 'Details',
+                systemVersion: 'System Version',
+                server: 'Server',
+                dashboardStandalone: 'Dashboard URL (Standalone)',
+                dashboardEmbedded: 'Dashboard URL (Embedded)',
+                containerInfo: 'Container Info',
+                description: 'Description',
+                dhcpMonitorSection: 'DHCP Monitor (v2.2.1)',
+                interval: 'Interval',
+                timeAlignment: 'Time Alignment',
+                dhcpServers: 'DHCP Servers',
+                dataRetention: 'Data Retention',
+                retention7days: '7 days (auto cleanup)',
+                dhcpServerList: 'DHCP Server List',
+                location: 'Location',
+                apiEndpoints: 'API Endpoints',
+                changelog: 'Change Log',
+                date: 'Date',
+                version: 'Version',
+                changes: 'Changes'
+            }
+        };
+
+        
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const original = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = original, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('pre').forEach(pre => {
+                if (!pre.querySelector('.copy-btn')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'copy-btn';
+                    btn.textContent = ' Copy';
+                    btn.onclick = function() { copyCode(this); };
+                    pre.style.position = 'relative';
+                    pre.insertBefore(btn, pre.firstChild);
+                }
+            });
+        });
+        let currentLang = localStorage.getItem('lang') || 'zh-TW';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.querySelectorAll('[data-lang]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const isDark = root.classList.toggle('light');
+            const btn = document.getElementById('themeBtn');
+            btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'light') {
+                document.documentElement.classList.add('light');
+                document.getElementById('themeBtn').textContent = '☀️ Light';
+            }
+            setLang(currentLang);
+        });
+    </script>
+</body>
+
+</html>

@@ -158,7 +158,9 @@ docker exec phpipam-mariadb mysql -u phpipam -p phpipam \
 ## 📖 文件
 
 - [DEPLOYMENT.md](DEPLOYMENT.md) - 詳細部署步驟
-- [HEALTH_CHECK_MANUAL.html](HEALTH_CHECK_MANUAL.html) - 完整說明書
+- [Docs/HEALTH_CHECK_MANUAL.html](Docs/HEALTH_CHECK_MANUAL.html) - 完整說明書
+- [Docs/DEPLOYMENT_GUIDE.html](Docs/DEPLOYMENT_GUIDE.html) - 部署指南
+- [Docs/DEPLOYMENT_REPORT.html](Docs/DEPLOYMENT_REPORT.html) - 部署報告
 - [docker/README.md](docker/README.md) - Docker 部署說明
 
 ## 🛡️ 安全性

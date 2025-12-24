@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
 
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,15 @@
             --blue: #3b82f6;
             --orange: #f97316;
             --red: #ef4444;
+            --purple: #7c3aed;
+        }
+
+        :root.light {
+            --bg: #f8fafc;
+            --bg2: #ffffff;
+            --card: #e2e8f0;
+            --text: #1e293b;
+            --text2: #64748b;
         }
 
         * {
@@ -32,12 +41,43 @@
             padding: 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg2);
+            border: 1px solid var(--card);
+            border-radius: 0.5rem;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: var(--card);
+        }
+
+        .control-btn.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
         }
 
         header {
             text-align: center;
             padding: 2rem;
-            background: linear-gradient(135deg, var(--blue), #7c3aed);
+            background: linear-gradient(135deg, var(--blue), var(--purple));
             border-radius: 1rem;
             margin-bottom: 2rem;
         }
@@ -45,30 +85,44 @@
         header h1 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        header p {
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .tabs {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .tab {
             padding: 0.75rem 1.5rem;
             background: var(--bg2);
-            border: none;
+            border: 1px solid var(--card);
             border-radius: 0.5rem;
             color: var(--text);
             cursor: pointer;
             font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: var(--card);
         }
 
         .tab.active {
             background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
         }
 
         .card {
             background: var(--bg2);
+            border: 1px solid var(--card);
             border-radius: 0.75rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
@@ -99,6 +153,7 @@
 
         code {
             font-family: 'Consolas', monospace;
+            color: #e6edf3;
         }
 
         .copy-btn {
@@ -112,6 +167,10 @@
             color: var(--text);
             cursor: pointer;
             font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--blue);
         }
 
         table {
@@ -130,6 +189,16 @@
         th {
             background: var(--card);
             color: var(--blue);
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.25rem;
         }
 
         .badge {
@@ -175,50 +244,70 @@
             text-align: center;
             padding: 2rem;
             color: var(--text2);
+            border-top: 1px solid var(--card);
+            margin-top: 2rem;
         }
 
         a {
             color: var(--blue);
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .controls {
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+        <button class="control-btn active" onclick="setLang('zh-TW')" data-lang="zh-TW">繁體中文</button>
+        <button class="control-btn" onclick="setLang('zh-CN')" data-lang="zh-CN">简体中文</button>
+        <button class="control-btn" onclick="setLang('en')" data-lang="en">English</button>
+    </div>
+
     <header>
-        <h1>phpIPAM Health Dashboard</h1>
-        <p>Deployment Guide v2.2.1</p>
+        <h1 data-i18n="title">phpIPAM Health Dashboard</h1>
+        <p data-i18n="subtitle">Deployment Guide v2.2.1</p>
     </header>
 
     <div class="tabs">
-        <button class="tab active" onclick="showTab('new')">New Installation</button>
-        <button class="tab" onclick="showTab('upgrade')">Version Upgrade</button>
-        <button class="tab" onclick="showTab('api')">API Documentation</button>
+        <button class="tab active" onclick="showTab('new')" data-i18n="tabNew">New Installation</button>
+        <button class="tab" onclick="showTab('upgrade')" data-i18n="tabUpgrade">Version Upgrade</button>
+        <button class="tab" onclick="showTab('api')" data-i18n="tabApi">API Documentation</button>
     </div>
 
     <div id="new" class="tab-content">
         <div class="card">
-            <h2>New Installation</h2>
+            <h2 data-i18n="newInstall">New Installation</h2>
 
-            <h3>Step 1: Prerequisites</h3>
+            <h3 data-i18n="step1">Step 1: Prerequisites</h3>
             <ul>
                 <li>Docker phpIPAM v1.7.4 running</li>
                 <li>MariaDB container accessible</li>
                 <li>Git installed on host</li>
             </ul>
 
-            <h3>Step 2: Clone Repository</h3>
+            <h3 data-i18n="step2">Step 2: Clone Repository</h3>
             <pre><code>cd /tmp
 git clone https://github.com/nox913106/DEV-phpipam-health-monitor.git
 cd DEV-phpipam-health-monitor</code></pre>
 
-            <h3>Step 3: Database Setup</h3>
+            <h3 data-i18n="step3">Step 3: Database Setup</h3>
             <pre><code># Copy SQL file to container
 docker cp database/health_check_tables.sql phpipam_phpipam-mariadb_1:/tmp/
 
 # Execute SQL
 docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -p phpipam < /tmp/health_check_tables.sql</code></pre>
 
-            <h3>Step 4: File Deployment</h3>
+            <h3 data-i18n="step4">Step 4: File Deployment</h3>
             <pre><code># Copy health dashboard files
 docker cp dashboard/. phpipam_phpipam-web_1:/phpipam/health_dashboard/
 docker cp api/. phpipam_phpipam-web_1:/phpipam/health_dashboard/api/
@@ -227,7 +316,7 @@ docker cp includes/. phpipam_phpipam-web_1:/phpipam/health_dashboard/includes/
 # Set permissions
 docker exec phpipam_phpipam-web_1 chown -R www-data:www-data /phpipam/health_dashboard/</code></pre>
 
-            <h3>Step 5: Setup DHCP Monitor (v2.2.1)</h3>
+            <h3 data-i18n="step5">Step 5: Setup DHCP Monitor (v2.2.1)</h3>
             <pre><code># Create directory structure on host
 mkdir -p /opt/health_check/scripts /opt/health_check/config
 
@@ -251,7 +340,7 @@ cp config/dhcp_servers.json /opt/health_check/config/
 # Restart container
 docker-compose up -d phpipam-cron</code></pre>
 
-            <h3>Step 6: Verification</h3>
+            <h3 data-i18n="step6">Step 6: Verification</h3>
             <pre><code># Check Dashboard
 curl -I https://YOUR_SERVER/health_dashboard/
 
@@ -266,7 +355,7 @@ docker exec phpipam_phpipam-mariadb_1 mariadb -u phpipam -p phpipam -e \
 
     <div id="upgrade" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>Version Upgrade</h2>
+            <h2 data-i18n="versionUpgrade">Version Upgrade</h2>
 
             <h3>Upgrade to v2.2.1</h3>
             <div class="alert alert-info">
@@ -299,22 +388,22 @@ docker exec phpipam_phpipam-cron_1 ps aux | grep dhcp_monitor</code></pre>
 
     <div id="api" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>API Documentation</h2>
+            <h2 data-i18n="apiDoc">API Documentation</h2>
 
-            <h3>Get Latest Status</h3>
+            <h3 data-i18n="getLatest">Get Latest Status</h3>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=latest</code></pre>
 
-            <h3>Get System History</h3>
+            <h3 data-i18n="getHistory">Get System History</h3>
             <pre><code># Fixed period (hours: 1, 3, 6, 8, 12, 24)
 GET /health_dashboard/api/api_stats.php?action=system_history&hours=6
 
 # Custom time range
 GET /health_dashboard/api/api_stats.php?action=system_history&start_time=2025-12-22%2000:00&end_time=2025-12-22%2005:00</code></pre>
 
-            <h3>Get DHCP History</h3>
+            <h3 data-i18n="getDhcp">Get DHCP History</h3>
             <pre><code>GET /health_dashboard/api/api_stats.php?action=dhcp_history&hours=3</code></pre>
 
-            <h3>Get DHCP Server List</h3>
+            <h3 data-i18n="getDhcpList">Get DHCP Server List</h3>
             <pre><code>GET /health_dashboard/api/api_dhcp_config.php?action=list</code></pre>
 
             <h3>MCP Tools</h3>
@@ -327,13 +416,13 @@ GET /api/mcp/tools/weekly_health_report/</code></pre>
     </div>
 
     <div class="card">
-        <h2>Change Log</h2>
+        <h2 data-i18n="changelog">Change Log</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Version</th>
-                    <th>Changes</th>
+                    <th data-i18n="date">Date</th>
+                    <th data-i18n="version">Version</th>
+                    <th data-i18n="changes">Changes</th>
                 </tr>
             </thead>
             <tbody>
@@ -357,16 +446,150 @@ GET /api/mcp/tools/weekly_health_report/</code></pre>
     </div>
 
     <footer>
-        <p>phpIPAM Health Dashboard Deployment Guide | Last Updated: 2025-12-24</p>
+        <p>© 2024 MG Feng. All rights reserved.</p>
+        <p>Document: phpIPAM Health Dashboard Deployment Guide | Last Updated: 2024-12-24</p>
     </footer>
 
     <script>
+        // i18n
+        const translations = {
+            'zh-TW': {
+                title: 'phpIPAM Health Dashboard',
+                subtitle: '部署指南 v2.2.1',
+                tabNew: '全新安裝',
+                tabUpgrade: '版本升級',
+                tabApi: 'API 文件',
+                newInstall: '全新安裝',
+                step1: '步驟 1：前置需求',
+                step2: '步驟 2：複製專案',
+                step3: '步驟 3：資料庫設定',
+                step4: '步驟 4：檔案部署',
+                step5: '步驟 5：設定 DHCP 監控 (v2.2.1)',
+                step6: '步驟 6：驗證',
+                versionUpgrade: '版本升級',
+                apiDoc: 'API 文件',
+                getLatest: '取得最新狀態',
+                getHistory: '取得系統歷史',
+                getDhcp: '取得 DHCP 歷史',
+                getDhcpList: '取得 DHCP 伺服器清單',
+                changelog: '變更日誌',
+                date: '日期',
+                version: '版本',
+                changes: '變更內容'
+            },
+            'zh-CN': {
+                title: 'phpIPAM Health Dashboard',
+                subtitle: '部署指南 v2.2.1',
+                tabNew: '全新安装',
+                tabUpgrade: '版本升级',
+                tabApi: 'API 文档',
+                newInstall: '全新安装',
+                step1: '步骤 1：前置需求',
+                step2: '步骤 2：复制项目',
+                step3: '步骤 3：数据库设置',
+                step4: '步骤 4：文件部署',
+                step5: '步骤 5：设置 DHCP 监控 (v2.2.1)',
+                step6: '步骤 6：验证',
+                versionUpgrade: '版本升级',
+                apiDoc: 'API 文档',
+                getLatest: '获取最新状态',
+                getHistory: '获取系统历史',
+                getDhcp: '获取 DHCP 历史',
+                getDhcpList: '获取 DHCP 服务器列表',
+                changelog: '变更日志',
+                date: '日期',
+                version: '版本',
+                changes: '变更内容'
+            },
+            'en': {
+                title: 'phpIPAM Health Dashboard',
+                subtitle: 'Deployment Guide v2.2.1',
+                tabNew: 'New Installation',
+                tabUpgrade: 'Version Upgrade',
+                tabApi: 'API Documentation',
+                newInstall: 'New Installation',
+                step1: 'Step 1: Prerequisites',
+                step2: 'Step 2: Clone Repository',
+                step3: 'Step 3: Database Setup',
+                step4: 'Step 4: File Deployment',
+                step5: 'Step 5: Setup DHCP Monitor (v2.2.1)',
+                step6: 'Step 6: Verification',
+                versionUpgrade: 'Version Upgrade',
+                apiDoc: 'API Documentation',
+                getLatest: 'Get Latest Status',
+                getHistory: 'Get System History',
+                getDhcp: 'Get DHCP History',
+                getDhcpList: 'Get DHCP Server List',
+                changelog: 'Change Log',
+                date: 'Date',
+                version: 'Version',
+                changes: 'Changes'
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'zh-TW';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.querySelectorAll('[data-lang]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const isDark = root.classList.toggle('light');
+            const btn = document.getElementById('themeBtn');
+            btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).style.display = 'block';
             event.target.classList.add('active');
         }
+
+        
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const original = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = original, 2000);
+            });
+        }
+
+        // Add copy buttons to all pre elements
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('pre').forEach(pre => {
+                if (!pre.querySelector('.copy-btn')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'copy-btn';
+                    btn.textContent = ' Copy';
+                    btn.onclick = function() { copyCode(this); };
+                    pre.insertBefore(btn, pre.firstChild);
+                }
+            });
+        });
+
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'light') {
+                document.documentElement.classList.add('light');
+                document.getElementById('themeBtn').textContent = '☀️ Light';
+            }
+            setLang(currentLang);
+        });
     </script>
 </body>
 
