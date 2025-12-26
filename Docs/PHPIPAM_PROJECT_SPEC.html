@@ -391,6 +391,53 @@
     </div>
 
     <div class="card">
+        <h2 data-i18n="devGlobalSpec">📐 全域開發規範</h2>
+        <h3 data-i18n="devNaming">專案命名規則</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th data-i18n="prefix">前綴</th>
+                    <th data-i18n="type">類型</th>
+                    <th data-i18n="desc">說明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>DEV-</code></td>
+                    <td data-i18n="devProject">開發專案</td>
+                    <td data-i18n="devProjectDesc">具備完整功能的開發專案，必須提供 API</td>
+                </tr>
+                <tr>
+                    <td><code>MCP-</code></td>
+                    <td data-i18n="mcpProject">MCP 專案</td>
+                    <td data-i18n="mcpProjectDesc">Model Context Protocol 整合專案</td>
+                </tr>
+                <tr>
+                    <td><code>DOC-</code></td>
+                    <td data-i18n="docProject">文件專案</td>
+                    <td data-i18n="docProjectDesc">純文件或說明類專案</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 data-i18n="devApiReq">DEV 專案 API 規範</h3>
+        <div
+            style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--blue); padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+            <strong>⚠️ 強制要求：</strong>所有 <code>DEV-</code> 前綴的專案必須提供 API 介面，以供後續 MCP 整合使用。
+        </div>
+        <ul>
+            <li><strong>API 形式</strong>：Python 函數模組 / REST API / CLI 介面 (擇一或多種)</li>
+            <li><strong>目的</strong>：讓 MCP 專案可透過 API 調用功能，實現 AI 助理整合</li>
+            <li><strong>文件要求</strong>：需在 README.md 或獨立文件中說明 API 用法</li>
+            <li><strong>範例</strong>：
+                <ul>
+                    <li><code>DEV-phpipam-mac-manager</code> → 提供 CLI 子命令供 MCP 調用</li>
+                    <li><code>DEV-phpipam-health-monitor</code> → 提供 PHP 腳本可被 cron 調用</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
         <h2 data-i18n="repos">📁 相關 GitHub 專案</h2>
         <table>
             <thead>
@@ -433,9 +480,9 @@
         });
 
         const translations = {
-            'zh-TW': { title: '📋 phpIPAM 專案規範', subtitle: '生產環境系統架構文件', serverInfo: '🖥️ 伺服器資訊', dirStructure: '📁 目錄結構', containers: '🐳 Docker 容器', desc: '說明', webUI: 'Web 介面', cronDHCP: '排程任務 + DHCP 監控', database: '資料庫', reverseProxy: '反向代理', networkArch: '🌐 網路架構', volumes: '💾 Volume Mounts', dbData: '資料庫資料', logoFiles: 'Logo 檔案', caCert: 'CA 憑證', healthModule: 'Health Check 模組', deploySpec: '🔧 開發部署規範', healthCheck: 'Health Check 模組', dhcpDaemon: 'DHCP Monitor Daemon', dbConn: '資料庫連線', repos: '📁 相關 GitHub 專案', project: '專案' },
-            'zh-CN': { title: '📋 phpIPAM 项目规范', subtitle: '生产环境系统架构文件', serverInfo: '🖥️ 服务器信息', dirStructure: '📁 目录结构', containers: '🐳 Docker 容器', desc: '说明', webUI: 'Web 界面', cronDHCP: '排程任务 + DHCP 监控', database: '数据库', reverseProxy: '反向代理', networkArch: '🌐 网络架构', volumes: '💾 Volume Mounts', dbData: '数据库数据', logoFiles: 'Logo 文件', caCert: 'CA 证书', healthModule: 'Health Check 模块', deploySpec: '🔧 开发部署规范', healthCheck: 'Health Check 模块', dhcpDaemon: 'DHCP Monitor Daemon', dbConn: '数据库连接', repos: '📁 相关 GitHub 项目', project: '项目' },
-            'en': { title: '📋 phpIPAM Project Specification', subtitle: 'Production System Architecture', serverInfo: '🖥️ Server Info', dirStructure: '📁 Directory Structure', containers: '🐳 Docker Containers', desc: 'Description', webUI: 'Web Interface', cronDHCP: 'Cron Tasks + DHCP Monitor', database: 'Database', reverseProxy: 'Reverse Proxy', networkArch: '🌐 Network Architecture', volumes: '💾 Volume Mounts', dbData: 'Database Data', logoFiles: 'Logo Files', caCert: 'CA Certificate', healthModule: 'Health Check Module', deploySpec: '🔧 Deployment Specification', healthCheck: 'Health Check Module', dhcpDaemon: 'DHCP Monitor Daemon', dbConn: 'Database Connection', repos: '📁 Related GitHub Repos', project: 'Project' }
+            'zh-TW': { title: '📋 phpIPAM 專案規範', subtitle: '生產環境系統架構文件', serverInfo: '🖥️ 伺服器資訊', dirStructure: '📁 目錄結構', containers: '🐳 Docker 容器', desc: '說明', webUI: 'Web 介面', cronDHCP: '排程任務 + DHCP 監控', database: '資料庫', reverseProxy: '反向代理', networkArch: '🌐 網路架構', volumes: '💾 Volume Mounts', dbData: '資料庫資料', logoFiles: 'Logo 檔案', caCert: 'CA 憑證', healthModule: 'Health Check 模組', deploySpec: '🔧 開發部署規範', healthCheck: 'Health Check 模組', dhcpDaemon: 'DHCP Monitor Daemon', dbConn: '資料庫連線', repos: '📁 相關 GitHub 專案', project: '專案', devGlobalSpec: '📐 全域開發規範', devNaming: '專案命名規則', prefix: '前綴', type: '類型', devProject: '開發專案', devProjectDesc: '具備完整功能的開發專案，必須提供 API', mcpProject: 'MCP 專案', mcpProjectDesc: 'Model Context Protocol 整合專案', docProject: '文件專案', docProjectDesc: '純文件或說明類專案', devApiReq: 'DEV 專案 API 規範' },
+            'zh-CN': { title: '📋 phpIPAM 项目规范', subtitle: '生产环境系统架构文件', serverInfo: '🖥️ 服务器信息', dirStructure: '📁 目录结构', containers: '🐳 Docker 容器', desc: '说明', webUI: 'Web 界面', cronDHCP: '排程任务 + DHCP 监控', database: '数据库', reverseProxy: '反向代理', networkArch: '🌐 网络架构', volumes: '💾 Volume Mounts', dbData: '数据库数据', logoFiles: 'Logo 文件', caCert: 'CA 证书', healthModule: 'Health Check 模块', deploySpec: '🔧 开发部署规范', healthCheck: 'Health Check 模块', dhcpDaemon: 'DHCP Monitor Daemon', dbConn: '数据库连接', repos: '📁 相关 GitHub 项目', project: '项目', devGlobalSpec: '📐 全域开发规范', devNaming: '项目命名规则', prefix: '前缀', type: '类型', devProject: '开发项目', devProjectDesc: '具备完整功能的开发项目，必须提供 API', mcpProject: 'MCP 项目', mcpProjectDesc: 'Model Context Protocol 整合项目', docProject: '文档项目', docProjectDesc: '纯文档或说明类项目', devApiReq: 'DEV 项目 API 规范' },
+            'en': { title: '📋 phpIPAM Project Specification', subtitle: 'Production System Architecture', serverInfo: '🖥️ Server Info', dirStructure: '📁 Directory Structure', containers: '🐳 Docker Containers', desc: 'Description', webUI: 'Web Interface', cronDHCP: 'Cron Tasks + DHCP Monitor', database: 'Database', reverseProxy: 'Reverse Proxy', networkArch: '🌐 Network Architecture', volumes: '💾 Volume Mounts', dbData: 'Database Data', logoFiles: 'Logo Files', caCert: 'CA Certificate', healthModule: 'Health Check Module', deploySpec: '🔧 Deployment Specification', healthCheck: 'Health Check Module', dhcpDaemon: 'DHCP Monitor Daemon', dbConn: 'Database Connection', repos: '📁 Related GitHub Repos', project: 'Project', devGlobalSpec: '📐 Global Development Standards', devNaming: 'Project Naming Convention', prefix: 'Prefix', type: 'Type', devProject: 'Development Project', devProjectDesc: 'Full-featured dev project, must provide API', mcpProject: 'MCP Project', mcpProjectDesc: 'Model Context Protocol integration project', docProject: 'Documentation Project', docProjectDesc: 'Pure documentation or reference project', devApiReq: 'DEV Project API Requirements' }
         };
         let currentLang = localStorage.getItem('lang') || 'zh-TW';
         function setLang(lang) { currentLang = lang; localStorage.setItem('lang', lang); document.querySelectorAll('[data-lang]').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang)); document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.dataset.i18n; if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key]; }); }
